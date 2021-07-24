@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:icon="@drawable/video_library"
+        android:id="@id/videosFragment"
+        android:title="Video" />
+    <item
+        android:icon="@drawable/trending_icon"
+        android:id="@id/trendingFragment"
+        android:title="Trending" />
+    <item
+        android:icon="@drawable/map_icon"
+        android:id="@id/mapFragment"
+        android:title="Map" />
+</menu>

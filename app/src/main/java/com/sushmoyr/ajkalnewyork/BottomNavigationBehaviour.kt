@@ -9,7 +9,6 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 
-
 class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
     CoordinatorLayout.Behavior<BottomNavigationView>(context, attrs) {
     override fun layoutDependsOn(
@@ -20,7 +19,7 @@ class BottomNavigationBehavior(context: Context, attrs: AttributeSet) :
         if (dependency is SnackbarLayout) {
             updateSnackbar(child, dependency)
         }
-        return super.layoutDependsOn(parent!!, child, dependency!!)
+        return super.layoutDependsOn(parent, child, dependency)
     }
 
     override fun onStartNestedScroll(

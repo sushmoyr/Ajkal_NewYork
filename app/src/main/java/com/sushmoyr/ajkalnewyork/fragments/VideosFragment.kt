@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
+import com.sushmoyr.ajkalnewyork.databinding.FragmentVideosBinding
 
-class HomeFragment : Fragment() {
+class VideosFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentVideosBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentVideosBinding.inflate(inflater, container, false)
 
 
 
@@ -27,4 +29,5 @@ class HomeFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 }

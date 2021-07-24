@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,19 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
-import com.sushmoyr.ajkalnewyork.databinding.FragmentVideosBinding
+import com.sushmoyr.ajkalnewyork.databinding.FragmentTrendingBinding
 
-class VideosFragment : Fragment() {
+class TrendingFragment : Fragment() {
 
-    private var _binding: FragmentVideosBinding? = null
+    private var _binding: FragmentTrendingBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentVideosBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentTrendingBinding.inflate(inflater, container, false)
 
 
 
@@ -29,5 +27,4 @@ class VideosFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }

@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group>
-
-        <item android:title="Item 1"/>
-        <item android:title="Item 2"/>
-        <item android:title="Item 3"/>
-
+    <group android:menuCategory="container">
+        <item android:title="সর্বশেষ" android:id="@+id/latest" />
+        <item android:title="খেলা" android:id="@+id/game" />
+        <item android:title="প্রযুক্তি" android:id="@+id/tech" />
+        <item android:title="বিনোদন" android:id="@+id/entertainment" />
+    </group>
+    <group android:enabled="true" android:menuCategory="container">
+        <item android:title="সারা বাংলা">
+            <menu>
+                <item android:title="ঢাকা"/>
+                <item android:title="চট্টগ্রাম"/>
+                <item android:title="খুলনা"/>
+                <item android:title="রাজশাহী"/>
+            </menu>
+        </item>
+    </group>
+    <group android:menuCategory="container">
+        <item android:title="স্বাস্থ্য" android:id="@+id/health" />
+        <item android:title="খোলামত" android:id="@+id/comment" />
+        <item android:title="লাইফস্টাইল" android:id="@+id/lifeStyle" />
+        <item android:title="যুক্তরাষ্ট্র" android:id="@+id/usa" />
     </group>
 
 </menu>

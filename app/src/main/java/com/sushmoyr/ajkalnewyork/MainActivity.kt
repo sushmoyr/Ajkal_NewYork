@@ -1,7 +1,9 @@
 package com.sushmoyr.ajkalnewyork
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -44,6 +46,20 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemReselectedListener {
             //disabled reselect
+        }
+
+        val bottomNavDestinations = listOf(R.id.homeFragment, R.id.trendingFragment, R.id
+            .videosFragment, R.id.mapFragment)
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(bottomNavDestinations.contains(destination.id)){
+                supportActionBar!!.show()
+                binding.appbar.visibility = View.VISIBLE
+            }
+            else{
+                supportActionBar!!.hide()
+                binding.appbar.visibility = View.GONE
+            }
         }
     }
 

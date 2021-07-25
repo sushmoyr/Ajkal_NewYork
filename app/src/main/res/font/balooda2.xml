@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <font
+        app:fontStyle="normal"
+        app:font="@font/balooda2_regular"
+        app:fontWeight="400"/>
+
+    <font
+        app:fontStyle="normal"
+        app:font="@font/balooda2_medium"
+        app:fontWeight="600"/>
+
+    <font
+        app:fontStyle="normal"
+        app:font="@font/balooda2_bold"
+        app:fontWeight="1000"/>
+
+    <font
+        app:fontStyle="normal"
+        app:font="@font/balooda2_semi_bold"
+        app:fontWeight="800"/>
+
+    <font
+        app:fontStyle="normal"
+        app:font="@font/balooda2_extra_bold"
+        app:fontWeight="1200"/>
+
+</font-family>

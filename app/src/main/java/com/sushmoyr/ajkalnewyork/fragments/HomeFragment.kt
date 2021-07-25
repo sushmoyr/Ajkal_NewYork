@@ -3,12 +3,12 @@ package com.sushmoyr.ajkalnewyork.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        setHasOptionsMenu(true)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         setUpSelectionChips()
@@ -128,6 +128,27 @@ class HomeFragment : Fragment() {
 
         }
     }
+
+    //Inflating Menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.search_menu -> Toast.makeText(
+                requireContext(),
+                "Search Selected",
+                Toast.LENGTH_SHORT
+            ).show()
+            R.id.info -> findNavController().navigate(R.id.action_global_infoFragment)
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    //Menu Inflating
 
     override fun onDestroy() {
         super.onDestroy()

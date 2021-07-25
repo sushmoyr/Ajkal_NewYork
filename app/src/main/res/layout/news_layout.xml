@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/category_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rectangle"
+        android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/news_category"
+        app:layout_constraintEnd_toEndOf="@+id/news_category"
+        app:layout_constraintStart_toStartOf="@+id/news_category"
+        app:layout_constraintTop_toTopOf="@+id/news_category" />
+
+    <TextView
+        android:id="@+id/news_headline"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="মেয়র পদে কৃষ্ণাঙ্গ এরিক অ্যাডামসের জয়নিউইয়র্কে আইন-শৃঙ্খলা অবনতির আশঙ্কা !"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView4" />
+
+    <TextView
+        android:id="@+id/news_category"
+        style="@style/TextAppearance.MaterialComponents.Overline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="রাজনীতি"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/news_headline"
+        app:layout_constraintStart_toStartOf="@+id/news_headline" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

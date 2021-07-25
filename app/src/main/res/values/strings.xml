@@ -2,4 +2,19 @@
     <string name="app_name">Ajkal NewYork</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="news_filters">
+
+        <item>সর্বশেষ</item>
+        <item>খেলা</item>
+        <item>প্রযুক্তি</item>
+        <item>স্বাস্থ্য</item>
+        <item>রাজনীতি</item>
+        <item>সারা বাংলা</item>
+        <item>বিনোদন</item>
+        <item>লাইফস্টাইল</item>
+        <item>যুক্তরাষ্ট্র</item>
+
+
+    </string-array>
 </resources>

@@ -1,0 +1,29 @@
+[
+  {
+    "category": {
+      "categoryId": 1,
+      "categoryTitleBn": "প্রযুক্তি",
+      "categoryTitleEn": "Technology"
+    },
+    "image": "Image1Url",
+    "title": "প্রথম সংবাদ শিরোনাম"
+  },
+  {
+    "category": {
+      "categoryId": 1,
+      "categoryTitleBn": "প্রযুক্তি",
+      "categoryTitleEn": "Technology"
+    },
+    "image": "Image1Url",
+    "title": "দ্বিতীয় সংবাদ শিরোনাম"
+  },
+  {
+    "category": {
+      "categoryId": 1,
+      "categoryTitleBn": "প্রযুক্তি",
+      "categoryTitleEn": "Technology"
+    },
+    "image": "Image1Url",
+    "title": "তৃতীয় সংবাদ শিরোনাম"
+  }
+]

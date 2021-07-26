@@ -47,12 +47,6 @@ class HomeFragment : Fragment() {
 
             val allNews: List<News> = gson.fromJson(jsonFileString, newsType)
 
-            allNews.forEach { news ->
-                Log.d("news", news.title.toString())
-                Log.d("news", news.category.categoryTitleBn)
-                Log.d("news", news.image.toString())
-            }
-
             adapter.setData(allNews)
         }
 

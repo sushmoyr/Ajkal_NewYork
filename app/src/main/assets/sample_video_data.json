@@ -1,0 +1,52 @@
+[
+  {
+    "category": {
+      "categoryId": 1,
+      "categoryTitleBn": "বিজ্ঞাণ",
+      "categoryTitleEn": "Science"
+    },
+    "id": "kjdfkjdkfj",
+    "thumbnail": "https://www.nsta.org/sites/default/files/hero/DailyDo_WhyIsntPlutoPlanetAnymore_HP.jpg",
+    "title": "দেখুন কেমন দেখতে লাগে প্লুটোকে"
+  },
+  {
+    "category": {
+      "categoryId": 2,
+      "categoryTitleBn": "প্রযুক্তি",
+      "categoryTitleEn": "Technology"
+    },
+    "id": "kjdfkjdkfj",
+    "thumbnail": "https://i.ytimg.com/vi/m7atGkba-Z8/maxresdefault.jpg",
+    "title": "নতুন ট্রাক কিনলেন এলন মাস্ক। সারাবিশ্বে তোলপাড়"
+  },
+  {
+    "category": {
+      "categoryId": 3,
+      "categoryTitleBn": "স্বাস্থ্য",
+      "categoryTitleEn": "health"
+    },
+    "id": "kjdfkjdkfj",
+    "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO6M5MXXRrpNOY7ouRSMZ7hOxI787k1dmRrw&usqp=CAU",
+    "title": "করোনা নিয়ে এ কি বললেন স্বাস্থ্যমন্ত্রী? দেখুন ভিডিওসহ"
+  },
+  {
+    "category": {
+      "categoryId": 3,
+      "categoryTitleBn": "চলচ্চিত্র",
+      "categoryTitleEn": "film"
+    },
+    "id": "kjdfkjdkfj",
+    "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkSFGSmjVow8pSY5HY2xUkXV-UlO9n4kxRZQ&usqp=CAU",
+    "title": "ফ্রান্সে পা রাখলেন জয়া আহসান"
+  },
+  {
+    "category": {
+      "categoryId": 4,
+      "categoryTitleBn": "কার্টুন",
+      "categoryTitleEn": "Cartoon"
+    },
+    "id": "kjdfkjdkfj",
+    "thumbnail": "https://www.comingsoon.net/assets/uploads/2021/07/Platinum-End-image-1280x720.png",
+    "title": "এবার মচমচে রোল আনছে নতুন সিরিজ প্লাটিনাম সমাপ্তি। দেখে নিন ট্রেইলার"
+  }
+]

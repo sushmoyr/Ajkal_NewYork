@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +14,17 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     class MyViewHolder(private val binding: NewsLayoutBinding) : RecyclerView.ViewHolder(binding
         .root){
         fun bind(news: News){
+            binding.newsCover.minimumHeight = 560
+            binding.newsCover.maxHeight = 560
+            Log.d("resizing", "width: ${binding.newsCover.width} && height: ${binding.newsCover
+                .height} of cat = ${news.category.categoryTitleBn}")
             binding.newsHeadline.text = news.title
             binding.newsCategory.text = news.category.categoryTitleBn
             Glide.with(binding.root.context)
                 .load(news.image)
-                .transform(RoundedCorners(160))
-                .into(binding.imageView4)
+                .override(binding.newsCover.width, binding.newsCover.height)
+                .transform(RoundedCorners(48))
+                .into(binding.newsCover)
         }
     }
 

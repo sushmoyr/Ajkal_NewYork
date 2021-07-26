@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoFragment">
-
-
-
-
+    tools:context=".InfoActivity">
 
     <ImageView
+        android:contentDescription="@string/header_image"
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,7 +19,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/logo_info"
+        android:contentDescription="@string/application_logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -32,25 +30,27 @@
         app:layout_constraintStart_toStartOf="@+id/moto"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_arrow_back_ios"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/logo_info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+        app:layout_constraintTop_toTopOf="@+id/logo_info"
+        android:contentDescription="@string/back_button" />
 
     <TextView
         android:id="@+id/moto"
         style="@style/TextAppearance.MaterialComponents.Overline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="সর্বশেষ খবর, পর্যালোচনা, ভিডিও আপডেট"
+        android:text="@string/logo_moto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        app:layout_constraintTop_toBottomOf="@+id/logo_info" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
@@ -61,7 +61,7 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/balooda2_semi_bold"
         android:padding="16dp"
-        android:text="সাইন ইন করুন"
+        android:text="@string/sign_in_bn"
         android:textColor="@color/secondaryColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -78,7 +78,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/balooda2_semi_bold"
         android:padding="16dp"
-        android:text="নিবন্ধন"
+        android:text="@string/register_bn"
         android:textColor="@color/secondaryColor"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -122,14 +122,15 @@
                 android:src="@drawable/email_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/email_icon" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="ই-মেইল"
+                android:text="@string/email_bn"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView8"
                 app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toTopOf="@+id/imageView8" />
@@ -139,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="ajkalnews@gmail.com"
+                android:text="@string/app_email"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -177,14 +178,15 @@
                 android:src="@drawable/telephone_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/phone_icon" />
 
             <TextView
                 android:id="@+id/phone_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="ফোন"
+                android:text="@string/phone_bn"
                 app:layout_constraintBottom_toBottomOf="@+id/phone_icon"
                 app:layout_constraintStart_toEndOf="@+id/phone_icon"
                 app:layout_constraintTop_toTopOf="@+id/phone_icon" />
@@ -194,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="718-565-2100"
+                android:text="@string/app_phone_no"
                 app:layout_constraintBottom_toBottomOf="@+id/phone_header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -232,14 +234,15 @@
                 android:src="@drawable/location_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/location_icon" />
 
             <TextView
                 android:id="@+id/location_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="ঠিকানা"
+                android:text="@string/address_bn"
                 app:layout_constraintBottom_toBottomOf="@+id/location_icon"
                 app:layout_constraintStart_toEndOf="@+id/location_icon"
                 app:layout_constraintTop_toTopOf="@+id/location_icon" />
@@ -249,7 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="New York, USA"
+                android:text="@string/app_address"
                 app:layout_constraintBottom_toBottomOf="@+id/location_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -287,14 +290,15 @@
                 android:src="@drawable/website_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/website_icon" />
 
             <TextView
                 android:id="@+id/website_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="ওয়েবসাইট"
+                android:text="@string/website_bn"
                 app:layout_constraintBottom_toBottomOf="@+id/website_icon"
                 app:layout_constraintStart_toEndOf="@+id/website_icon"
                 app:layout_constraintTop_toTopOf="@+id/website_icon" />
@@ -304,7 +308,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="ajkalnewyork.com"
+                android:text="@string/app_website"
                 app:layout_constraintBottom_toBottomOf="@+id/website_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -314,72 +318,77 @@
     </com.google.android.material.card.MaterialCardView>
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/fb_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/facebook_icon"
+        app:layout_constraintEnd_toStartOf="@id/pin_icon"
         app:layout_constraintStart_toStartOf="@+id/website_card_view"
-        app:layout_constraintTop_toBottomOf="@+id/website_card_view" />
+        app:layout_constraintTop_toBottomOf="@+id/website_card_view"
+        android:contentDescription="@string/facebook_icon" />
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/pin_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:src="@drawable/pinterest_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
-        app:layout_constraintStart_toEndOf="@+id/imageView10"
-        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+        app:layout_constraintBottom_toBottomOf="@+id/fb_icon"
+        app:layout_constraintStart_toEndOf="@+id/fb_icon"
+        app:layout_constraintEnd_toStartOf="@id/insta_icon"
+        app:layout_constraintTop_toTopOf="@+id/fb_icon"
+        android:contentDescription="@string/pinterest_icon" />
 
     <ImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/insta_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:src="@drawable/instagram_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
-        app:layout_constraintStart_toEndOf="@+id/imageView11"
-        app:layout_constraintTop_toTopOf="@+id/imageView11" />
+        app:layout_constraintBottom_toBottomOf="@+id/pin_icon"
+        app:layout_constraintTop_toTopOf="@+id/pin_icon"
+        app:layout_constraintStart_toEndOf="@id/pin_icon"
+        app:layout_constraintEnd_toStartOf="@id/wsap_icon"
+        tools:layout_editor_absoluteX="100dp"
+        android:contentDescription="@string/instagram_icon" />
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/wsap_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:src="@drawable/whatsapp_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
-        app:layout_constraintStart_toEndOf="@+id/imageView12"
-        app:layout_constraintTop_toTopOf="@+id/imageView12" />
+        app:layout_constraintStart_toEndOf="@id/insta_icon"
+        app:layout_constraintEnd_toStartOf="@id/yt_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/insta_icon"
+        app:layout_constraintTop_toTopOf="@+id/insta_icon"
+        tools:layout_editor_absoluteX="130dp"
+        android:contentDescription="@string/whatsapp_icon" />
 
     <ImageView
-        android:id="@+id/imageView14"
+        android:id="@+id/yt_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:src="@drawable/youtube_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView13"
-        app:layout_constraintStart_toEndOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13" />
+        app:layout_constraintStart_toEndOf="@id/wsap_icon"
+        app:layout_constraintEnd_toStartOf="@id/download_news_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/wsap_icon"
+        app:layout_constraintTop_toTopOf="@+id/wsap_icon"
+        tools:layout_editor_absoluteX="160dp"
+        android:contentDescription="@string/youtube_icon" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button3"
+        android:id="@+id/download_news_btn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:text="Download News"
+        android:text="@string/download_news"
         android:textAllCaps="false"
         android:textColor="@color/green"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:icon="@drawable/ic_baseline_cloud_download_24"
         app:iconTint="@color/green"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+        app:layout_constraintBottom_toBottomOf="@+id/yt_icon"
         app:layout_constraintEnd_toEndOf="@+id/website_card_view"
-        app:layout_constraintStart_toEndOf="@+id/imageView14"
-        app:layout_constraintTop_toTopOf="@+id/imageView14"
+        app:layout_constraintStart_toEndOf="@id/yt_icon"
+        app:layout_constraintTop_toTopOf="@+id/yt_icon"
         app:strokeColor="@color/green" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

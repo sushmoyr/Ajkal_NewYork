@@ -142,7 +142,7 @@ class HomeFragment : Fragment() {
                 "Search Selected",
                 Toast.LENGTH_SHORT
             ).show()
-            R.id.info -> findNavController().navigate(R.id.action_global_infoFragment)
+            R.id.info -> findNavController().navigate(R.id.action_global_infoActivity)
         }
 
         return super.onOptionsItemSelected(item)

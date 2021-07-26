@@ -10,8 +10,9 @@
     android:paddingBottom="8dp">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/news_cover"
         android:layout_width="0dp"
+        tools:srcCompat="@drawable/dummy_image_1"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,9 +41,9 @@
         android:text="মেয়র পদে কৃষ্ণাঙ্গ এরিক অ্যাডামসের জয়নিউইয়র্কে আইন-শৃঙ্খলা অবনতির আশঙ্কা !"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintBottom_toBottomOf="@+id/news_cover"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView4" />
+        app:layout_constraintStart_toStartOf="@+id/news_cover" />
 
     <TextView
         android:id="@+id/news_category"

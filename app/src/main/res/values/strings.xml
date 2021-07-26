@@ -2,6 +2,30 @@
     <string name="app_name">Ajkal NewYork</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="header_image">Header Image</string>
+    <string name="application_logo">Application Logo</string>
+    <string name="back_button">Back Button</string>
+    <string name="logo_moto">সর্বশেষ খবর, পর্যালোচনা, ভিডিও আপডেট</string>
+    <string name="sign_in_bn">সাইন ইন করুন</string>
+    <string name="register_bn">নিবন্ধন</string>
+    <string name="email_icon">email icon</string>
+    <string name="email_bn">ই-মেইল</string>
+    <string name="app_email">ajkalnews@gmail.com</string>
+    <string name="phone_icon">phone_icon</string>
+    <string name="phone_bn">ফোন</string>
+    <string name="app_phone_no">718-565-2100</string>
+    <string name="location_icon">location_icon</string>
+    <string name="address_bn">ঠিকানা</string>
+    <string name="app_address">New York, USA</string>
+    <string name="website_icon">website_icon</string>
+    <string name="website_bn">ওয়েবসাইট</string>
+    <string name="app_website">ajkalnewyork.com</string>
+    <string name="facebook_icon">facebook_icon</string>
+    <string name="pinterest_icon">pinterest icon</string>
+    <string name="instagram_icon">instagram icon</string>
+    <string name="whatsapp_icon">whatsapp icon</string>
+    <string name="youtube_icon">youtube icon</string>
+    <string name="download_news">Download News</string>
 
     <string-array name="news_filters">
 

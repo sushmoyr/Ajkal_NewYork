@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavDestinations = listOf(R.id.homeFragment, R.id.trendingFragment, R.id
             .videosFragment, R.id.mapFragment)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        /*navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if(bottomNavDestinations.contains(destination.id)){
                 supportActionBar!!.show()
                 binding.appbar.visibility = View.VISIBLE
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar!!.hide()
                 binding.appbar.visibility = View.GONE
             }
-        }
+        }*/
     }
 
     override fun onSupportNavigateUp(): Boolean {

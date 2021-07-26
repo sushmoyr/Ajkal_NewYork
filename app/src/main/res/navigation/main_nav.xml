@@ -25,9 +25,10 @@
         android:name="com.sushmoyr.ajkalnewyork.fragments.TrendingFragment"
         android:label="fragment_trending"
         tools:layout="@layout/fragment_trending" />
-    <fragment
-        android:id="@+id/infoFragment"
-        android:name="com.sushmoyr.ajkalnewyork.InfoFragment"
-        android:label="fragment_info"
-        tools:layout="@layout/fragment_info" /><action android:id="@+id/action_global_infoFragment" app:destination="@id/infoFragment"/>
+    <activity
+        android:id="@+id/infoActivity"
+        android:name="com.sushmoyr.ajkalnewyork.InfoActivity"
+        android:label="activity_info"
+        tools:layout="@layout/activity_info" />
+    <action android:id="@+id/action_global_infoActivity" app:destination="@id/infoActivity"/>
 </navigation>

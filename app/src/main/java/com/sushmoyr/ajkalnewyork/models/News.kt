@@ -2,11 +2,11 @@ package com.sushmoyr.ajkalnewyork.models
 
 data class News(
     val title: String,
-    val category: Category,
+    val categoryItem: CategoryItem,
     val image: String,
 )
 
-data class Category(
+data class CategoryItem(
     val categoryId: Int,
     val categoryTitleEn: String,
     val categoryTitleBn: String,

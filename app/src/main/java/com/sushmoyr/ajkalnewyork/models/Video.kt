@@ -4,5 +4,5 @@ data class Video(
     val id: String,
     val title: String,
     val thumbnail: String,
-    val category: Category
+    val categoryItem: CategoryItem
 )

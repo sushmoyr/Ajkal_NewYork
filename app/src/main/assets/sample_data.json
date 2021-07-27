@@ -1,6 +1,6 @@
 [
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "রাজনীতি",
       "categoryTitleEn": "Politics"
@@ -9,7 +9,7 @@
     "title": "নির্বাচনে দাড়ানোর ইচ্ছা প্রকাশ করলেন মার্কিন ব্যাবসায়ী জন ডো"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "খেলা",
       "categoryTitleEn": "Sports"
@@ -18,7 +18,7 @@
     "title": "আবারো ব্যাটিং ঝড় উঠালো ইন্ডিয়া, শ্রীলংকার ভরাডুবি"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "প্রযুক্তি",
       "categoryTitleEn": "Technology"
@@ -27,7 +27,7 @@
     "title": "ইন্টারনেট ব্যবহারে সতর্ক অবলম্বন করতে বলেছেন বিল গেটস"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "রাজনীতি",
       "categoryTitleEn": "Politics"
@@ -36,7 +36,7 @@
     "title": "নির্বাচনে দাড়ানোর ইচ্ছা প্রকাশ করলেন মার্কিন ব্যাবসায়ী জন ডো"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "খেলা",
       "categoryTitleEn": "Sports"
@@ -45,7 +45,7 @@
     "title": "আবারো ব্যাটিং ঝড় উঠালো ইন্ডিয়া, শ্রীলংকার ভরাডুবি"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "প্রযুক্তি",
       "categoryTitleEn": "Technology"
@@ -54,7 +54,7 @@
     "title": "ইন্টারনেট ব্যবহারে সতর্ক অবলম্বন করতে বলেছেন বিল গেটস"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "রাজনীতি",
       "categoryTitleEn": "Politics"
@@ -63,7 +63,7 @@
     "title": "নির্বাচনে দাড়ানোর ইচ্ছা প্রকাশ করলেন মার্কিন ব্যাবসায়ী জন ডো"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "খেলা",
       "categoryTitleEn": "Sports"
@@ -72,7 +72,7 @@
     "title": "আবারো ব্যাটিং ঝড় উঠালো ইন্ডিয়া, শ্রীলংকার ভরাডুবি"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "প্রযুক্তি",
       "categoryTitleEn": "Technology"

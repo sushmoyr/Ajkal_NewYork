@@ -1,6 +1,6 @@
 [
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 1,
       "categoryTitleBn": "বিজ্ঞাণ",
       "categoryTitleEn": "Science"
@@ -10,7 +10,7 @@
     "title": "দেখুন কেমন দেখতে লাগে প্লুটোকে"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 2,
       "categoryTitleBn": "প্রযুক্তি",
       "categoryTitleEn": "Technology"
@@ -20,7 +20,7 @@
     "title": "নতুন ট্রাক কিনলেন এলন মাস্ক। সারাবিশ্বে তোলপাড়"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 3,
       "categoryTitleBn": "স্বাস্থ্য",
       "categoryTitleEn": "health"
@@ -30,7 +30,7 @@
     "title": "করোনা নিয়ে এ কি বললেন স্বাস্থ্যমন্ত্রী? দেখুন ভিডিওসহ"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 3,
       "categoryTitleBn": "চলচ্চিত্র",
       "categoryTitleEn": "film"
@@ -40,7 +40,7 @@
     "title": "ফ্রান্সে পা রাখলেন জয়া আহসান"
   },
   {
-    "category": {
+    "categoryItem": {
       "categoryId": 4,
       "categoryTitleBn": "কার্টুন",
       "categoryTitleEn": "Cartoon"

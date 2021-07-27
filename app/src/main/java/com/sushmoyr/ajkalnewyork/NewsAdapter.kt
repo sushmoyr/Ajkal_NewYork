@@ -17,9 +17,9 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
             binding.newsCover.minimumHeight = 560
             binding.newsCover.maxHeight = 560
             Log.d("resizing", "width: ${binding.newsCover.width} && height: ${binding.newsCover
-                .height} of cat = ${news.category.categoryTitleBn}")
+                .height} of cat = ${news.categoryItem.categoryTitleBn}")
             binding.newsHeadline.text = news.title
-            binding.newsCategory.text = news.category.categoryTitleBn
+            binding.newsCategory.text = news.categoryItem.categoryTitleBn
             Glide.with(binding.root.context)
                 .load(news.image)
                 .override(binding.newsCover.width, binding.newsCover.height)

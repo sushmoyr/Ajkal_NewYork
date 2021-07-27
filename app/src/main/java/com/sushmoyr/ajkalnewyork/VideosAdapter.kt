@@ -15,7 +15,7 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
         (binding.root) {
         fun bind(video: Video) {
             binding.videoTitle.text = video.title
-            binding.videoCategoryLayout.categoryNameText.text = video.category.categoryTitleBn
+            binding.videoCategoryLayout.categoryNameText.text = video.categoryItem.categoryTitleBn
 
             Glide.with(binding.root.context)
                 .load(video.thumbnail)

@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork.fragments
+package com.sushmoyr.ajkalnewyork.fragments.home
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
@@ -16,7 +18,16 @@ import com.google.gson.reflect.TypeToken
 import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
+import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
+import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
+import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.News
+import com.sushmoyr.ajkalnewyork.repository.Repository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 
@@ -24,10 +35,19 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var viewModel: HomeViewModel
+    private lateinit var repository: Repository
     private val adapter: NewsAdapter by lazy {
         NewsAdapter()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        repository = Repository()
+        val factory = HomeViewModelFactory(repository)
+        viewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +55,8 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        setUpSelectionChips()
+
+        setUpCategoryGroup()
 
         setUpRecyclerView()
 
@@ -49,7 +70,6 @@ class HomeFragment : Fragment() {
 
             adapter.setData(allNews)
         }
-
 
 
         //binding.imageView5.clipToOutline = true
@@ -76,14 +96,28 @@ class HomeFragment : Fragment() {
         rv.adapter = adapter
     }
 
-    private fun setUpSelectionChips() {
+    private fun setUpCategoryGroup() {
+        //Get filters from api
+        viewModel.getAllCats()
+        viewModel.allCategory.observe(viewLifecycleOwner, { response ->
+            if (response.isSuccessful) {
+                val filters = response.body()!!
+                filters.forEach {
+                    Log.d("json", it.toString())
+                }
+                setUpSelectionChips(filters)
+            }
+        })
+    }
+
+    private fun setUpSelectionChips(filters: List<Category>) {
         val chipGroup = binding.newsFilterChipGroup
-        val filters = resources.getStringArray(R.array.news_filters)
+        chipGroup.removeAllViews()
         var isChecked = false
         filters.forEach {
             val chip = Chip(requireContext())
             chip.id = View.generateViewId()
-            chip.text = it
+            chip.text = it.category_name
             chipGroup.addView(chip)
 
             if (!isChecked) {
@@ -96,7 +130,6 @@ class HomeFragment : Fragment() {
         }
 
         chipGroup.isSingleSelection = true
-
 
         val placeHolderChip = Chip(requireContext())
 
@@ -130,7 +163,7 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
             R.id.search_menu -> Toast.makeText(
                 requireContext(),
                 "Search Selected",

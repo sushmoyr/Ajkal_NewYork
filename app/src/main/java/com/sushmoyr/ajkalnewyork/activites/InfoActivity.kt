@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.activites
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

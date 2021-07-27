@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:context=".MainActivity">
+    tools:openDrawer="start"
+    tools:context=".activites.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -123,11 +124,12 @@
 
                 <include layout="@layout/drawer_header"/>
 
-                <com.google.android.material.navigation.NavigationView
+                <androidx.recyclerview.widget.RecyclerView
+                    tools:itemCount="19"
+                    tools:listitem="@layout/category_view"
+                    android:id="@+id/category_list_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:elevation="0dp"
-                    app:menu="@menu/drawer_menu"/>
+                    android:layout_height="wrap_content"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

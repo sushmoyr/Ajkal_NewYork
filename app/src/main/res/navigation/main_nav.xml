@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_trending" />
     <activity
         android:id="@+id/infoActivity"
-        android:name="com.sushmoyr.ajkalnewyork.InfoActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activites.InfoActivity"
         android:label="activity_info"
         tools:layout="@layout/activity_info" />
     <action android:id="@+id/action_global_infoActivity" app:destination="@id/infoActivity"/>

@@ -38,7 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="মেয়র পদে কৃষ্ণাঙ্গ এরিক অ্যাডামসের জয়নিউইয়র্কে আইন-শৃঙ্খলা অবনতির আশঙ্কা !"
+        android:text="@string/dummy_news_title_1"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/news_cover"

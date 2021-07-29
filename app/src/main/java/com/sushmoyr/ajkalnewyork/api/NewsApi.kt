@@ -8,4 +8,5 @@ interface NewsApi {
 
     @GET("CategoryGateway.php")
     suspend fun getAllCategory(): Response<List<Category>>
+
 }

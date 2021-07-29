@@ -6,28 +6,22 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
+import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.repository.Repository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import java.io.IOException
 
 
@@ -39,6 +33,9 @@ class HomeFragment : Fragment() {
     private lateinit var repository: Repository
     private val adapter: NewsAdapter by lazy {
         NewsAdapter()
+    }
+    private val homeAdapter : HomeItemsAdapter by lazy {
+        HomeItemsAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +57,8 @@ class HomeFragment : Fragment() {
 
         setUpRecyclerView()
 
+
+
         val jsonFileString =
             context?.let { getJsonDataFromAsset(it.applicationContext, "sample_data.json") }
         if (jsonFileString != null) {
@@ -71,6 +70,12 @@ class HomeFragment : Fragment() {
             adapter.setData(allNews)
         }
 
+        viewModel.getAllNews()
+        viewModel.getAllAds()
+
+        viewModel.homeItems.observe(viewLifecycleOwner, {
+            homeAdapter.items = it
+        })
 
         //binding.imageView5.clipToOutline = true
 
@@ -91,9 +96,21 @@ class HomeFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         val rv = binding.newsRv
-        val lm = LinearLayoutManager(requireContext())
-        rv.layoutManager = lm
-        rv.adapter = adapter
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                return when (homeAdapter.getItemViewType(position)) {
+                    R.layout.highlight_news_layout -> 2
+                    else -> 1
+                }
+            }
+        }
+
+        rv.apply {
+            adapter = homeAdapter
+            setHasFixedSize(true)
+            this.layoutManager = layoutManager
+        }
     }
 
     private fun setUpCategoryGroup() {
@@ -102,6 +119,7 @@ class HomeFragment : Fragment() {
         viewModel.allCategory.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
                 val filters = response.body()!!
+                homeAdapter.categories = filters
                 filters.forEach {
                     Log.d("json", it.toString())
                 }

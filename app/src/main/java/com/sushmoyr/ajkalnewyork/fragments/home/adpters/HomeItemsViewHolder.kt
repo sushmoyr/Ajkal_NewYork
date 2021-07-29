@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
+import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 
@@ -28,6 +30,21 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             }
         }
     }
+
+    class NormalNewsViewHolder(private val binding: NewsItemLayoutBinding): HomeItemsViewHolder
+        (binding){
+        fun bind(news: DataModel.News, categoryList : List<Category>){
+            binding.itemNewsHeadline.text = news.newsTitle
+            binding.newsCategory.text = categoryList[(news.categoryId%4)].category_name
+            Glide.with(binding.root.context)
+                .load(news.defaultImage)
+                .override(binding.itemNewsCover.width, binding.itemNewsCover.height)
+                .transform(RoundedCorners(24))
+                .into(binding.itemNewsCover)
+
+
+        }
+        }
 
     class AdvertisementViewHolder(private val binding: AdvertisementLayoutBinding):
         HomeItemsViewHolder(binding){

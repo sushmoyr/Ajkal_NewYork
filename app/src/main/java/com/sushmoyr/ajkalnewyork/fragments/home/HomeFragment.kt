@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -100,8 +101,8 @@ class HomeFragment : Fragment() {
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
                 return when (homeAdapter.getItemViewType(position)) {
-                    R.layout.highlight_news_layout -> 2
-                    else -> 1
+                    R.layout.advertisement_layout -> 1
+                    else -> 2
                 }
             }
         }

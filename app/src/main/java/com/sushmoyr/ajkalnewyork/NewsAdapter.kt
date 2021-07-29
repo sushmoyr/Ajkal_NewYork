@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.sushmoyr.ajkalnewyork.databinding.NewsLayoutBinding
+import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.News
 
 class NewsAdapter: RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     private var data = emptyList<News>()
-    class MyViewHolder(private val binding: NewsLayoutBinding) : RecyclerView.ViewHolder(binding
+    class MyViewHolder(private val binding: HighlightNewsLayoutBinding) : RecyclerView.ViewHolder(binding
         .root){
         fun bind(news: News){
             binding.newsCover.minimumHeight = 560
@@ -29,7 +29,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(NewsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return MyViewHolder(HighlightNewsLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

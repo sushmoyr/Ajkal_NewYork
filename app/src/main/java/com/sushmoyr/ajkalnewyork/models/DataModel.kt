@@ -1,5 +1,9 @@
 package com.sushmoyr.ajkalnewyork.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import com.sushmoyr.ajkalnewyork.models.News
+
 sealed class DataModel {
     class Advertisement(
         val advType: Int,
@@ -10,7 +14,6 @@ sealed class DataModel {
         val paymentId: String,
         val userId: Int
     ) : DataModel()
-
 
     class News(
         val breakingId: String,
@@ -30,6 +33,14 @@ sealed class DataModel {
         val status: String,
         val subCategoryId: Int,
         val videoLink: String
-    ) : DataModel()
+    ) : DataModel(){
+        fun toNews(): com.sushmoyr.ajkalnewyork.models.News{
+            return com.sushmoyr.ajkalnewyork.models.News(
+                breakingId, categoryId, countryId, createdBy, createdDate, defaultImage,
+                description, districtId, divisionId, id, isArchived, newsTitle, seoDescription,
+                seoKeyword, status, subCategoryId, videoLink
+            )
+        }
+    }
 }
 

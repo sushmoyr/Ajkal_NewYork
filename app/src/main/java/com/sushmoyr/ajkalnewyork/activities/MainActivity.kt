@@ -1,10 +1,9 @@
-package com.sushmoyr.ajkalnewyork.activites
+package com.sushmoyr.ajkalnewyork.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sushmoyr.ajkalnewyork.DrawerMenuAdapter
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
 import com.sushmoyr.ajkalnewyork.repository.Repository
 

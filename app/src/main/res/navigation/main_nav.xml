@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_newsDetailsActivity"
+            app:destination="@id/newsDetailsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/videosFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.VideosFragment"
@@ -24,11 +28,24 @@
         android:id="@+id/trendingFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.TrendingFragment"
         android:label="fragment_trending"
-        tools:layout="@layout/fragment_trending" />
+        tools:layout="@layout/fragment_trending" >
+        <action
+            android:id="@+id/action_trendingFragment_to_newsDetailsActivity"
+            app:destination="@id/newsDetailsActivity" />
+    </fragment>
     <activity
         android:id="@+id/infoActivity"
-        android:name="com.sushmoyr.ajkalnewyork.activites.InfoActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.InfoActivity"
         android:label="activity_info"
         tools:layout="@layout/activity_info" />
     <action android:id="@+id/action_global_infoActivity" app:destination="@id/infoActivity"/>
+    <activity
+        android:id="@+id/newsDetailsActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.NewsDetailsActivity"
+        android:label="NewsDetailsActivity" >
+        <argument
+            android:name="news"
+            app:argType="com.sushmoyr.ajkalnewyork.models.News" />
+    </activity>
+
 </navigation>

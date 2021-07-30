@@ -21,6 +21,7 @@ import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
+import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import java.io.IOException
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
     private val adapter: NewsAdapter by lazy {
         NewsAdapter()
     }
-    private val homeAdapter : HomeItemsAdapter by lazy {
+    private val homeAdapter: HomeItemsAdapter by lazy {
         HomeItemsAdapter()
     }
 
@@ -57,7 +58,6 @@ class HomeFragment : Fragment() {
         setUpCategoryGroup()
 
         setUpRecyclerView()
-
 
 
         val jsonFileString =
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
     private fun setUpRecyclerView() {
         val rv = binding.newsRv
         val layoutManager = GridLayoutManager(requireContext(), 2)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (homeAdapter.getItemViewType(position)) {
                     R.layout.advertisement_layout -> 1
@@ -111,6 +111,15 @@ class HomeFragment : Fragment() {
             adapter = homeAdapter
             setHasFixedSize(true)
             this.layoutManager = layoutManager
+        }
+
+        homeAdapter.itemClickListener = { view, item ->
+            if(item is DataModel.News){
+
+                val directions = HomeFragmentDirections
+                    .actionHomeFragmentToNewsDetailsActivity(item.toNews())
+                findNavController().navigate(directions)
+            }
         }
     }
 

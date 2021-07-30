@@ -38,11 +38,13 @@
             android:id="@+id/item_news_headline"
             style="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
-            android:text="@string/dummy_news_title_1"
+
+            android:maxLines="3"
             app:layout_constraintBottom_toTopOf="@+id/category_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -64,17 +66,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/balooda2"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:text="রাজনীতি"
-            android:textSize="12sp"
             android:textColor="@color/white"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/item_news_cover"
-            app:layout_constraintStart_toStartOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@id/item_news_headline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,6 +1,8 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
@@ -13,16 +15,20 @@ import com.sushmoyr.ajkalnewyork.models.DataModel
 class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
 
     var items = listOf<DataModel>()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
     var categories = listOf<Category>()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
+    var itemClickListener: ((view: View, item: DataModel) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeItemsViewHolder {
@@ -53,6 +59,7 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: HomeItemsViewHolder, position: Int) {
+        holder.itemClickListener = itemClickListener
         when (holder) {
             is HomeItemsViewHolder.AdvertisementViewHolder -> holder.bind(items[position] as DataModel.Advertisement)
             is HomeItemsViewHolder.HighlightedNewsViewHolder -> holder.bind(
@@ -73,9 +80,9 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is DataModel.Advertisement -> R.layout.advertisement_layout
-            is DataModel.News -> when(position){
+            is DataModel.News -> when (position) {
                 0 -> R.layout.highlight_news_layout
-                else -> when(items[position-1]){
+                else -> when (items[position - 1]) {
                     is DataModel.Advertisement -> R.layout.highlight_news_layout
                     else -> R.layout.news_item_layout
                 }

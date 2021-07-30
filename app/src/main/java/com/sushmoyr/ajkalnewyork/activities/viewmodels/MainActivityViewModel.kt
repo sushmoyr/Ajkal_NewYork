@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork.activites
+package com.sushmoyr.ajkalnewyork.activities.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

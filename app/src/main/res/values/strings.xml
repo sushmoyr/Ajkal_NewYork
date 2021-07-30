@@ -26,7 +26,10 @@
     <string name="whatsapp_icon">whatsapp icon</string>
     <string name="youtube_icon">youtube icon</string>
     <string name="download_news">Download News</string>
-    <string name="dummy_news_title_1">মেয়র পদে কৃষ্ণাঙ্গ এরিক অ্যাডামসের জয়নিউইয়র্কে আইন-শৃঙ্খলা অবনতির আশঙ্কা !</string>
+    <string name="dummy_news_title_1">মেয়র পদে কৃষ্ণাঙ্গ এরিক অ্যাডামসের জয় নিউইয়র্কে। আইন-শৃঙ্খলা অবনতির আশঙ্কা !</string>
+    <string name="reporter_name">সুব্রত আচার্য্য</string>
+    <string name="news_time">২৭ জানুয়ারী, সকাল ১১:২০</string>
+    <string name="dummy_cat">প্রযুক্তি</string>
 
     <string-array name="news_filters">
 

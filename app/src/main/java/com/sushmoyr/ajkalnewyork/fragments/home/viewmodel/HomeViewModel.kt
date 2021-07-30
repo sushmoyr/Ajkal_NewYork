@@ -12,7 +12,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class HomeViewModel(private val repository: Repository): ViewModel() {
+class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     val allCategory = MutableLiveData<Response<List<Category>>>()
 
@@ -20,30 +20,30 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
         getHomeItems()
     }
 
-    fun getAllCats(){
+    fun getAllCats() {
         viewModelScope.launch(Dispatchers.IO) {
             allCategory.postValue(repository.getAllCategory())
         }
     }
 
-    fun getAllNews(){
+    fun getAllNews() {
         viewModelScope.launch {
             val data = repository.getAllNews()
-            if(data.isSuccessful){
+            if (data.isSuccessful) {
                 val items = data.body()!!
-                items.forEach {news ->
+                items.forEach { news ->
                     Log.d("newApi", news.toString())
                 }
             }
         }
     }
 
-    fun getAllAds(){
+    fun getAllAds() {
         viewModelScope.launch {
             val data = repository.getAllAds()
-            if(data.isSuccessful){
+            if (data.isSuccessful) {
                 val items = data.body()!!
-                items.forEach {news ->
+                items.forEach { news ->
                     Log.d("ads", news.toString())
                 }
             }
@@ -52,7 +52,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
 
     val homeItems = MutableLiveData<List<DataModel>>()
 
-    fun getHomeItems(){
+    private fun getHomeItems() {
         viewModelScope.launch {
             val adsDeferred = async { repository.getAllAds() }
             val newsDeferred = async { repository.getAllNews() }
@@ -62,9 +62,9 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
 
             val homeItemList = mutableListOf<DataModel>()
 
-            if(ads.isSuccessful && news.isSuccessful){
+            if (ads.isSuccessful && news.isSuccessful) {
                 var advertisements = mutableListOf<DataModel.Advertisement>()
-                if(ads.body() != null){
+                if (ads.body() != null) {
                     advertisements.addAll(ads.body()!!)
                 }
                 advertisements = advertisements.shuffled() as MutableList<DataModel.Advertisement>
@@ -74,11 +74,10 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                 var adsIndex = 0
 
                 news.body()!!.forEach {
-                    if(count!=0 && count%offset == 0 && adsIndex < advertisements.size){
+                    if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {
                         homeItemList.add(advertisements[adsIndex++])
                         homeItemList.add(advertisements[adsIndex++])
-                    }
-                    else{
+                    } else {
                         homeItemList.add(it)
                     }
                     count++

@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +13,30 @@ import com.sushmoyr.ajkalnewyork.models.Category
 
 class DrawerMenuAdapter: RecyclerView.Adapter<DrawerMenuAdapter.MyViewHolder>() {
 
-    private var cat_data:List<Category> = emptyList()
+    var itemClickListener: ((data: String, type: Int) -> Unit)? = null
+
+    private var catData:List<Category> = emptyList()
     class MyViewHolder(private val binding: CategoryViewBinding) : RecyclerView.ViewHolder
         (binding.root){
+
+        var itemClickListener: ((data: String, type: Int) -> Unit)? = null
+
             fun bind(category: Category) {
-                binding.categoryName.text = category.category_name
+                binding.categoryName.text = category.categoryName
                 for(i in 0..4){
                     val view = TextView(binding.root.context)
                     view.text = "Item $i"
+                    view.setOnClickListener {
+                        Log.d("subCat", view.text.toString())
+                    }
                     binding.subCategoryRoot.addView(view)
                 }
                 binding.dropDownIcon.setOnClickListener {
                     cycleView()
+                }
+
+                binding.categoryName.setOnClickListener {
+                    itemClickListener?.invoke(binding.categoryName.text.toString(), 1)
                 }
             }
 
@@ -51,15 +64,16 @@ class DrawerMenuAdapter: RecyclerView.Adapter<DrawerMenuAdapter.MyViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(cat_data[position])
+        holder.itemClickListener = itemClickListener
+        holder.bind(catData[position])
     }
 
     override fun getItemCount(): Int {
-        return cat_data.size
+        return catData.size
     }
 
     fun setData(data: List<Category>){
-        cat_data = data
+        catData = data
         notifyDataSetChanged()
     }
 }

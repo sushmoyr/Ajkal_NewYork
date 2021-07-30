@@ -22,7 +22,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(news: DataModel.News, categoryList: List<Category>) {
             binding.newsHeadline.text = news.newsTitle
             if(categoryList.isNotEmpty()){
-                binding.newsCategory.text = categoryList[(news.categoryId % 4)].category_name
+                binding.newsCategory.text = categoryList[(news.categoryId % 4)].categoryName
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)
@@ -41,7 +41,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(news: DataModel.News, categoryList: List<Category>) {
             binding.itemNewsHeadline.text = news.newsTitle
             if(categoryList.isNotEmpty()){
-                binding.newsCategory.text = categoryList[(news.categoryId % 4)].category_name
+                binding.newsCategory.text = categoryList[(news.categoryId % 4)].categoryName
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)

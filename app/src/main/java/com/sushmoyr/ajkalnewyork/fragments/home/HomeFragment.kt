@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,6 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
@@ -33,6 +35,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
     private lateinit var repository: Repository
+    private val model: DrawerViewModel by activityViewModels()
     private val adapter: NewsAdapter by lazy {
         NewsAdapter()
     }
@@ -59,6 +62,11 @@ class HomeFragment : Fragment() {
 
         setUpRecyclerView()
 
+        model.livedata.observe(viewLifecycleOwner, {
+            Log.d("viewmodel", it)
+            setCategoryFilter(it)
+        })
+
 
         val jsonFileString =
             context?.let { getJsonDataFromAsset(it.applicationContext, "sample_data.json") }
@@ -78,10 +86,26 @@ class HomeFragment : Fragment() {
             homeAdapter.items = it
         })
 
+
         //binding.imageView5.clipToOutline = true
 
 
         return binding.root
+    }
+
+    private fun setCategoryFilter(name: String){
+        val chipGroup = binding.newsFilterChipGroup
+        chipGroup.children.forEach { chip->
+            if (chip is Chip){
+                if(chip.text.equals(name)){
+                    chipGroup.check(chip.id)
+                    binding.horizontalScrollView.smoothScrollTo(
+                        chip.left - chip.paddingLeft,
+                        chip.top
+                    )
+                }
+            }
+        }
     }
 
     private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
@@ -145,7 +169,7 @@ class HomeFragment : Fragment() {
         filters.forEach {
             val chip = Chip(requireContext())
             chip.id = View.generateViewId()
-            chip.text = it.category_name
+            chip.text = it.categoryName
             chipGroup.addView(chip)
 
             if (!isChecked) {

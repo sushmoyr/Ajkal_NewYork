@@ -5,7 +5,10 @@
       <map>
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/drawable/text_background.xml" value="0.26458333333333334" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/activity_news_details.xml" value="0.46355685131195334" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/activity_videos.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/advertisement_layout.xml" value="0.16485507246376813" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/category_layout.xml" value="0.12395833333333334" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/category_view.xml" value="0.6" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_home.xml" value="0.16485507246376813" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/news_body_layout.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/news_item_layout.xml" value="0.48728246318607765" />

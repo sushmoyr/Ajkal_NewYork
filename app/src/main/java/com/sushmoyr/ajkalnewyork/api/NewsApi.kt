@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface NewsApi {
 
-    @GET("CategoryGateway.php")
+    @GET("Category")
     suspend fun getAllCategory(): Response<List<Category>>
 
 }

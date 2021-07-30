@@ -1,10 +1,12 @@
 package com.sushmoyr.ajkalnewyork.activities
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sushmoyr.ajkalnewyork.DrawerMenuAdapter
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var viewModel: MainActivityViewModel
+    private val drawerViewModel: DrawerViewModel by viewModels()
     private val drawerRvAdapter: DrawerMenuAdapter by lazy {
         DrawerMenuAdapter()
     }
@@ -39,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         val repository = Repository()
         val factory = MainActivityViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MainActivityViewModel::class.java)
+        //drawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel::class.java)
+
+        drawerViewModel.data = "set data from activity"
 
 
         navHostFragment = (supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment)
@@ -54,6 +61,11 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNavigation()
         setUpDrawerRv()
         fetchCategories()
+
+        drawerRvAdapter.itemClickListener = {data, type ->
+            drawerViewModel.setValue(data)
+            binding.rootDrawerLayout.closeDrawers()
+        }
     }
 
     private fun setUpBottomNavigation(){

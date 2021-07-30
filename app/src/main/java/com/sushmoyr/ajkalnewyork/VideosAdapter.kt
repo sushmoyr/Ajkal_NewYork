@@ -2,6 +2,8 @@ package com.sushmoyr.ajkalnewyork
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.databinding.VideoCardLayoutBinding
@@ -22,6 +24,10 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_error)
                 .into(binding.videoThumbnail)
+
+            binding.root.setOnClickListener {
+                binding.root.findNavController().navigate(R.id.action_videosFragment_to_videosActivity)
+            }
         }
     }
 

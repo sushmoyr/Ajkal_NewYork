@@ -15,6 +15,7 @@ import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 
 import android.content.Intent
+import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
 
 
 class VideosFragment : Fragment() {
@@ -47,7 +48,7 @@ class VideosFragment : Fragment() {
         adapter.itemClickListener = {
             val intent =
                 YouTubeStandalonePlayer.createVideoIntent(requireActivity(),
-                    "AIzaSyC_tmJXWNzL7-ALsk5vb3MQjsc-HsYI4GI", it.thumbnail)
+                    YT_API_KEY, it.thumbnail)
             startActivity(intent)
 
         }

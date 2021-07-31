@@ -18,9 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AjkalNewYork"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".activities.VideosActivity"
-            android:exported="true" />
         <activity android:name=".activities.NewsDetailsActivity" />
         <activity android:name=".activities.InfoActivity" />
         <activity

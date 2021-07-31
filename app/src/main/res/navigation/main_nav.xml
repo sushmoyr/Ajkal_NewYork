@@ -18,11 +18,7 @@
         android:id="@+id/videosFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.VideosFragment"
         android:label="fragment_videos"
-        tools:layout="@layout/fragment_videos" >
-        <action
-            android:id="@+id/action_videosFragment_to_videosActivity"
-            app:destination="@id/videosActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_videos" />
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.MapFragment"
@@ -51,10 +47,5 @@
             android:name="news"
             app:argType="com.sushmoyr.ajkalnewyork.models.News" />
     </activity>
-    <activity
-        android:id="@+id/videosActivity"
-        android:name="com.sushmoyr.ajkalnewyork.activities.VideosActivity"
-        android:label="activity_videos"
-        tools:layout="@layout/activity_videos" />
 
 </navigation>

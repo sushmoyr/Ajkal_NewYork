@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
@@ -27,6 +28,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             Glide.with(binding.root.context)
                 .load(news.defaultImage)
                 .override(binding.newsCover.width, binding.newsCover.height)
+                .placeholder(R.drawable.ic_placeholder)
                 .transform(RoundedCorners(48))
                 .into(binding.newsCover)
 
@@ -45,7 +47,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)
-                .override(binding.itemNewsCover.width, binding.itemNewsCover.height)
+                .placeholder(R.drawable.ic_placeholder)
                 .transform(RoundedCorners(24))
                 .into(binding.itemNewsCover)
 

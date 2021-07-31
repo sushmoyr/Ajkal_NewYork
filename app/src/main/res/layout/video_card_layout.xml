@@ -2,45 +2,46 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="16dp"
-    android:layout_margin="8dp"
     android:layout_width="match_parent"
-    app:cardElevation="4dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.google.android.youtube.player.YouTubeThumbnailView
             android:id="@+id/video_thumbnail"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:background="@drawable/ic_placeholder"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/dummy_image_1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/video_category_layout"
             layout="@layout/category_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/video_title"
-            android:layout_width="0dp"
-            android:padding="16dp"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/grey"
-            android:text="বিনামূল্যে ইন্টারনেট ব্যাবহার নিয়ে সতর্ক করলেন গুগল প্রধান"
             style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="বিনামূল্যে ইন্টারনেট ব্যাবহার নিয়ে সতর্ক করলেন গুগল প্রধান"
+            android:textColor="@color/grey"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/video_thumbnail"
             app:layout_constraintStart_toStartOf="@+id/video_thumbnail"
             app:layout_constraintTop_toBottomOf="@+id/video_thumbnail" />

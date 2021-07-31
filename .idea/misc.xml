@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/drawable/ic_resource_abstract.xml" value="0.26458333333333334" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/drawable/rectangle.xml" value="0.26458333333333334" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/drawable/text_background.xml" value="0.26458333333333334" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/activity_news_details.xml" value="0.46355685131195334" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/activity_videos.xml" value="0.2484375" />
@@ -12,6 +14,7 @@
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_home.xml" value="0.16485507246376813" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/news_body_layout.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/news_item_layout.xml" value="0.48728246318607765" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/video_card_layout.xml" value="0.161231884057971" />
       </map>
     </option>
   </component>

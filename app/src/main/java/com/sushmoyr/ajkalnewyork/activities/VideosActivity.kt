@@ -1,24 +1,59 @@
 package com.sushmoyr.ajkalnewyork.activities
 
-import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.MediaController
-import com.sushmoyr.ajkalnewyork.R
+import android.util.Log
+import com.google.android.youtube.player.YouTubeBaseActivity
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
 import com.sushmoyr.ajkalnewyork.databinding.ActivityVideosBinding
 
-class VideosActivity : AppCompatActivity() {
+class VideosActivity : YouTubeBaseActivity() {
+
+    private val apiKey="AIzaSyC_tmJXWNzL7-ALsk5vb3MQjsc-HsYI4GI"
     private lateinit var binding: ActivityVideosBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Get reference to the view of Video player
+        val ytPlayer = binding.ytPlayer
 
-        configureVideoView()
+        ytPlayer.initialize(apiKey, object : YouTubePlayer.OnInitializedListener{
+            override fun onInitializationSuccess(
+                provider: YouTubePlayer.Provider?,
+                player: YouTubePlayer?,
+                p2: Boolean
+            ) {
+                player?.loadVideo("wdHeiVf0mds")
+                player?.play()
+                player?.setOnFullscreenListener {
+                    Log.d("youtube", "fullscreen = $it")
+                }
+
+            }
+
+            override fun onInitializationFailure(
+                p0: YouTubePlayer.Provider?,
+                p1: YouTubeInitializationResult?
+            ) {
+                if (p1 != null) {
+                    Log.d("youtube", p1.name)
+                    p1.getErrorDialog(this@VideosActivity, 1)
+                }
+            }
+        })
+
     }
 
-    private fun configureVideoView() {
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("youtube", "activity destroyed")
+    }
+
+    /*private fun configureVideoView() {
         val uri = "http://server1.dhakamovie.com/TV_Series/Animation%20TV%20Shows/Erased/s1/erased.2017.s01e01.720p.web-dl.dd5.1.x265.hevc.mp4"
         binding.videoView.setVideoPath(uri)
 
@@ -34,5 +69,5 @@ class VideosActivity : AppCompatActivity() {
         }
 
         binding.videoView.start()
-    }
+    }*/
 }

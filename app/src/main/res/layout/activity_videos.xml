@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".activities.VideosActivity">
 
-    <com.sushmoyr.ajkalnewyork.FixedSizeVideoView
-        android:id="@+id/videoView"
-        android:layout_width="0dp"
-        android:layout_height="240dp"
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/yt_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

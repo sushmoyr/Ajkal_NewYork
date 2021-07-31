@@ -10,6 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sushmoyr.ajkalnewyork.VideosAdapter
 import com.sushmoyr.ajkalnewyork.VideosPageViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentVideosBinding
+import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
+
+import com.google.android.youtube.player.YouTubeStandalonePlayer
+
+import android.content.Intent
+
 
 class VideosFragment : Fragment() {
 
@@ -37,6 +43,14 @@ class VideosFragment : Fragment() {
         viewModel.allVideos.observe(viewLifecycleOwner, {data->
             adapter.setData(data)
         })
+
+        adapter.itemClickListener = {
+            val intent =
+                YouTubeStandalonePlayer.createVideoIntent(requireActivity(),
+                    "AIzaSyC_tmJXWNzL7-ALsk5vb3MQjsc-HsYI4GI", it.thumbnail)
+            startActivity(intent)
+
+        }
 
 
         setupRecyclerView()

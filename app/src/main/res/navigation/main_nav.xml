@@ -47,5 +47,13 @@
             android:name="news"
             app:argType="com.sushmoyr.ajkalnewyork.models.News" />
     </activity>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.sushmoyr.ajkalnewyork.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <action
+        android:id="@+id/action_global_galleryFragment"
+        app:destination="@id/galleryFragment" />
 
 </navigation>

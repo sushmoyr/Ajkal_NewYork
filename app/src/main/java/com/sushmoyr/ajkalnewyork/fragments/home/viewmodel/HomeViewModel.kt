@@ -56,6 +56,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             val adsDeferred = async { repository.getAllAds() }
             val newsDeferred = async { repository.getAllNews() }
+            val photosDeferred = async { repository.getPhotos() }
 
             val ads = adsDeferred.await()
             val news = newsDeferred.await()
@@ -83,9 +84,21 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                     count++
                 }
 
-                homeItemList.forEach { dataModel ->
-                    Log.d("recycler", dataModel.toString())
+                val photos = photosDeferred.await()
+                if(photos.isSuccessful){
+                    photos.body()!!.forEach {
+                        Log.d("gallery","====================")
+                        Log.d("gallery", "id: ${it.id}")
+                        Log.d("gallery", "caption: ${it.caption}")
+                        Log.d("gallery", "image: ${it.imagePath}")
+                    }
+                    val photoData = DataModel.GalleryItem(photos.body()!!)
+                    photoData.images.forEach {
+
+                    }
+                    homeItemList.add(17, photoData)
                 }
+
 
                 homeItems.postValue(homeItemList)
 

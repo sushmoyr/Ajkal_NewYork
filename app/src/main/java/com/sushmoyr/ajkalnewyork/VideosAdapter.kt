@@ -12,14 +12,10 @@ import androidx.core.content.ContextCompat.startActivity
 
 import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
 
-import com.google.android.youtube.player.YouTubeStandalonePlayer
-
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubeThumbnailLoader
-import com.google.android.youtube.player.YouTubeThumbnailView
+import com.google.android.youtube.player.*
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
 
 
@@ -55,6 +51,8 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
                                 Log.d("youtube", "Thumbnail loaded")
                                 loader.release()
                             }
+
+
 
                             override fun onThumbnailError(
                                 p0: YouTubeThumbnailView?,

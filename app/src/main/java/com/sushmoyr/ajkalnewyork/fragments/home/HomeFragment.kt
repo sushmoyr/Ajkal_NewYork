@@ -1,6 +1,5 @@
 package com.sushmoyr.ajkalnewyork.fragments.home
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
@@ -68,17 +66,6 @@ class HomeFragment : Fragment() {
         })
 
 
-        val jsonFileString =
-            context?.let { getJsonDataFromAsset(it.applicationContext, "sample_data.json") }
-        if (jsonFileString != null) {
-            val gson = Gson()
-            val newsType = object : TypeToken<List<News>>() {}.type
-
-            val allNews: List<News> = gson.fromJson(jsonFileString, newsType)
-
-            adapter.setData(allNews)
-        }
-
         viewModel.getAllNews()
         viewModel.getAllAds()
 
@@ -108,16 +95,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
-        val jsonString: String
-        try {
-            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            return null
-        }
-        return jsonString
-    }
 
     private fun setUpRecyclerView() {
         val rv = binding.newsRv
@@ -138,13 +115,21 @@ class HomeFragment : Fragment() {
         }
 
         homeAdapter.itemClickListener = { view, item ->
-            if(item is DataModel.News){
-
-                val directions = HomeFragmentDirections
-                    .actionHomeFragmentToNewsDetailsActivity(item.toNews())
-                findNavController().navigate(directions)
+            when(item){
+                is DataModel.News -> {
+                    val directions = HomeFragmentDirections
+                        .actionHomeFragmentToNewsDetailsActivity(item.toNews())
+                    findNavController().navigate(directions)
+                }
+                is DataModel.GalleryItem -> {
+                    Toast.makeText(requireContext(), "Gallery", Toast.LENGTH_SHORT).show()
+                }
+                else -> Log.d("HomeFragment", "No click listeners added")
             }
         }
+
+
+
     }
 
     private fun setUpCategoryGroup() {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
+import com.sushmoyr.ajkalnewyork.databinding.GalleryPlaceholderLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.Category
@@ -54,6 +55,13 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
                     false
                 )
             )
+            R.layout.gallery_placeholder_layout -> HomeItemsViewHolder.GalleryItemViewHolder(
+                GalleryPlaceholderLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
             else -> throw IllegalArgumentException("Invalid viewType")
         }
     }
@@ -61,7 +69,9 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
     override fun onBindViewHolder(holder: HomeItemsViewHolder, position: Int) {
         holder.itemClickListener = itemClickListener
         when (holder) {
-            is HomeItemsViewHolder.AdvertisementViewHolder -> holder.bind(items[position] as DataModel.Advertisement)
+            is HomeItemsViewHolder.AdvertisementViewHolder -> holder.bind(
+                items[position] as DataModel.Advertisement
+            )
             is HomeItemsViewHolder.HighlightedNewsViewHolder -> holder.bind(
                 items[position] as DataModel.News,
                 categories
@@ -69,6 +79,9 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
             is HomeItemsViewHolder.NormalNewsViewHolder -> holder.bind(
                 items[position] as DataModel.News,
                 categories
+            )
+            is HomeItemsViewHolder.GalleryItemViewHolder -> holder.bind(
+                items[position] as DataModel.GalleryItem
             )
         }
     }
@@ -87,6 +100,7 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
                     else -> R.layout.news_item_layout
                 }
             }
+            is DataModel.GalleryItem -> R.layout.gallery_placeholder_layout
         }
     }
 }

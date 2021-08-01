@@ -1,15 +1,15 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
-import android.util.Log
+import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
-import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
-import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
-import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
+import com.sushmoyr.ajkalnewyork.databinding.*
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 
@@ -71,5 +71,30 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             }
         }
     }
+
+    class GalleryItemViewHolder(private val binding: GalleryPlaceholderLayoutBinding) :
+        HomeItemsViewHolder(binding) {
+            fun bind(photo: DataModel.GalleryItem){
+                val imageData = photo.images.shuffled()
+                binding.mainImageCaption.text = imageData[0].caption
+                binding.leftImageCaption.text = imageData[1].caption
+                binding.rightImageCaption.text = imageData[2].caption
+
+                loadImageIntoView(binding.root.context, imageData[0].imagePath, binding.mainImage)
+                loadImageIntoView(binding.root.context, imageData[1].imagePath, binding.leftImage)
+                loadImageIntoView(binding.root.context, imageData[2].imagePath, binding.rightImage)
+
+                binding.root.setOnClickListener{
+                    itemClickListener?.invoke(it, photo)
+                }
+            }
+
+            private fun loadImageIntoView(context: Context, image:String, target: ImageView) {
+                Glide.with(context)
+                    .load(image)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(target)
+            }
+        }
 
 }

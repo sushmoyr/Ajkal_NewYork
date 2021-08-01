@@ -15,7 +15,7 @@ sealed class DataModel {
         val userId: Int
     ) : DataModel()
 
-    class News(
+    data class News(
         val breakingId: String,
         val categoryId: Int,
         val countryId: Int,
@@ -42,5 +42,9 @@ sealed class DataModel {
             )
         }
     }
+
+    data class GalleryItem(
+        val images: List<Photo>
+    ) : DataModel()
 }
 

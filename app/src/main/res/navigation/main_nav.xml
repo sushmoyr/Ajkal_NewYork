@@ -49,7 +49,7 @@
     </activity>
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="com.sushmoyr.ajkalnewyork.GalleryFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.gallery.GalleryFragment"
         android:label="fragment_gallery"
         tools:layout="@layout/fragment_gallery" />
     <action

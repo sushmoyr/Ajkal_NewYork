@@ -122,6 +122,7 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(directions)
                 }
                 is DataModel.GalleryItem -> {
+                    findNavController().navigate(R.id.action_global_galleryFragment)
                     Toast.makeText(requireContext(), "Gallery", Toast.LENGTH_SHORT).show()
                 }
                 else -> Log.d("HomeFragment", "No click listeners added")

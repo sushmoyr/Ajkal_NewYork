@@ -1,6 +1,8 @@
 package com.sushmoyr.ajkalnewyork.activities
 
 import android.os.Bundle
+import android.view.View
+import android.view.animation.TranslateAnimation
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -65,6 +67,19 @@ class MainActivity : AppCompatActivity() {
         drawerRvAdapter.itemClickListener = {data, type ->
             drawerViewModel.setValue(data)
             binding.rootDrawerLayout.closeDrawers()
+        }
+
+        binding.showGalleryButton.setOnClickListener {
+            navController.navigate(R.id.action_global_galleryFragment)
+            binding.rootDrawerLayout.closeDrawers()
+        }
+
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id==R.id.galleryFragment)
+                binding.mainBottomNav.visibility = View.GONE
+            else
+                binding.mainBottomNav.visibility = View.VISIBLE
         }
     }
 

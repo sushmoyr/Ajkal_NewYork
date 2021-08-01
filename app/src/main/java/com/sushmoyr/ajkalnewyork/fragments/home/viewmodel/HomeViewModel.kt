@@ -16,25 +16,9 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     val allCategory = MutableLiveData<Response<List<Category>>>()
 
-    init {
-        getHomeItems()
-    }
-
     fun getAllCats() {
         viewModelScope.launch(Dispatchers.IO) {
             allCategory.postValue(repository.getAllCategory())
-        }
-    }
-
-    fun getAllNews() {
-        viewModelScope.launch {
-            val data = repository.getAllNews()
-            if (data.isSuccessful) {
-                val items = data.body()!!
-                items.forEach { news ->
-                    Log.d("newApi", news.toString())
-                }
-            }
         }
     }
 
@@ -52,10 +36,15 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     val homeItems = MutableLiveData<List<DataModel>>()
 
-    private fun getHomeItems() {
+    fun getHomeItems(categoryId: Int? = null) {
         viewModelScope.launch {
             val adsDeferred = async { repository.getAllAds() }
-            val newsDeferred = async { repository.getAllNews() }
+            val newsDeferred = async {
+                when (categoryId) {
+                    null -> repository.getAllNews()
+                    else -> repository.getAllNews(categoryId)
+                }
+            }
             val photosDeferred = async { repository.getPhotos() }
 
             val ads = adsDeferred.await()
@@ -85,9 +74,9 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                 }
 
                 val photos = photosDeferred.await()
-                if(photos.isSuccessful){
+                if (photos.isSuccessful) {
                     photos.body()!!.forEach {
-                        Log.d("gallery","====================")
+                        Log.d("gallery", "====================")
                         Log.d("gallery", "id: ${it.id}")
                         Log.d("gallery", "caption: ${it.caption}")
                         Log.d("gallery", "image: ${it.imagePath}")
@@ -96,7 +85,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                     photoData.images.forEach {
 
                     }
-                    homeItemList.add(17, photoData)
+                    //homeItemList.add(17, photoData)
                 }
 
 
@@ -105,5 +94,6 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
             }
         }
     }
+
 
 }

@@ -1,18 +1,19 @@
 package com.sushmoyr.ajkalnewyork.activities.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.sushmoyr.ajkalnewyork.models.Category
 
 class DrawerViewModel: ViewModel() {
     var data: String = ""
-    var livedata = MutableLiveData<String>()
-
-    fun showData(){
-        Log.d("viewmodel", data)
-    }
+    var selectedCategory = MutableLiveData<String>()
+    var categoryListData = emptyList<Category>()
     fun setValue(msg: String){
-        livedata.postValue(msg)
+        selectedCategory.postValue(msg)
+    }
+
+    fun setCategoryList(categoryList: List<Category>){
+        categoryListData = categoryList
     }
 }

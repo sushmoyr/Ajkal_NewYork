@@ -11,6 +11,11 @@ interface MockApi {
     @GET("news")
     suspend fun getAllNews(): Response<List<DataModel.News>>
 
+    @GET("news")
+    suspend fun getAllNews(
+        @Query("categoryId") categoryId: Int): Response<List<DataModel.News>>
+
+
     @GET("Advertisement")
     suspend fun getAllAds(): Response<List<DataModel.Advertisement>>
 

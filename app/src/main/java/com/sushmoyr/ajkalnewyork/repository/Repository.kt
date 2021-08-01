@@ -15,6 +15,10 @@ class Repository {
         return RetrofitInstance.mockApi.getAllNews()
     }
 
+    suspend fun getAllNews(categoryId: Int): Response<List<DataModel.News>> {
+        return RetrofitInstance.mockApi.getAllNews(categoryId)
+    }
+
     suspend fun getAllAds(): Response<List<DataModel.Advertisement>> {
         return RetrofitInstance.mockApi.getAllAds()
     }

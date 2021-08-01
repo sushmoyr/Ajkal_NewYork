@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,11 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(news: DataModel.News, categoryList: List<Category>) {
             binding.newsHeadline.text = news.newsTitle
             if(categoryList.isNotEmpty()){
-                binding.newsCategory.text = categoryList[(news.categoryId % 4)].categoryName
+                val category = categoryList.find { category -> category.id == news.categoryId }
+
+                if (category != null) {
+                    binding.newsCategory.text = category.categoryName
+                }
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)
@@ -43,7 +48,11 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(news: DataModel.News, categoryList: List<Category>) {
             binding.itemNewsHeadline.text = news.newsTitle
             if(categoryList.isNotEmpty()){
-                binding.newsCategory.text = categoryList[(news.categoryId % 4)].categoryName
+                val category = categoryList.find { category -> category.id == news.categoryId }
+
+                if (category != null) {
+                    binding.newsCategory.text = category.categoryName
+                }
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)

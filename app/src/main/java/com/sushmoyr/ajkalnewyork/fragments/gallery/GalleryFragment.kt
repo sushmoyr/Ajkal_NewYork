@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentGalleryBinding
 
 class GalleryFragment : Fragment() {
@@ -33,9 +34,24 @@ class GalleryFragment : Fragment() {
             adapter = imageAdapter
         }
 
+        binding.loading.visibility = View.VISIBLE
         model.getImages()
         model.galleryImages.observe(viewLifecycleOwner, {
-            imageAdapter.setData(it)
+            if(it.isSuccessful){
+                binding.loading.visibility = View.GONE
+                if(it.body().isNullOrEmpty()){
+                    binding.errorMsgText.visibility = View.VISIBLE
+                    binding.errorMsgText.text = resources.getString(R.string.no_data)
+                }
+                else{
+                    binding.errorMsgText.visibility = View.GONE
+                    imageAdapter.setData(it.body()!!)
+                }
+            }
+            else{
+                binding.loading.visibility = View.GONE
+                binding.errorMsgText.text = it.message()
+            }
         })
 
         return binding.root

@@ -102,8 +102,9 @@ class MainActivity : AppCompatActivity() {
     private fun fetchCategories(){
         viewModel.getAllCats()
         viewModel.allCategories.observe(this, {response->
-            if(response.isSuccessful){
+            if(response.isSuccessful && response.body()!=null){
                 drawerRvAdapter.setData(response.body()!!)
+                drawerViewModel.setCategoryList(response.body()!!)
             }
         })
     }

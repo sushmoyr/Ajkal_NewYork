@@ -12,19 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.gson.reflect.TypeToken
 import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.repository.Repository
-import java.io.IOException
 
 
 class HomeFragment : Fragment() {
@@ -46,6 +44,7 @@ class HomeFragment : Fragment() {
         repository = Repository()
         val factory = HomeViewModelFactory(repository)
         viewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
+        viewModel.getHomeItems()
     }
 
     override fun onCreateView(
@@ -60,17 +59,25 @@ class HomeFragment : Fragment() {
 
         setUpRecyclerView()
 
-        model.livedata.observe(viewLifecycleOwner, {
+        model.selectedCategory.observe(viewLifecycleOwner, { it ->
             Log.d("viewmodel", it)
             setCategoryFilter(it)
+
+            var categoryId: Int? = null
+            model.categoryListData.forEach { cat->
+                if(cat.categoryName == it && cat.id!=0)
+                    categoryId = cat.id
+            }
+
+            viewModel.getHomeItems(categoryId)
         })
 
 
-        viewModel.getAllNews()
+
         viewModel.getAllAds()
 
         viewModel.homeItems.observe(viewLifecycleOwner, {
-            homeAdapter.items = it
+            homeAdapter.setData(it)
         })
 
 
@@ -178,6 +185,7 @@ class HomeFragment : Fragment() {
                         chip.chipStrokeWidth = 0f
                         chip.setChipBackgroundColorResource(R.color.secondaryColor)
                         chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        model.setValue(chip.text.toString())
                     } else {
                         chip.chipBackgroundColor = placeHolderChip.chipBackgroundColor
                         chip.chipStrokeWidth = placeHolderChip.chipStrokeWidth
@@ -190,6 +198,7 @@ class HomeFragment : Fragment() {
                 chip.chipStrokeWidth = 0f
                 chip.setChipBackgroundColorResource(R.color.secondaryColor)
             }
+
 
         }
     }

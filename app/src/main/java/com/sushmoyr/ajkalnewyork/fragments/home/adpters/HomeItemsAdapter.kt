@@ -1,9 +1,12 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
@@ -13,14 +16,9 @@ import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 
-class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
+class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>(){
 
     var items = listOf<DataModel>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     var categories = listOf<Category>()
         @SuppressLint("NotifyDataSetChanged")
@@ -87,6 +85,7 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        Log.d("adpterSize", "Adapter Size = ${items.size}")
         return items.size
     }
 
@@ -103,4 +102,49 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
             is DataModel.GalleryItem -> R.layout.gallery_placeholder_layout
         }
     }
+
+    fun setData(list: List<DataModel>){
+        items = list
+        notifyDataSetChanged()
+    }
+
+    /*override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                var selectedCategoryId = -1
+                categories.forEach { category ->
+                    if(category.categoryName == charString)
+                        selectedCategoryId = category.id
+                }
+                Log.d("viewmodel", "selected = $selectedCategoryId")
+
+
+                filteredItems = if (charString.isEmpty()) items else {
+                    val filteredList : MutableList<DataModel> = mutableListOf()
+                    items
+                        .filter {
+                            (it is DataModel.News
+                                    &&
+                                    selectedCategoryId != -1
+                                    && it.categoryId==selectedCategoryId) or (it is DataModel.Advertisement)
+                        }
+                        .forEach { filteredList.add(it) }
+                    filteredList
+
+                }
+                Log.d("viewmodel", "filtered items size = ${filteredItems.size}")
+                return FilterResults().apply { values = filteredItems }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                filteredItems = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as List<DataModel>
+                notifyDataSetChanged()
+            }
+        }
+    }*/
 }

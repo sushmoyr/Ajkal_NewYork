@@ -4,29 +4,34 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.GalleryItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.Photo
 
-class GalleryAdapter: RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
+class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
 
     private var imageData = emptyList<Photo>()
 
-    class MyViewHolder(val binding: GalleryItemLayoutBinding)
-        : RecyclerView.ViewHolder(binding.root){
+    class MyViewHolder(val binding: GalleryItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(photo: Photo){
-                Glide.with(binding.root)
-                    .load(photo.imagePath)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .into(binding.galleryPhoto)
-                binding.galleryPhotoCaption.text = photo.caption
-            }
+        fun bind(photo: Photo) {
+            Glide.with(binding.root)
+                .load(photo.imagePath)
+                .placeholder(R.drawable.ic_placeholder)
+                .into(binding.galleryPhoto)
+            binding.galleryPhotoCaption.text = photo.caption
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(GalleryItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return MyViewHolder(
+            GalleryItemLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -37,7 +42,7 @@ class GalleryAdapter: RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
         return imageData.size
     }
 
-    fun setData(data: List<Photo>){
+    fun setData(data: List<Photo>) {
         imageData = data
         notifyDataSetChanged()
     }

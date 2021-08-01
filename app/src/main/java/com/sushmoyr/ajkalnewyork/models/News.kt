@@ -21,7 +21,8 @@ class News(
     val seoKeyword: String,
     val status: String,
     val subCategoryId: Int,
-    val videoLink: String
+    val videoLink: String,
+    val count: Int
 ): Parcelable
 
 data class CategoryItem(

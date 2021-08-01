@@ -31,5 +31,13 @@ class Repository {
         return RetrofitInstance.mockApi2.getPhotoGallery()
     }
 
+    suspend fun getTrendingNews(categoryId: Int): Response<List<DataModel.News>> {
+        return RetrofitInstance.mockApi.getTrendingNews(categoryId)
+    }
+
+    suspend fun getTrendingNews(): Response<List<DataModel.News>> {
+        return RetrofitInstance.mockApi.getTrendingNews()
+    }
+
 
 }

@@ -32,13 +32,14 @@ sealed class DataModel {
         val seoKeyword: String,
         val status: String,
         val subCategoryId: Int,
-        val videoLink: String
+        val videoLink: String,
+        val count: Int
     ) : DataModel(){
         fun toNews(): com.sushmoyr.ajkalnewyork.models.News{
             return com.sushmoyr.ajkalnewyork.models.News(
                 breakingId, categoryId, countryId, createdBy, createdDate, defaultImage,
                 description, districtId, divisionId, id, isArchived, newsTitle, seoDescription,
-                seoKeyword, status, subCategoryId, videoLink
+                seoKeyword, status, subCategoryId, videoLink, count
             )
         }
     }

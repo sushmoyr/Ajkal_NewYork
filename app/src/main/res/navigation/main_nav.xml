@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/trendingFragment"
-        android:name="com.sushmoyr.ajkalnewyork.fragments.TrendingFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.trending.TrendingFragment"
         android:label="fragment_trending"
         tools:layout="@layout/fragment_trending" >
         <action

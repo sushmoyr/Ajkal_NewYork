@@ -28,4 +28,12 @@ interface MockApi {
         @Query("limit") limit: Int
     ):Response<List<Photo>>
 
+    @GET("news?sortBy=count&order=desc")
+    suspend fun getTrendingNews(): Response<List<DataModel.News>>
+
+    @GET("news?sortBy=count&order=desc")
+    suspend fun getTrendingNews(
+        @Query("categoryId") categoryId: Int
+    ): Response<List<DataModel.News>>
+
 }

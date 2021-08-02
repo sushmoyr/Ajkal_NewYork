@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.view.View.TEXT_ALIGNMENT_CENTER
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.AnimationUtils.*
 import android.widget.TextView
@@ -92,8 +93,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpBreakingNews() {
-        binding.breakingNewsBlinker.blink(duration = 600L)
-
         val factory = TextView(requireContext())
         factory.textSize = 16f
         factory.maxLines = 1
@@ -102,6 +101,7 @@ class HomeFragment : Fragment() {
         binding.breakingNewsTitle.setFactory { TextView(requireContext()).apply {
             this.maxLines = 1
             this.ellipsize = TextUtils.TruncateAt.END
+            this.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         } }
         val inAnim = AnimationUtils.loadAnimation(requireContext(),
             android.R.anim.slide_in_left)
@@ -113,9 +113,48 @@ class HomeFragment : Fragment() {
         binding.breakingNewsTitle.outAnimation = outAnim
         
         viewModel.getBreakingNews()
-        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, {
-            binding.breakingNewsTitle.setText(it.bnews_title)
+        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, { breakingNews->
+            if(breakingNews == null){
+                isVisibleBreakingNewsSection(false)
+            }
+            else{
+                isVisibleBreakingNewsSection(true)
+                binding.breakingNewsTitle.setText(breakingNews.bnews_title)
+
+            }
+
+            viewModel.onFinished = {
+                Log.d("navigate", "success")
+                Log.d("navigate", "news title: ${it.newsTitle}")
+                val action = HomeFragmentDirections.actionHomeFragmentToNewsDetailsActivity(it)
+                findNavController().navigate(action)
+            }
+
+            binding.breakingNewsTitle.setOnClickListener {
+                Log.d("navigate", "Clicked breaking news")
+                Log.d("navigate", "Called News Query")
+                viewModel.getNewsById(breakingNews?.news_id)
+                Log.d("navigate", "Finished Query")
+            }
+
         })
+    }
+
+    private fun isVisibleBreakingNewsSection(visible : Boolean){
+        val visibility = when(visible){
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+        val blinkTime = when(visible){
+            true -> Animation.INFINITE
+            false -> 0
+        }
+
+        binding.breakingNewsTitle.visibility = visibility
+        binding.breakingNewsBlinker.visibility = visibility
+        binding.breakingNewsBlinker.blink(blinkTime)
+        binding.breakingNewsName.visibility = visibility
+
     }
 
     private fun setCategoryFilter(name: String){
@@ -251,16 +290,6 @@ class HomeFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.runFlow = false
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.runFlow = true
     }
 
     //Menu Inflating

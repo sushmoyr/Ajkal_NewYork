@@ -89,10 +89,6 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                         Log.d("gallery", "caption: ${it.caption}")
                         Log.d("gallery", "image: ${it.imagePath}")
                     }
-                    val photoData = DataModel.GalleryItem(photos.body()!!)
-                    photoData.images.forEach {
-
-                    }
                     //homeItemList.add(17, photoData)
                 }
 
@@ -103,7 +99,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    val breakingNewsObserve = MutableLiveData<BreakingNews>()
+    val breakingNewsObserve = MutableLiveData<BreakingNews?>()
     var runFlow: Boolean = true
     fun getBreakingNews(){
         viewModelScope.launch {
@@ -129,34 +125,31 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
                         breakingNewsObserve.postValue(it)
                 }
 
-                /*Log.d("breaking", "DATA size = ${breakingNewsData.size}")
-
-                breakingNewsData.forEach { breakingNews ->
-                    val newsResponse = repository.getNewsById(breakingNews.news_id)
-                    if(newsResponse.isSuccessful && !newsResponse.body().isNullOrEmpty()){
-                        Log.d("breaking", "Got news with id ${breakingNews.news_id} of size " +
-                                "${newsResponse.body()!!.size}")
-                        newsResponse.body()!!.forEach { news ->
-                            if(news.id == breakingNews.id){
-                                breakingNewsList.add(news)
-                            }
-                        }
-                    }
-                }
-
-                Log.d("breaking", "Breaking size = ${breakingNewsList.size}")
-
-                newsFlow = flow {
-                    breakingNewsList.forEach {
-                        emit(it)
-                        Log.d("breaking", "Emited news with id ${it.id}")
-                        delay(500)
-                    }
-                }*/
+            }
+            else{
+                Log.d("breaking", "${response.code()} : ${response.message()}")
+                breakingNewsObserve.postValue(null)
             }
         }
     }
 
+    var onFinished : ((news: News)-> Unit)?= null
+
+    fun getNewsById(newsId: Int?) {
+        viewModelScope.launch {
+            if(newsId!=null){
+                val data = repository.getNewsById(newsId)
+                if(data.isSuccessful){
+                    data.body()!!.forEach {
+                        if(it.id == newsId){
+                            onFinished?.invoke(it)
+                            return@forEach
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
 }

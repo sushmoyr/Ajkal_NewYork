@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/footer_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="@+id/footer_moto"
+        app:layout_constraintStart_toStartOf="@+id/footer_moto"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:srcCompat="@drawable/logo" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/footer_moto"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logo_moto"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footer_logo" />
+
+    <LinearLayout
+        android:id="@+id/editor_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/footer_moto">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="সম্পাদক: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="জাকারিয়া মাসুদ জিকো" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/main_editor_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editor_layout">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="প্রধান সম্পাদক: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="মনজুর আহমেদ" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/address_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_editor_layout">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:text="ঠিকানা: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="37-07 74th Street, Suite: 8 Jackson Heights, NY 11372" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/phone_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_layout">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ফোন: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="718-565-2100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fax_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_layout">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ফ্যাক্স: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="718-865-9130" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/email_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fax_layout">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ই-মেইল: "
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ajkalnews@gmail.com" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/fb_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/facebook_icon"
+        android:src="@drawable/facebook_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_layout" />
+
+    <ImageView
+        android:id="@+id/pin_icon"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/pinterest_icon"
+        android:src="@drawable/pinterest_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/fb_icon"
+        app:layout_constraintEnd_toStartOf="@id/insta_icon"
+        app:layout_constraintStart_toEndOf="@+id/fb_icon"
+        app:layout_constraintTop_toTopOf="@+id/fb_icon" />
+
+    <ImageView
+        android:id="@+id/insta_icon"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/instagram_icon"
+        android:src="@drawable/instagram_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/pin_icon"
+        app:layout_constraintEnd_toStartOf="@id/wsap_icon"
+        app:layout_constraintStart_toEndOf="@id/pin_icon"
+        app:layout_constraintTop_toTopOf="@+id/pin_icon" />
+
+    <ImageView
+        android:id="@+id/wsap_icon"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/whatsapp_icon"
+        android:src="@drawable/whatsapp_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/insta_icon"
+        app:layout_constraintEnd_toStartOf="@id/yt_icon"
+        app:layout_constraintStart_toEndOf="@id/insta_icon"
+        app:layout_constraintTop_toTopOf="@+id/insta_icon" />
+
+    <ImageView
+        android:id="@+id/yt_icon"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/youtube_icon"
+        android:src="@drawable/youtube_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/wsap_icon"
+        app:layout_constraintEnd_toEndOf="@+id/email_layout"
+        app:layout_constraintStart_toEndOf="@id/wsap_icon"
+        app:layout_constraintTop_toTopOf="@+id/wsap_icon" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fb_icon" />
+
+    <TextView
+        android:id="@+id/footer_copyright"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/footer_copyright"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

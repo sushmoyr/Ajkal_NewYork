@@ -32,9 +32,8 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             }
             Glide.with(binding.root.context)
                 .load(news.defaultImage)
-                .override(binding.newsCover.width, binding.newsCover.height)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)
-                .transform(RoundedCorners(48))
                 .into(binding.newsCover)
 
             binding.root.setOnClickListener {
@@ -72,8 +71,9 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(advertisement: DataModel.Advertisement) {
             Glide.with(binding.root.context)
                 .load(advertisement.imagePath)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .placeholder(R.drawable.ic_placeholder)
                 .into(binding.addImage)
-            binding.sponsorHeader.text = advertisement.id
 
             binding.root.setOnClickListener {
                 itemClickListener?.invoke(it, advertisement)
@@ -101,7 +101,8 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
             private fun loadImageIntoView(context: Context, image:String, target: ImageView) {
                 Glide.with(context)
                     .load(image)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .placeholder(R.drawable.ic_placeholder)
                     .into(target)
             }
         }

@@ -199,6 +199,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+            <include
+                layout="@layout/footer_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/more_news_rv"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

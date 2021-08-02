@@ -10,6 +10,7 @@ import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -90,7 +91,14 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                         Log.d("gallery", "caption: ${it.caption}")
                         Log.d("gallery", "image: ${it.imagePath}")
                     }
-                    //homeItemList.add(17, photoData)
+                    val photoData = DataModel.GalleryItem(photos.body()!!)
+                    val index = if(homeItemList.size < MINIMUM_GALLERY_HEIGHT){
+                        homeItemList.size
+                    }
+                    else{
+                        MINIMUM_GALLERY_HEIGHT
+                    }
+                    homeItemList.add(index, photoData)
                 }
 
 

@@ -1,9 +1,7 @@
 package com.sushmoyr.ajkalnewyork.repository
 
 import com.sushmoyr.ajkalnewyork.api.RetrofitInstance
-import com.sushmoyr.ajkalnewyork.models.Category
-import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.Photo
+import com.sushmoyr.ajkalnewyork.models.*
 import retrofit2.Response
 
 class Repository {
@@ -37,6 +35,14 @@ class Repository {
 
     suspend fun getTrendingNews(): Response<List<DataModel.News>> {
         return RetrofitInstance.mockApi.getTrendingNews()
+    }
+
+    suspend fun getBreakingNews(): Response<List<BreakingNews>> {
+        return RetrofitInstance.mockApi2.getBreakingNews()
+    }
+
+    suspend fun getNewsById(newsId: Int): Response<List<News>> {
+        return RetrofitInstance.mockApi.getNewsById(newsId)
     }
 
 

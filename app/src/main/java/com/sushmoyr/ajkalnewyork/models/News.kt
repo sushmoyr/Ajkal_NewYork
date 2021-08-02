@@ -14,7 +14,7 @@ class News(
     val description: String,
     val districtId: Int,
     val divisionId: Int,
-    val id: String,
+    val id: Int,
     val isArchived: Boolean,
     val newsTitle: String,
     val seoDescription: String,

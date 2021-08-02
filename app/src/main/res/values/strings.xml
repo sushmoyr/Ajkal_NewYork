@@ -31,6 +31,7 @@
     <string name="news_time">২৭ জানুয়ারী, সকাল ১১:২০</string>
     <string name="dummy_cat">প্রযুক্তি</string>
     <string name="no_data">No data found</string>
+    <string name="breaking_news">ব্রেকিং নিউজ:</string>
 
     <string-array name="news_filters">
 

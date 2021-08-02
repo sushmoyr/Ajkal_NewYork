@@ -2,13 +2,11 @@ package com.sushmoyr.ajkalnewyork.activities
 
 import android.os.Bundle
 import android.view.View
-import android.view.animation.TranslateAnimation
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -65,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         fetchCategories()
 
         drawerRvAdapter.itemClickListener = {data, type ->
-            drawerViewModel.setValue(data)
+            drawerViewModel.selectedCategoryFilter(data)
             binding.rootDrawerLayout.closeDrawers()
         }
 
@@ -105,6 +103,7 @@ class MainActivity : AppCompatActivity() {
             if(response.isSuccessful && response.body()!=null){
                 drawerRvAdapter.setData(response.body()!!)
                 drawerViewModel.setCategoryList(response.body()!!)
+                drawerViewModel.selectedCategoryFilter(response.body()!!.first().categoryName)
             }
         })
     }

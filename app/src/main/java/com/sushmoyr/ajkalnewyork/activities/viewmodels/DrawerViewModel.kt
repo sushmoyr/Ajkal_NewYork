@@ -9,7 +9,7 @@ class DrawerViewModel: ViewModel() {
     var data: String = ""
     var selectedCategory = MutableLiveData<String>()
     var categoryListData = emptyList<Category>()
-    fun setValue(msg: String){
+    fun selectedCategoryFilter(msg: String){
         selectedCategory.postValue(msg)
     }
 

@@ -1,8 +1,13 @@
 package com.sushmoyr.ajkalnewyork.fragments.home
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.*
+import android.view.View.TEXT_ALIGNMENT_CENTER
+import android.view.animation.AnimationUtils
+import android.view.animation.AnimationUtils.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
@@ -12,10 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.sushmoyr.ajkalnewyork.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
-import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
@@ -23,6 +26,8 @@ import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.utils.blink
+import kotlinx.coroutines.flow.FlowCollector
 
 
 class HomeFragment : Fragment() {
@@ -32,9 +37,6 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var repository: Repository
     private val model: DrawerViewModel by activityViewModels()
-    private val adapter: NewsAdapter by lazy {
-        NewsAdapter()
-    }
     private val homeAdapter: HomeItemsAdapter by lazy {
         HomeItemsAdapter()
     }
@@ -59,13 +61,15 @@ class HomeFragment : Fragment() {
 
         setUpRecyclerView()
 
+        setUpBreakingNews()
+
         model.selectedCategory.observe(viewLifecycleOwner, { it ->
             Log.d("viewmodel", it)
             setCategoryFilter(it)
 
             var categoryId: Int? = null
             model.categoryListData.forEach { cat->
-                if(cat.categoryName == it && cat.id!=0)
+                if(cat.categoryName == it && cat.id!=1)
                     categoryId = cat.id
             }
 
@@ -85,6 +89,33 @@ class HomeFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun setUpBreakingNews() {
+        binding.breakingNewsBlinker.blink(duration = 600L)
+
+        val factory = TextView(requireContext())
+        factory.textSize = 16f
+        factory.maxLines = 1
+        factory.ellipsize = TextUtils.TruncateAt.END
+        factory.textAlignment = TEXT_ALIGNMENT_CENTER
+        binding.breakingNewsTitle.setFactory { TextView(requireContext()).apply {
+            this.maxLines = 1
+            this.ellipsize = TextUtils.TruncateAt.END
+        } }
+        val inAnim = AnimationUtils.loadAnimation(requireContext(),
+            android.R.anim.slide_in_left)
+        val outAnim = AnimationUtils.loadAnimation(requireContext(),
+            android.R.anim.slide_out_right)
+        inAnim.duration = 200
+        outAnim.duration = 200
+        binding.breakingNewsTitle.inAnimation = inAnim
+        binding.breakingNewsTitle.outAnimation = outAnim
+        
+        viewModel.getBreakingNews()
+        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, {
+            binding.breakingNewsTitle.setText(it.bnews_title)
+        })
     }
 
     private fun setCategoryFilter(name: String){
@@ -185,7 +216,7 @@ class HomeFragment : Fragment() {
                         chip.chipStrokeWidth = 0f
                         chip.setChipBackgroundColorResource(R.color.secondaryColor)
                         chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        model.setValue(chip.text.toString())
+                        model.selectedCategoryFilter(chip.text.toString())
                     } else {
                         chip.chipBackgroundColor = placeHolderChip.chipBackgroundColor
                         chip.chipStrokeWidth = placeHolderChip.chipStrokeWidth
@@ -220,6 +251,16 @@ class HomeFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.runFlow = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.runFlow = true
     }
 
     //Menu Inflating

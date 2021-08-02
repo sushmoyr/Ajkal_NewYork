@@ -1,6 +1,8 @@
 package com.sushmoyr.ajkalnewyork.api
 
+import com.sushmoyr.ajkalnewyork.models.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.models.Photo
 import retrofit2.Response
 import retrofit2.http.GET
@@ -35,5 +37,13 @@ interface MockApi {
     suspend fun getTrendingNews(
         @Query("categoryId") categoryId: Int
     ): Response<List<DataModel.News>>
+
+    @GET("breakingNews")
+    suspend fun getBreakingNews(): Response<List<BreakingNews>>
+
+    @GET("news")
+    suspend fun getNewsById(
+        @Query("id") id: Int
+    ):Response<List<News>>
 
 }

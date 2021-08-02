@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sushmoyr.ajkalnewyork.models.Photo
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ class GalleryViewModel : ViewModel() {
 
     fun getImages(){
         viewModelScope.launch {
-            val deferred = async { repository.getFullGallery() }
+            val deferred = async { repository.remoteDataSource.getFullGallery() }
             val data = deferred.await()
             fullGalleryImages.postValue(data)
         }

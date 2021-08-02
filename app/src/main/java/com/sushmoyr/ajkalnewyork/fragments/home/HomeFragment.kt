@@ -7,7 +7,6 @@ import android.view.*
 import android.view.View.TEXT_ALIGNMENT_CENTER
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.AnimationUtils.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -26,9 +25,9 @@ import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.blink
-import kotlinx.coroutines.flow.FlowCollector
 
 
 class HomeFragment : Fragment() {
@@ -36,7 +35,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
-    private lateinit var repository: Repository
+    private lateinit var _repository: Repository
+    private val repository get() = _repository.remoteDataSource
     private val model: DrawerViewModel by activityViewModels()
     private val homeAdapter: HomeItemsAdapter by lazy {
         HomeItemsAdapter()
@@ -44,8 +44,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repository = Repository()
-        val factory = HomeViewModelFactory(repository)
+        _repository = Repository()
+        val factory = HomeViewModelFactory(_repository)
         viewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
         viewModel.getHomeItems()
     }

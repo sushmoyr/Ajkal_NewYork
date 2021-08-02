@@ -8,14 +8,15 @@ import com.sushmoyr.ajkalnewyork.models.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.News
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
 
-class HomeViewModel(private val repository: Repository) : ViewModel() {
-
+class HomeViewModel(private val _repository: Repository) : ViewModel() {
+    private val repository = _repository.remoteDataSource
     val allCategory = MutableLiveData<Response<List<Category>>>()
 
     fun getAllCats() {

@@ -1,9 +1,7 @@
 package com.sushmoyr.ajkalnewyork
 
-import com.sushmoyr.ajkalnewyork.api.RetrofitInstance
+import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 object ViewModelObj{

@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.News
-import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class NewsDetailViewModel(private val repository: Repository): ViewModel() {
+class NewsDetailViewModel(private val repository: RemoteDataSource): ViewModel() {
 
     var advertisements = MutableLiveData<List<DataModel.Advertisement>>()
     var news = MutableLiveData<List<DataModel.News>>()

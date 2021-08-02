@@ -1,6 +1,5 @@
-package com.sushmoyr.ajkalnewyork.api
+package com.sushmoyr.ajkalnewyork.datasource.api
 
-import com.sushmoyr.ajkalnewyork.utils.Constants.BASE_URL
 import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL
 import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL2
 import retrofit2.Retrofit

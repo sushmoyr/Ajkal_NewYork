@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork.api
+package com.sushmoyr.ajkalnewyork.datasource.api
 
 import com.sushmoyr.ajkalnewyork.models.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.DataModel

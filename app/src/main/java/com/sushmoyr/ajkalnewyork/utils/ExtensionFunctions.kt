@@ -5,6 +5,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.Interpolator
+import java.security.MessageDigest
 
 fun View.blink(
     times: Int = Animation.INFINITE,
@@ -21,4 +22,15 @@ fun View.blink(
         it.repeatCount = times
         it.interpolator = AccelerateDecelerateInterpolator()
     })
+}
+
+fun String.encrypt(plainText: String): String {
+    val algorithmType = "SHA-256"
+    val bytes = MessageDigest.getInstance(algorithmType).digest(plainText.toByteArray())
+    return toHex(bytes)
+}
+
+private fun toHex(byteArray: ByteArray): String
+{
+    return byteArray.joinToString("") { "%02x".format(it) }
 }

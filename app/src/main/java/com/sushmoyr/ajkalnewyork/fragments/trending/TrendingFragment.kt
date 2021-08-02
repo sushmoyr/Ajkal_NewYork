@@ -6,27 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sushmoyr.ajkalnewyork.R
-import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.databinding.FragmentTrendingBinding
-import com.sushmoyr.ajkalnewyork.fragments.home.HomeFragmentDirections
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 
 class TrendingFragment : Fragment() {
 
     private var _binding: FragmentTrendingBinding? = null
     private val binding get() = _binding!!
-    private val repository by lazy {
+    private val _repository by lazy {
         Repository()
     }
+    private val repository get() = _repository.remoteDataSource
     private val homeAdapter: HomeItemsAdapter by lazy {
         HomeItemsAdapter()
     }
@@ -37,7 +34,7 @@ class TrendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTrendingBinding.inflate(inflater, container, false)
-        val factory = TrendingViewModelFactory(repository)
+        val factory = TrendingViewModelFactory(_repository)
         viewModel = ViewModelProvider(requireActivity(), factory).get(TrendingViewModel::class.java)
         viewModel.getTrendingNews()
 

@@ -20,7 +20,7 @@ import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
-import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = Repository()
+        val repository = RemoteDataSource()
         val factory = MainActivityViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MainActivityViewModel::class.java)
         //drawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel::class.java)

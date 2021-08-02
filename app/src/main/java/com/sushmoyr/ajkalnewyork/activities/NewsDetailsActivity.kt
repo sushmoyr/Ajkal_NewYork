@@ -9,9 +9,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -23,7 +21,7 @@ import com.sushmoyr.ajkalnewyork.databinding.ActivityNewsDetailsBinding
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsBodyLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.News
-import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.utils.toNewsList
 
 class NewsDetailsActivity : AppCompatActivity() {
@@ -43,7 +41,7 @@ class NewsDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val repository = Repository()
+        val repository = RemoteDataSource()
         viewModel = ViewModelProvider(this, NewsDetailActivityViewModelFactory(repository))
             .get(NewsDetailViewModel::class.java)
 

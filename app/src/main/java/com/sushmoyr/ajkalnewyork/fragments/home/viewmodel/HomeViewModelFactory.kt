@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork.fragments.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 
 class HomeViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {

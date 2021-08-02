@@ -1,6 +1,5 @@
 package com.sushmoyr.ajkalnewyork.fragments.trending
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,9 +8,10 @@ import com.sushmoyr.ajkalnewyork.repository.Repository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class TrendingViewModel(private val repository: Repository): ViewModel() {
+class TrendingViewModel(private val _repository: Repository) : ViewModel() {
 
     val trendingItems = MutableLiveData<List<DataModel>>()
+    private val repository = _repository.remoteDataSource
 
     fun getTrendingNews(categoryId: Int? = null) {
         viewModelScope.launch {
@@ -22,7 +22,6 @@ class TrendingViewModel(private val repository: Repository): ViewModel() {
                     else -> repository.getTrendingNews(categoryId)
                 }
             }
-            /*val photosDeferred = async { repository.getPhotos() }*/
 
             val ads = adsDeferred.await()
             val news = newsDeferred.await()
@@ -49,22 +48,6 @@ class TrendingViewModel(private val repository: Repository): ViewModel() {
                     }
                     count++
                 }
-
-                /*val photos = photosDeferred.await()
-                if (photos.isSuccessful) {
-                    photos.body()!!.forEach {
-                        Log.d("gallery", "====================")
-                        Log.d("gallery", "id: ${it.id}")
-                        Log.d("gallery", "caption: ${it.caption}")
-                        Log.d("gallery", "image: ${it.imagePath}")
-                    }
-                    val photoData = DataModel.GalleryItem(photos.body()!!)
-                    photoData.images.forEach {
-
-                    }
-                    //homeItemList.add(17, photoData)
-                }*/
-
 
                 trendingItems.postValue(homeItemList)
 

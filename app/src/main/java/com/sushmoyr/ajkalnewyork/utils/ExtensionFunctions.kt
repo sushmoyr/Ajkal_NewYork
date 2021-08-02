@@ -5,6 +5,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.Interpolator
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import java.security.MessageDigest
 
 fun View.blink(
@@ -33,4 +36,17 @@ fun String.encrypt(plainText: String): String {
 private fun toHex(byteArray: ByteArray): String
 {
     return byteArray.joinToString("") { "%02x".format(it) }
+}
+
+fun <T> LiveData<T>.observeOnce(
+    lifecycleOwner: LifecycleOwner,
+    observer: Observer<T>
+) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T) {
+            removeObserver(this)
+            observer.onChanged(t)
+        }
+
+    })
 }

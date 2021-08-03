@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@id/dashboardFragment"
+            android:icon="@drawable/ic_dashboard"
+            android:title="Dashboard" />
+        <item
+            android:id="@id/editProfileFragment"
+            android:icon="@drawable/ic_write"
+            android:title="Edit Profile" />
+        <item
+            android:id="@id/changePasswordFragment"
+            android:icon="@drawable/ic_key"
+            android:title="Change Password" />
+        <item
+            android:id="@+id/logout_drawer"
+            android:icon="@drawable/ic_login"
+            android:title="Logout" />
+
+    </group>
+</menu>

@@ -1,13 +1,18 @@
 package com.sushmoyr.ajkalnewyork.utils
 
+import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.Interpolator
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.sushmoyr.ajkalnewyork.models.UserState
 import java.security.MessageDigest
 
 fun View.blink(
@@ -49,4 +54,17 @@ fun <T> LiveData<T>.observeOnce(
         }
 
     })
+}
+
+fun getUserState(activity: FragmentActivity?): UserState {
+    val sharedPref =
+        activity?.getSharedPreferences(Constants.USER_AUTHENTICATION_KEY, Context.MODE_PRIVATE) ?:
+        return UserState(false, null)
+    val value = sharedPref.getString(Constants.USER_AUTHENTICATION_STATE_KEY, "")
+    if(value.isNullOrEmpty() || value.isNullOrBlank())
+        return UserState(false, null)
+    val gson = Gson()
+    val data = gson.fromJson(value, UserState::class.java)
+    Log.d("userState", "retrieved ${data.toString()}")
+    return data
 }

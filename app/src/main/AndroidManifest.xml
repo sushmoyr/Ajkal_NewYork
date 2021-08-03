@@ -19,6 +19,11 @@
         android:theme="@style/Theme.AjkalNewYork"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.user.UserActivity"
+            android:exported="true"
+            android:label="@string/title_activity_user"
+            android:theme="@style/Theme.AjkalNewYork.NoActionBar" />
+        <activity
             android:name=".activities.auth.AuthActivity"
             android:exported="true" />
         <activity android:name=".activities.NewsDetailsActivity" />

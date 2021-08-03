@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.fragments.auth
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -12,9 +13,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.databinding.CategoryLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.FragmentLoginBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.LoginViewModel
+import com.sushmoyr.ajkalnewyork.models.UserState
+import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
+import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
 import com.sushmoyr.ajkalnewyork.utils.encrypt
 import com.sushmoyr.ajkalnewyork.utils.observeOnce
 
@@ -69,19 +75,35 @@ class LoginFragment : Fragment() {
                 data.forEach {
                     println(it)
                     Log.d("login", it.toString())
-                    if (it.email == email && it.password == password)
+                    if (it.email == email && it.password == password){
                         hasAccount = true
+                        saveToSharedPreference(it.id)
+                        findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                        activity?.finish()
+                        return@forEach
+                    }
                 }
 
-                if (hasAccount) {
-                    findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
-                    activity?.finish()
-                } else
+                if(!hasAccount)
                     showAlert("Incorrect Info", "Incorrect email or password. Try Again!!")
             } else
                 showAlert("Incorrect Info", "Incorrect email or password. Try Again!!")
         })
 
+    }
+
+    private fun saveToSharedPreference(uuid: String) {
+
+        val userState = UserState(true, uuid)
+        val gson = Gson()
+        val value = gson.toJson(userState)
+        Log.d("userState", value)
+        val sharedPref = activity?.getSharedPreferences(USER_AUTHENTICATION_KEY, Context
+            .MODE_PRIVATE) ?: return
+        with(sharedPref.edit()){
+            putString(USER_AUTHENTICATION_STATE_KEY, value)
+            apply()
+        }
     }
 
     private fun showAlert(title: String, msg: String) {

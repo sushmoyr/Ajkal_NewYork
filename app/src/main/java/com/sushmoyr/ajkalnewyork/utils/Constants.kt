@@ -9,4 +9,6 @@ object Constants {
     const val AUTH_PAGE_LOGIN = "LoginPage"
     const val AUTH_PAGE_REGISTER = "RegistrationPage"
     const val MINIMUM_GALLERY_HEIGHT = 20
+    const val USER_AUTHENTICATION_KEY = "userAuthState"
+    const val USER_AUTHENTICATION_STATE_KEY = "isUserHere"
 }

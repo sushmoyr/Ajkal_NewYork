@@ -19,4 +19,12 @@ class LocalDataSource(private val userDao: UserDao) {
     fun getUser(email: String, password: String): LiveData<List<User>> {
         return userDao.getUser(email, password)
     }
+
+    fun getUserById(uuid: String): LiveData<List<User>> {
+        return userDao.getUserById(uuid)
+    }
+
+    suspend fun updateUser(user: User) {
+        userDao.updateUser(user)
+    }
 }

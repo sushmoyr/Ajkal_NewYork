@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_homeFragment_to_newsDetailsActivity"
             app:destination="@id/newsDetailsActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_authActivity"
+            app:destination="@id/authActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_userActivity"
+            app:destination="@id/userActivity" />
     </fragment>
     <fragment
         android:id="@+id/videosFragment"
@@ -55,5 +61,15 @@
     <action
         android:id="@+id/action_global_galleryFragment"
         app:destination="@id/galleryFragment" />
+    <activity
+        android:id="@+id/authActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.auth.AuthActivity"
+        android:label="activity_auth"
+        tools:layout="@layout/activity_auth" />
+    <activity
+        android:id="@+id/userActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.user.UserActivity"
+        android:label="activity_user"
+        tools:layout="@layout/activity_user" />
 
 </navigation>

@@ -14,6 +14,7 @@ import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.youtube.player.*
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
@@ -50,6 +51,11 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
                             override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
                                 Log.d("youtube", "Thumbnail loaded")
                                 loader.release()
+                                binding.root.setOnClickListener {
+                                    //binding.root.findNavController().navigate(R.id .action_videosFragment_to_videosActivity)
+                                    itemClickListener?.invoke(video)
+
+                                }
                             }
 
 
@@ -68,17 +74,18 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
                         p0: YouTubeThumbnailView?,
                         p1: YouTubeInitializationResult?
                     ) {
-                        Log.d("youtube", "Thumbnail Init failed")
+                        Log.d("youtube", "Thumbnail Init failed ${p1?.name} - ${p1?.ordinal}")
+                        if(p1?.ordinal == YouTubeInitializationResult.SERVICE_MISSING.ordinal){
+                            Toast.makeText(binding.root.context, "Missing Youtube App",
+                                Toast.LENGTH_SHORT).show()
+
+                        }
                     }
 
                 }
             )
 
-            binding.root.setOnClickListener {
-                //binding.root.findNavController().navigate(R.id .action_videosFragment_to_videosActivity)
-                itemClickListener?.invoke(video)
 
-            }
         }
     }
 

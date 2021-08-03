@@ -1,10 +1,7 @@
 package com.sushmoyr.ajkalnewyork.datasource.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.sushmoyr.ajkalnewyork.models.User
 
 @Dao
@@ -20,4 +17,10 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE (email LIKE :email AND password LIKE :password)")
     fun getUser(email: String, password: String): LiveData<List<User>>
+
+    @Query("SELECT * FROM user_table WHERE id LIKE :uuid")
+    fun getUserById(uuid: String): LiveData<List<User>>
+
+    @Update
+    suspend fun updateUser(user: User)
 }

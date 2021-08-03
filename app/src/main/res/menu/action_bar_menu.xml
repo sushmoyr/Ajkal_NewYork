@@ -2,14 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/info"
-        android:icon="@drawable/info_icon"
-        android:title="Info"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/user_profile"
+        android:title="User"
+        android:icon="@drawable/ic_baseline_person_outline_24"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/search_menu"
         android:icon="@drawable/search_icon"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/info"
+        android:icon="@drawable/info_icon"
+        android:title="Info"
+        app:showAsAction="ifRoom" />
+
 </menu>

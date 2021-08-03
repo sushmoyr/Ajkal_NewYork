@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.fragments.home
 
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
+import com.google.gson.Gson
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
@@ -25,9 +27,14 @@ import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.UserState
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
+import com.sushmoyr.ajkalnewyork.utils.Constants
+import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
+import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
 import com.sushmoyr.ajkalnewyork.utils.blink
+import com.sushmoyr.ajkalnewyork.utils.getUserState
 
 
 class HomeFragment : Fragment() {
@@ -287,10 +294,18 @@ class HomeFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
             R.id.info -> findNavController().navigate(R.id.action_global_infoActivity)
+            R.id.user_profile -> {
+                val userState = getUserState(activity)
+                when(userState.isLoggedIn){
+                    true -> findNavController().navigate(R.id.action_homeFragment_to_userActivity)
+                    false -> findNavController().navigate(R.id.action_homeFragment_to_authActivity)
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
+
 
     //Menu Inflating
 

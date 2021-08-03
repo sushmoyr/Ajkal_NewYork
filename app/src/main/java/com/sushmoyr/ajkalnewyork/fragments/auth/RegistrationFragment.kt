@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.fragments.auth
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -9,12 +10,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentRegistrationBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.RegisterViewModel
@@ -76,7 +79,11 @@ class RegistrationFragment : Fragment() {
             Toast.makeText(requireContext(), "Check your email again", Toast.LENGTH_SHORT).show()
         else{
             val uuid: String = UUID.randomUUID().toString()
-            val user = User(uuid,name, email, password.encrypt(password))
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.profile_placeholder)
+            if(bitmap == null){
+                Toast.makeText(requireContext(), "Bitmap null", Toast.LENGTH_SHORT).show()
+            }
+            val user = User(uuid,name, email, password.encrypt(password), profilePhoto = bitmap!!)
             Log.d("reg", user.toString())
             confirmRegistration(user)
         }

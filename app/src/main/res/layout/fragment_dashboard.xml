@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.user.DashboardFragment">
+
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="148dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/dashboard_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+    <TextView
+        android:id="@+id/dashboard_user_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="N/A"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:textStyle="normal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/dashboard_user_name"
+        app:layout_constraintStart_toStartOf="@+id/dashboard_user_name"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_user_name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/update_profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Profile Picture"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/secondaryColor"
+        android:textColor="@color/secondaryColor"
+        app:layout_constraintEnd_toEndOf="@+id/dashboard_user_email"
+        app:layout_constraintStart_toStartOf="@+id/dashboard_user_email"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_user_email" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Address"
+        android:textColor="@android:color/darker_gray"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintStart_toStartOf="@+id/dashboard_user_email"
+        app:layout_constraintTop_toBottomOf="@+id/update_profile_pic" />
+
+    <TextView
+        android:id="@+id/user_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="N/A"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toEndOf="@+id/dashboard_user_email"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Phone Number"
+        android:textColor="@android:color/darker_gray"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintStart_toStartOf="@+id/user_address"
+        app:layout_constraintTop_toBottomOf="@+id/user_address" />
+
+    <TextView
+        android:id="@+id/user_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="N/A"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toEndOf="@+id/user_address"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Email Address"
+        android:textColor="@android:color/darker_gray"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintStart_toStartOf="@+id/user_phone_number"
+        app:layout_constraintTop_toBottomOf="@+id/user_phone_number" />
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="N/A"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toEndOf="@+id/user_phone_number"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

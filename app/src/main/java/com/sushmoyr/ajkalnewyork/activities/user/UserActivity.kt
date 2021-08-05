@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
@@ -13,9 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationView
 import com.sushmoyr.ajkalnewyork.R
-import com.sushmoyr.ajkalnewyork.activities.MainActivity
+import com.sushmoyr.ajkalnewyork.activities.main.MainActivity
 import com.sushmoyr.ajkalnewyork.databinding.ActivityUserBinding
 import com.sushmoyr.ajkalnewyork.utils.Constants
 import com.sushmoyr.ajkalnewyork.utils.getUserState

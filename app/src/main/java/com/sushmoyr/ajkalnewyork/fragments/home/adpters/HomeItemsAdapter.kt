@@ -28,6 +28,11 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>(){
         }
 
     var itemClickListener: ((view: View, item: DataModel) -> Unit)? = null
+    var itemCountListener: ((size: Int) -> Unit) ?= null
+
+    init {
+        itemCountListener?.invoke(items.size)
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeItemsViewHolder {
@@ -105,6 +110,7 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>(){
 
     fun setData(list: List<DataModel>){
         items = list
+        itemCountListener?.invoke(list.size)
         notifyDataSetChanged()
     }
 

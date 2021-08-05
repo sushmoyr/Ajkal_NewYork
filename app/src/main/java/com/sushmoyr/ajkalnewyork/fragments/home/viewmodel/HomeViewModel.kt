@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.viewmodel
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +12,13 @@ import com.sushmoyr.ajkalnewyork.models.News
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
+import com.sushmoyr.ajkalnewyork.utils.ViewModelStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
+import java.lang.reflect.TypeVariable
+import kotlin.time.Duration
 
 class HomeViewModel(private val _repository: Repository) : ViewModel() {
     private val repository = _repository.remoteDataSource
@@ -41,6 +45,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
     val homeItems = MutableLiveData<List<DataModel>>()
 
     fun getHomeItems(categoryId: Int? = null) {
+
         if(categoryId==null){
             Log.d("home", "null cat id")
         }
@@ -59,7 +64,6 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
             val ads = adsDeferred.await()
             val news = newsDeferred.await()
-
             val homeItemList = mutableListOf<DataModel>()
 
             if (ads.isSuccessful && news.isSuccessful) {
@@ -103,10 +107,11 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
 
                 homeItems.postValue(homeItemList)
-
             }
         }
     }
+
+    //breaking news section
 
     val breakingNewsObserve = MutableLiveData<BreakingNews?>()
     var runFlow: Boolean = true
@@ -124,7 +129,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                         breakingNewsData.forEach {
                             emit(it)
                             Log.d("breaking", "Emit data of id: ${it.news_id}")
-                            delay(5000)
+                            delay(20000)
                         }
                     }
                 }

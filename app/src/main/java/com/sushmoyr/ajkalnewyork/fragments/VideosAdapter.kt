@@ -1,21 +1,13 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.databinding.VideoCardLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.Video
-import androidx.core.content.ContextCompat.startActivity
 
-import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
-
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.google.android.youtube.player.*
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
 

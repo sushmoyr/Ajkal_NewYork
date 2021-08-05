@@ -1,10 +1,10 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.News
 

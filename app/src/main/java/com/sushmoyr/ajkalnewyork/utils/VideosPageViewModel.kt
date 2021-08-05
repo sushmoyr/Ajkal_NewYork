@@ -1,7 +1,6 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.utils
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

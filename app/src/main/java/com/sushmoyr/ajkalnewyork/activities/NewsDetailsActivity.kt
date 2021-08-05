@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.sushmoyr.ajkalnewyork.NewsAdapter
+import com.sushmoyr.ajkalnewyork.fragments.NewsAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailViewModel

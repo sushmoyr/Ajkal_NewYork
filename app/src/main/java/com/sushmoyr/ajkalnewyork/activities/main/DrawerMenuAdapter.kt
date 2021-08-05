@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.activities.main
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.CategoryViewBinding
 import com.sushmoyr.ajkalnewyork.models.Category
 

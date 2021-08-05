@@ -7,6 +7,18 @@
     android:background="@color/backgroundColor"
     tools:context=".fragments.home.HomeFragment">
 
+    <ProgressBar
+        android:id="@+id/adapter_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="32dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScrollView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="0dp"
@@ -29,54 +41,85 @@
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/newsRv"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adapter_status"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/breaking_news_name"
-        tools:listitem="@layout/highlight_news_layout" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
-        android:id="@+id/breaking_news_blinker"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:adjustViewBounds="true"
-        android:padding="6dp"
-        android:src="@drawable/circle"
-        app:layout_constraintBottom_toBottomOf="@+id/breaking_news_name"
-        app:layout_constraintEnd_toStartOf="@id/breaking_news_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/breaking_news_name" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/breaking_news_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/breaking_news"
-        android:textColor="#3F51B5"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/breaking_news_blinker"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+            <ImageView
+                android:id="@+id/breaking_news_blinker"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:adjustViewBounds="true"
+                android:padding="6dp"
+                android:src="@drawable/circle"
+                app:layout_constraintBottom_toBottomOf="@+id/breaking_news_name"
+                app:layout_constraintEnd_toStartOf="@id/breaking_news_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/breaking_news_name" />
 
-    <TextSwitcher
-        android:id="@+id/breaking_news_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:maxLines="1"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/breaking_news_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/breaking_news_name"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+            <TextView
+                android:id="@+id/breaking_news_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/breaking_news"
+                android:textColor="#3F51B5"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/breaking_news_blinker"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextSwitcher
+                android:id="@+id/breaking_news_title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/breaking_news_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/breaking_news_name"
+                app:layout_constraintTop_toTopOf="@+id/breaking_news_name" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsRv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/breaking_news_name"
+                tools:itemCount="5"
+                tools:listitem="@layout/highlight_news_layout">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <include
+                layout="@layout/footer_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/newsRv" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

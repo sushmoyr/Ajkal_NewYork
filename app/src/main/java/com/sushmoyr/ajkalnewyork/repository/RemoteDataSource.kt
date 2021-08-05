@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork.repository
 
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.*
+import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import retrofit2.Response
 
 class RemoteDataSource {
@@ -43,6 +44,13 @@ class RemoteDataSource {
 
     suspend fun getNewsById(newsId: Int): Response<List<News>> {
         return RetrofitInstance.mockApi.getNewsById(newsId)
+    }
+
+    suspend fun createPaymentIntent(
+        paymentMethodType: String,
+        item: PaymentIntentModel
+    ): Response<PaymentIntentModel> {
+        return RetrofitInstance.stripeApi.createPaymentIntent(item)
     }
 
 

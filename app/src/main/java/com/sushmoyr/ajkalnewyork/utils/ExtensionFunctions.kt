@@ -1,6 +1,8 @@
 package com.sushmoyr.ajkalnewyork.utils
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -67,4 +69,13 @@ fun getUserState(activity: FragmentActivity?): UserState {
     val data = gson.fromJson(value, UserState::class.java)
     Log.d("userState", "retrieved ${data.toString()}")
     return data
+}
+
+fun hasNetwork(context: Context): Boolean? {
+    var isConnected: Boolean? = false // Initial Value
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+    if (activeNetwork != null && activeNetwork.isConnected)
+        isConnected = true
+    return isConnected
 }

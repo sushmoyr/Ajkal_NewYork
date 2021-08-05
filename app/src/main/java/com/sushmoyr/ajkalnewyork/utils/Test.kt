@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.utils
 
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import kotlinx.coroutines.async
@@ -20,8 +20,8 @@ object ViewModelObj{
 
 fun main(){
     val viewModel = ViewModelObj
-    viewModel.fetchNewsId(12)
-    viewModel.callBack = { value ->
+    ViewModelObj.fetchNewsId(12)
+    ViewModelObj.callBack = { value ->
         println("value is $value")
     }
 }

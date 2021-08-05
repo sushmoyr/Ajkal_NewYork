@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork.activities
+package com.sushmoyr.ajkalnewyork.activities.main
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sushmoyr.ajkalnewyork.DrawerMenuAdapter
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel

@@ -1,6 +1,5 @@
 package com.sushmoyr.ajkalnewyork.fragments.home
 
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -18,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.gson.Gson
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
@@ -27,12 +25,8 @@ import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.UserState
-import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.repository.Repository
-import com.sushmoyr.ajkalnewyork.utils.Constants
-import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
-import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
+import com.sushmoyr.ajkalnewyork.utils.ViewModelStatus
 import com.sushmoyr.ajkalnewyork.utils.blink
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
@@ -64,6 +58,13 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        homeAdapter.itemCountListener = { size ->
+            if(size!=0){
+                binding.adapterStatus.visibility = View.GONE
+            }
+            else
+                binding.adapterStatus.visibility = View.VISIBLE
+        }
 
         setUpCategoryGroup()
 
@@ -76,8 +77,8 @@ class HomeFragment : Fragment() {
             setCategoryFilter(it)
 
             var categoryId: Int? = null
-            model.categoryListData.forEach { cat->
-                if(cat.categoryName == it && cat.id!=1)
+            model.categoryListData.forEach { cat ->
+                if (cat.categoryName == it && cat.id != 1)
                     categoryId = cat.id
             }
 
@@ -92,7 +93,6 @@ class HomeFragment : Fragment() {
             homeAdapter.setData(it)
         })
 
-
         //binding.imageView5.clipToOutline = true
 
 
@@ -105,26 +105,31 @@ class HomeFragment : Fragment() {
         factory.maxLines = 1
         factory.ellipsize = TextUtils.TruncateAt.END
         factory.textAlignment = TEXT_ALIGNMENT_CENTER
-        binding.breakingNewsTitle.setFactory { TextView(requireContext()).apply {
-            this.maxLines = 1
-            this.ellipsize = TextUtils.TruncateAt.END
-            this.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        } }
-        val inAnim = AnimationUtils.loadAnimation(requireContext(),
-            android.R.anim.slide_in_left)
-        val outAnim = AnimationUtils.loadAnimation(requireContext(),
-            android.R.anim.slide_out_right)
+        binding.breakingNewsTitle.setFactory {
+            TextView(requireContext()).apply {
+                this.maxLines = 1
+                this.ellipsize = TextUtils.TruncateAt.END
+                this.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+        }
+        val inAnim = AnimationUtils.loadAnimation(
+            requireContext(),
+            android.R.anim.slide_in_left
+        )
+        val outAnim = AnimationUtils.loadAnimation(
+            requireContext(),
+            android.R.anim.slide_out_right
+        )
         inAnim.duration = 200
         outAnim.duration = 200
         binding.breakingNewsTitle.inAnimation = inAnim
         binding.breakingNewsTitle.outAnimation = outAnim
-        
+
         viewModel.getBreakingNews()
-        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, { breakingNews->
-            if(breakingNews == null){
+        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, { breakingNews ->
+            if (breakingNews == null) {
                 isVisibleBreakingNewsSection(false)
-            }
-            else{
+            } else {
                 isVisibleBreakingNewsSection(true)
                 binding.breakingNewsTitle.setText(breakingNews.bnews_title)
 
@@ -147,12 +152,12 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun isVisibleBreakingNewsSection(visible : Boolean){
-        val visibility = when(visible){
+    private fun isVisibleBreakingNewsSection(visible: Boolean) {
+        val visibility = when (visible) {
             true -> View.VISIBLE
             false -> View.GONE
         }
-        val blinkTime = when(visible){
+        val blinkTime = when (visible) {
             true -> Animation.INFINITE
             false -> 0
         }
@@ -164,11 +169,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun setCategoryFilter(name: String){
+    private fun setCategoryFilter(name: String) {
         val chipGroup = binding.newsFilterChipGroup
-        chipGroup.children.forEach { chip->
-            if (chip is Chip){
-                if(chip.text.equals(name)){
+        chipGroup.children.forEach { chip ->
+            if (chip is Chip) {
+                if (chip.text.equals(name)) {
                     chipGroup.check(chip.id)
                     binding.horizontalScrollView.smoothScrollTo(
                         chip.left - chip.paddingLeft,
@@ -199,7 +204,7 @@ class HomeFragment : Fragment() {
         }
 
         homeAdapter.itemClickListener = { view, item ->
-            when(item){
+            when (item) {
                 is DataModel.News -> {
                     val directions = HomeFragmentDirections
                         .actionHomeFragmentToNewsDetailsActivity(item.toNews())
@@ -212,7 +217,6 @@ class HomeFragment : Fragment() {
                 else -> Log.d("HomeFragment", "No click listeners added")
             }
         }
-
 
 
     }
@@ -296,7 +300,7 @@ class HomeFragment : Fragment() {
             R.id.info -> findNavController().navigate(R.id.action_global_infoActivity)
             R.id.user_profile -> {
                 val userState = getUserState(activity)
-                when(userState.isLoggedIn){
+                when (userState.isLoggedIn) {
                     true -> findNavController().navigate(R.id.action_homeFragment_to_userActivity)
                     false -> findNavController().navigate(R.id.action_homeFragment_to_authActivity)
                 }

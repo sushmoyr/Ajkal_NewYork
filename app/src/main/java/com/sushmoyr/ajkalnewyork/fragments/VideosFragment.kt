@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sushmoyr.ajkalnewyork.VideosAdapter
-import com.sushmoyr.ajkalnewyork.VideosPageViewModel
+import com.sushmoyr.ajkalnewyork.utils.VideosPageViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentVideosBinding
-import android.provider.MediaStore.Video.Thumbnails.VIDEO_ID
 
 import com.google.android.youtube.player.YouTubeStandalonePlayer
 
-import android.content.Intent
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
 
 

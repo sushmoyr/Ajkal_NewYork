@@ -1,10 +1,8 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
 import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
-import com.sushmoyr.ajkalnewyork.models.core.Category
-import com.sushmoyr.ajkalnewyork.models.core.News
-import com.sushmoyr.ajkalnewyork.models.core.Photo
+import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.core.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -44,11 +42,15 @@ interface AjkalApi {
         @Query("categoryId") categoryId: Int
     ): Response<List<DataModel.News>>
 
-    @GET("breaking_news.phpRe")
+    @GET("breaking_news.php")
     suspend fun getBreakingNews(): Response<List<BreakingNews>>
 
     @GET("news.php")
     suspend fun getNewsById(
         @Query("id") id: String?
     ): Response<List<News>>
+
+    @GET("user.php")
+    suspend fun getUserById(@Query("userid") id: String): Response<List<SuperUser>>
+
 }

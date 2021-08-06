@@ -58,11 +58,22 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeAdapter.itemCountListener = { size ->
-            if(size!=0){
+            if (size != 0) {
                 binding.adapterStatus.visibility = View.GONE
-            }
-            else
+            } else
                 binding.adapterStatus.visibility = View.VISIBLE
+        }
+
+        binding.homeSwipeToRefreshLayout.setOnRefreshListener {
+            viewModel.getHomeItems(refreshing = true)
+            viewModel.getBreakingNews(refreshing = true)
+        }
+
+        viewModel.onDataLoadComplete = { breakingNewsLoaded, homeItemsLoaded ->
+            Log.d("refresh", "$breakingNewsLoaded and $homeItemsLoaded")
+            if (breakingNewsLoaded && homeItemsLoaded && binding.homeSwipeToRefreshLayout.isRefreshing){
+                binding.homeSwipeToRefreshLayout.isRefreshing = false
+            }
         }
 
         setUpCategoryGroup()
@@ -72,13 +83,16 @@ class HomeFragment : Fragment() {
         setUpBreakingNews()
 
         model.selectedCategory.observe(viewLifecycleOwner, { it ->
-            Log.d("viewmodel", it)
             setCategoryFilter(it)
 
+            Log.d("SelectedCat", it)
+
             var categoryId: String? = null
-            model.categoryListData.forEach { cat ->
-                if (cat.categoryName == it)
-                    categoryId = cat.id
+            if (it != resources.getString(R.string.defaultCategoryName)) {
+                model.categoryListData.forEach { cat ->
+                    if (cat.categoryName == it)
+                        categoryId = cat.id
+                }
             }
 
             viewModel.getHomeItems(categoryId)
@@ -90,6 +104,7 @@ class HomeFragment : Fragment() {
 
         viewModel.homeItems.observe(viewLifecycleOwner, {
             homeAdapter.setData(it)
+
         })
 
         //binding.imageView5.clipToOutline = true
@@ -135,17 +150,12 @@ class HomeFragment : Fragment() {
             }
 
             viewModel.onFinished = {
-                Log.d("navigate", "success")
-                Log.d("navigate", "news title: ${it.newsTitle}")
                 val action = HomeFragmentDirections.actionHomeFragmentToNewsDetailsActivity(it)
                 findNavController().navigate(action)
             }
 
             binding.breakingNewsTitle.setOnClickListener {
-                Log.d("navigate", "Clicked breaking news")
-                Log.d("navigate", "Called News Query")
                 viewModel.getNewsById(breakingNews?.newsId)
-                Log.d("navigate", "Finished Query")
             }
 
         }
@@ -205,6 +215,7 @@ class HomeFragment : Fragment() {
         homeAdapter.itemClickListener = { view, item ->
             when (item) {
                 is DataModel.News -> {
+                    Log.d("news", item.toString())
                     val directions = HomeFragmentDirections
                         .actionHomeFragmentToNewsDetailsActivity(item.toNews())
                     findNavController().navigate(directions)
@@ -225,11 +236,12 @@ class HomeFragment : Fragment() {
         viewModel.getAllCats()
         viewModel.allCategory.observe(viewLifecycleOwner, { response ->
             if (response.isSuccessful) {
-                val filters = response.body()!!
+                val filters = response.body()!!.toMutableList()
+                val firstItem =
+                    Category("default", resources.getString(R.string.defaultCategoryName))
+                filters.add(0, firstItem)
                 homeAdapter.categories = filters
-                filters.forEach {
-                    Log.d("json", it.toString())
-                }
+
                 setUpSelectionChips(filters)
             }
         })

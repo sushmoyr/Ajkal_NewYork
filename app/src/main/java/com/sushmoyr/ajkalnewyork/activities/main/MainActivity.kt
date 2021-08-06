@@ -19,6 +19,7 @@ import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 
 class MainActivity : AppCompatActivity() {
@@ -100,9 +101,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.getAllCats()
         viewModel.allCategories.observe(this, {response->
             if(response.isSuccessful && response.body()!=null){
-                drawerRvAdapter.setData(response.body()!!)
-                drawerViewModel.setCategoryList(response.body()!!)
-                drawerViewModel.selectedCategoryFilter(response.body()!!.first().categoryName)
+                val categories = response.body()!!.toMutableList()
+                val firstItem = Category("default", resources.getString(R.string.defaultCategoryName))
+                categories.add(0, firstItem)
+
+                drawerRvAdapter.setData(categories)
+                drawerViewModel.setCategoryList(categories)
+                drawerViewModel.selectedCategoryFilter(categories.first().categoryName)
             }
         })
     }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.*
@@ -30,7 +31,9 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
                 }
             }
             Glide.with(binding.root.context)
+                .asBitmap()
                 .load(news.defaultImage)
+                .transition(BitmapTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.newsCover)
@@ -53,7 +56,9 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
                 }
             }
             Glide.with(binding.root.context)
+                .asBitmap()
                 .load(news.defaultImage)
+                .transition(BitmapTransitionOptions.withCrossFade())
                 .placeholder(R.drawable.ic_placeholder)
                 .transform(RoundedCorners(24))
                 .into(binding.itemNewsCover)
@@ -69,7 +74,9 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         HomeItemsViewHolder(binding) {
         fun bind(advertisement: DataModel.Advertisement) {
             Glide.with(binding.root.context)
+                .asBitmap()
                 .load(advertisement.adImage)
+                .transition(BitmapTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.addImage)
@@ -84,13 +91,24 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         HomeItemsViewHolder(binding) {
             fun bind(photo: DataModel.GalleryItem){
                 val imageData = photo.images.shuffled()
-                binding.mainImageCaption.text = imageData[0].photoTitle
-                binding.leftImageCaption.text = imageData[1].photoTitle
-                binding.rightImageCaption.text = imageData[2].photoTitle
-
-                loadImageIntoView(binding.root.context, imageData[0].imagePath, binding.mainImage)
-                loadImageIntoView(binding.root.context, imageData[1].imagePath, binding.leftImage)
-                loadImageIntoView(binding.root.context, imageData[2].imagePath, binding.rightImage)
+                for (i in 0 until 3){
+                    if(i < imageData.size){
+                        when(i){
+                            0 -> {
+                                binding.mainImageCaption.text = imageData[0].photoTitle
+                                loadImageIntoView(binding.root.context, imageData[0].imagePath, binding.mainImage)
+                            }
+                            1 -> {
+                                binding.leftImageCaption.text = imageData[1].photoTitle
+                                loadImageIntoView(binding.root.context, imageData[1].imagePath, binding.leftImage)
+                            }
+                            2 -> {
+                                binding.rightImageCaption.text = imageData[2].photoTitle
+                                loadImageIntoView(binding.root.context, imageData[2].imagePath, binding.rightImage)
+                            }
+                        }
+                    }
+                }
 
                 binding.root.setOnClickListener{
                     itemClickListener?.invoke(it, photo)
@@ -99,9 +117,10 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
 
             private fun loadImageIntoView(context: Context, image:String, target: ImageView) {
                 Glide.with(context)
+                    .asBitmap()
                     .load(image)
+                    .transition(BitmapTransitionOptions.withCrossFade())
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .placeholder(R.drawable.ic_placeholder)
                     .into(target)
             }
         }

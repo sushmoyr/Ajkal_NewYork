@@ -67,7 +67,7 @@ sealed class DataModel {
         fun toNews(): CoreNews {
             return CoreNews(
                 id, categoryId, subcategoryId, countryId, divisionId, districtId, newsTitle,
-                slug, description, defaultImage, videoId, popularNews, status, createdBy, createdAt
+                slug, description, _defaultImage, videoId, popularNews, status, createdBy, createdAt
             )
         }
     }

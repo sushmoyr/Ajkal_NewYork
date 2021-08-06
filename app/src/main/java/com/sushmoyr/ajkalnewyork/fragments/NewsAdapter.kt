@@ -1,15 +1,19 @@
 package com.sushmoyr.ajkalnewyork.fragments
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sushmoyr.ajkalnewyork.R
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
+import com.sushmoyr.ajkalnewyork.utils.Constants.MAXIMUM_MORE_NEWS_COUNT
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     private var data = emptyList<News>()
+    private var categoryList = emptyList<Category>()
     var itemClickListener: ((item: News) -> Unit)? = null
 
     class MyViewHolder(private val binding: NewsItemLayoutBinding) : RecyclerView.ViewHolder(
@@ -17,16 +21,27 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     ) {
 
         var itemClickListener: ((item: News) -> Unit)? = null
-        fun bind(news: News) {
+
+        fun bind(news: News, categoryList: List<Category>) {
             binding.root.setOnClickListener {
                 itemClickListener?.invoke(news)
             }
-            binding.itemNewsHeadline.text = news.description
-            Glide.with(binding.root.context)
-                .load(news.defaultImage)
-                .into(binding.itemNewsCover)
-            binding.newsCategory.text = binding.root.context.resources.getString(R.string.dummy_cat)
+            binding.itemNewsHeadline.text = news.newsTitle
+            val category = categoryList.find {
+                it.id == news.categoryId
+            }
+            if(category!=null){
+                binding.newsCategory.text = category.categoryName
+            }
+            else {
+                binding.newsCategory.visibility = View.GONE
+            }
 
+            Glide.with(binding.root.context)
+                .asBitmap()
+                .load(news.defaultImage)
+                .transition(BitmapTransitionOptions.withCrossFade())
+                .into(binding.itemNewsCover)
 
         }
     }
@@ -43,7 +58,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.itemClickListener = itemClickListener
-        holder.bind(data[position])
+        holder.bind(data[position], categoryList)
     }
 
     override fun getItemCount(): Int {
@@ -51,7 +66,19 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     }
 
     fun setData(data: List<News>) {
-        this.data = data
+        this.data = when {
+            data.size > MAXIMUM_MORE_NEWS_COUNT -> data.take(MAXIMUM_MORE_NEWS_COUNT)
+            else -> data
+        }
         notifyDataSetChanged()
+    }
+
+    fun shuffle(){
+        data = data.shuffled()
+        notifyDataSetChanged()
+    }
+
+    fun setCategoryList(it: List<Category>) {
+        this.categoryList = it
     }
 }

@@ -13,5 +13,6 @@ object Constants {
     const val MINIMUM_GALLERY_HEIGHT = 20
     const val USER_AUTHENTICATION_KEY = "userAuthState"
     const val USER_AUTHENTICATION_STATE_KEY = "isUserHere"
+    const val MAXIMUM_MORE_NEWS_COUNT = 16
 
 }

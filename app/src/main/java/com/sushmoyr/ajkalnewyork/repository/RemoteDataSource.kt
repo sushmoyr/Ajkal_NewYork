@@ -3,10 +3,7 @@ package com.sushmoyr.ajkalnewyork.repository
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
-import com.sushmoyr.ajkalnewyork.models.core.Category
-import com.sushmoyr.ajkalnewyork.models.core.News
-import com.sushmoyr.ajkalnewyork.models.core.Photo
+import com.sushmoyr.ajkalnewyork.models.core.*
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import retrofit2.Response
 
@@ -69,5 +66,8 @@ class RemoteDataSource {
         return RetrofitInstance.stripeApi.createPaymentIntent(item)
     }
 
+    suspend fun getUser(createdBy: String): Response<List<SuperUser>> {
+        return RetrofitInstance.api.getUserById(createdBy)
+    }
 
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 
 class MainActivityViewModelFactory(private val repository: RemoteDataSource):ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainActivityViewModel(repository) as T
     }
 }

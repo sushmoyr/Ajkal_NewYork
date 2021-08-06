@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 
 class NewsDetailActivityViewModelFactory(private val repository: RemoteDataSource):ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return NewsDetailViewModel(repository) as T
     }
+
 
 }

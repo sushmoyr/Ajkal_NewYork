@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.GalleryItemLayoutBinding
-import com.sushmoyr.ajkalnewyork.models.Photo
+import com.sushmoyr.ajkalnewyork.models.core.Photo
 
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
 
@@ -20,7 +20,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
                 .load(photo.imagePath)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.galleryPhoto)
-            binding.galleryPhotoCaption.text = photo.caption
+            binding.galleryPhotoCaption.text = photo.photoTitle
         }
     }
 

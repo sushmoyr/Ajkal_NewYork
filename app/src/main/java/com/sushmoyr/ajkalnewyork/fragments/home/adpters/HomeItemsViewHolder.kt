@@ -1,7 +1,6 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.*
-import com.sushmoyr.ajkalnewyork.models.Category
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 
 sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -70,7 +69,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         HomeItemsViewHolder(binding) {
         fun bind(advertisement: DataModel.Advertisement) {
             Glide.with(binding.root.context)
-                .load(advertisement.imagePath)
+                .load(advertisement.adImage)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.addImage)
@@ -85,9 +84,9 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         HomeItemsViewHolder(binding) {
             fun bind(photo: DataModel.GalleryItem){
                 val imageData = photo.images.shuffled()
-                binding.mainImageCaption.text = imageData[0].caption
-                binding.leftImageCaption.text = imageData[1].caption
-                binding.rightImageCaption.text = imageData[2].caption
+                binding.mainImageCaption.text = imageData[0].photoTitle
+                binding.leftImageCaption.text = imageData[1].photoTitle
+                binding.rightImageCaption.text = imageData[2].photoTitle
 
                 loadImageIntoView(binding.root.context, imageData[0].imagePath, binding.mainImage)
                 loadImageIntoView(binding.root.context, imageData[1].imagePath, binding.leftImage)

@@ -21,7 +21,7 @@
         android:theme="@style/Theme.AjkalNewYork"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.main.MainActivity"
+            android:name=".activities.CreateAdvertisementActivity"
             android:exported="true" />
         <activity
             android:name=".activities.user.UserActivity"
@@ -34,7 +34,7 @@
         <activity android:name=".activities.NewsDetailsActivity" />
         <activity android:name=".activities.InfoActivity" />
         <activity
-            android:name=".activities.CreateAdvertisementActivity"
+            android:name=".activities.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

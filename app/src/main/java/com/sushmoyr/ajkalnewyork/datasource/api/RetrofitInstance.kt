@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork.datasource.api
 
 import android.content.Context
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
+import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_BASE_URL
 import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL
 import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL2
 import com.sushmoyr.ajkalnewyork.utils.Constants.STRIPE_BACKEND_URL
@@ -34,7 +35,7 @@ object RetrofitInstance {
         }
         .build()
 
-    private val retrofit by lazy {
+    /*private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(MOCK_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -68,6 +69,17 @@ object RetrofitInstance {
 
     val mockApi2 : MockApi by lazy {
         mockApiBuilder2.create(MockApi::class.java)
+    }*/
+
+    private val apiBuilder by lazy {
+        Retrofit.Builder()
+            .baseUrl(AJKAL_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val api : AjkalApi by lazy {
+        apiBuilder.create(AjkalApi::class.java)
     }
 
     private val stripeBuilder by lazy {
@@ -81,3 +93,5 @@ object RetrofitInstance {
         stripeBuilder.create(StripeApi::class.java)
     }
 }
+
+

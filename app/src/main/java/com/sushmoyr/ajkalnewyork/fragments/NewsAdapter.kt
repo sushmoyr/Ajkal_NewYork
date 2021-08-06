@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
-import com.sushmoyr.ajkalnewyork.models.News
+import com.sushmoyr.ajkalnewyork.models.core.News
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     private var data = emptyList<News>()

@@ -1,6 +1,6 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
-import com.sushmoyr.ajkalnewyork.models.Category
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import retrofit2.Response
 import retrofit2.http.GET
 

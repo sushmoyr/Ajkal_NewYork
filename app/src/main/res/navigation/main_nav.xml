@@ -51,7 +51,7 @@
         android:label="NewsDetailsActivity" >
         <argument
             android:name="news"
-            app:argType="com.sushmoyr.ajkalnewyork.models.News" />
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.News" />
     </activity>
     <fragment
         android:id="@+id/galleryFragment"

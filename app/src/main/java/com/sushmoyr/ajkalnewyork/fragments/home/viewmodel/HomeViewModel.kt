@@ -1,24 +1,19 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.viewmodel
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sushmoyr.ajkalnewyork.models.BreakingNews
-import com.sushmoyr.ajkalnewyork.models.Category
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.models.News
-import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
+import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
+import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
-import com.sushmoyr.ajkalnewyork.utils.ViewModelStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
-import java.lang.reflect.TypeVariable
-import kotlin.time.Duration
 
 class HomeViewModel(private val _repository: Repository) : ViewModel() {
     private val repository = _repository.remoteDataSource
@@ -44,7 +39,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
     val homeItems = MutableLiveData<List<DataModel>>()
 
-    fun getHomeItems(categoryId: Int? = null) {
+    fun getHomeItems(categoryId: String? = null) {
 
         if(categoryId==null){
             Log.d("home", "null cat id")
@@ -76,11 +71,19 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                 val offset = 5
                 var count = 0
                 var adsIndex = 0
+                val adCount = 2
 
                 news.body()!!.forEach {
+                    Log.d("Final", it.defaultImage)
                     if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {
-                        homeItemList.add(advertisements[adsIndex++])
-                        homeItemList.add(advertisements[adsIndex++])
+                        for (j in 0 until adCount){
+                            if(adsIndex < advertisements.size){
+                                homeItemList.add(advertisements[adsIndex++])
+                                if(adsIndex == advertisements.size){
+                                    adsIndex = 0
+                                }
+                            }
+                        }
                     } else {
                         homeItemList.add(it)
                     }
@@ -92,7 +95,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                     photos.body()!!.forEach {
                         Log.d("gallery", "====================")
                         Log.d("gallery", "id: ${it.id}")
-                        Log.d("gallery", "caption: ${it.caption}")
+                        Log.d("gallery", "caption: ${it.photoTitle}")
                         Log.d("gallery", "image: ${it.imagePath}")
                     }
                     val photoData = DataModel.GalleryItem(photos.body()!!)
@@ -128,7 +131,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                     while (runFlow){
                         breakingNewsData.forEach {
                             emit(it)
-                            Log.d("breaking", "Emit data of id: ${it.news_id}")
+                            Log.d("breaking", "Emit data of id: ${it.newsId}")
                             delay(20000)
                         }
                     }
@@ -149,7 +152,7 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
     var onFinished : ((news: News)-> Unit)?= null
 
-    fun getNewsById(newsId: Int?) {
+    fun getNewsById(newsId: String?) {
         viewModelScope.launch {
             if(newsId!=null){
                 val data = repository.getNewsById(newsId)

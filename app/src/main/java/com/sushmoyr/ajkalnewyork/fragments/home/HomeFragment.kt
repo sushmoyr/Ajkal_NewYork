@@ -23,10 +23,9 @@ import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
-import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.repository.Repository
-import com.sushmoyr.ajkalnewyork.utils.ViewModelStatus
 import com.sushmoyr.ajkalnewyork.utils.blink
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
@@ -76,9 +75,9 @@ class HomeFragment : Fragment() {
             Log.d("viewmodel", it)
             setCategoryFilter(it)
 
-            var categoryId: Int? = null
+            var categoryId: String? = null
             model.categoryListData.forEach { cat ->
-                if (cat.categoryName == it && cat.id != 1)
+                if (cat.categoryName == it)
                     categoryId = cat.id
             }
 
@@ -126,12 +125,12 @@ class HomeFragment : Fragment() {
         binding.breakingNewsTitle.outAnimation = outAnim
 
         viewModel.getBreakingNews()
-        viewModel.breakingNewsObserve.observe(viewLifecycleOwner, { breakingNews ->
+        viewModel.breakingNewsObserve.observe(viewLifecycleOwner) { breakingNews ->
             if (breakingNews == null) {
                 isVisibleBreakingNewsSection(false)
             } else {
                 isVisibleBreakingNewsSection(true)
-                binding.breakingNewsTitle.setText(breakingNews.bnews_title)
+                binding.breakingNewsTitle.setText(breakingNews.bnewsTitle)
 
             }
 
@@ -145,11 +144,11 @@ class HomeFragment : Fragment() {
             binding.breakingNewsTitle.setOnClickListener {
                 Log.d("navigate", "Clicked breaking news")
                 Log.d("navigate", "Called News Query")
-                viewModel.getNewsById(breakingNews?.news_id)
+                viewModel.getNewsById(breakingNews?.newsId)
                 Log.d("navigate", "Finished Query")
             }
 
-        })
+        }
     }
 
     private fun isVisibleBreakingNewsSection(visible: Boolean) {

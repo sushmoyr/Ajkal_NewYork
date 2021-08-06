@@ -5,16 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.GalleryPlaceholderLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
-import com.sushmoyr.ajkalnewyork.models.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.core.Category
 
 class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>(){
 
@@ -90,7 +88,7 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>(){
     }
 
     override fun getItemCount(): Int {
-        Log.d("adpterSize", "Adapter Size = ${items.size}")
+        //Log.d("adpterSize", "Adapter Size = ${items.size}")
         return items.size
     }
 

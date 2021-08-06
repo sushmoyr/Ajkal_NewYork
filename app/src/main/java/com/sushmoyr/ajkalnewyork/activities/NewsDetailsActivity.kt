@@ -20,7 +20,7 @@ import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailViewModel
 import com.sushmoyr.ajkalnewyork.databinding.ActivityNewsDetailsBinding
 import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsBodyLayoutBinding
-import com.sushmoyr.ajkalnewyork.models.News
+import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.utils.toNewsList
 
@@ -65,7 +65,7 @@ class NewsDetailsActivity : AppCompatActivity() {
     private fun updateUi(news: News){
         val newsBodyList = news.description.lines()
         binding.detailNewsTitle.text = news.newsTitle
-        binding.newsDetailCat.categoryNameText.text = resources.getString(R.string.dummy_cat)
+        binding.newsDetailCat.categoryNameText.text = news.categoryId
         binding.detailNewsWriter.text = news.createdBy
         binding.detailNewsTime.text = resources.getString(R.string.news_time)
         Glide.with(this)
@@ -108,7 +108,7 @@ class NewsDetailsActivity : AppCompatActivity() {
                         )
 
                         Glide.with(this)
-                            .load(ads[adcount++].imagePath)
+                            .load(ads[adcount++].adImage)
                             .into(view.addImage)
                         adsLayoutRoot.addView(view.root)
                         val space = Space(this)

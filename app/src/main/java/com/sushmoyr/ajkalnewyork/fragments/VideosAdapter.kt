@@ -9,6 +9,7 @@ import com.sushmoyr.ajkalnewyork.models.Video
 import android.util.Log
 import android.widget.Toast
 import com.google.android.youtube.player.*
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
 
 
@@ -22,7 +23,8 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
         var itemClickListener : ((video: Video)->Unit)? = null
         fun bind(video: Video) {
             binding.videoTitle.text = video.title
-            binding.videoCategoryLayout.categoryNameText.text = video.categoryItem.categoryTitleBn
+            binding.videoCategoryLayout.categoryNameText.text = binding.root.context.resources
+                .getString(R.string.dummy_cat)
 
             /*Glide.with(binding.root.context)
                 .load(video.thumbnail)

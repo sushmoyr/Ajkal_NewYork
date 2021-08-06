@@ -4,27 +4,33 @@ import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.models.core.Photo
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MockApi {
+interface AjkalApi {
 
-    @GET("news")
+    @GET("news.php")
     suspend fun getAllNews(): Response<List<DataModel.News>>
 
-    @GET("news")
+    @GET("news.php")
     suspend fun getAllNews(
-        @Query("categoryId") categoryId: Int): Response<List<DataModel.News>>
+        // FIXME: 8/6/2021
+        @Query("category_id") categoryId: String?
+    ): Response<List<DataModel.News>>
+
+    @GET("category.php")
+    suspend fun getAllCategory(): Response<List<Category>>
 
 
-    @GET("Advertisement")
+    @GET("advertisement.php")
     suspend fun getAllAds(): Response<List<DataModel.Advertisement>>
 
-    @GET("galleryImages")
+    @GET("photos.php")
     suspend fun getPhotoGallery(): Response<List<Photo>>
 
-    @GET("galleryImages")
+    @GET("photos.php")
     suspend fun getPhotoGallery(
         @Query("page") page: Int,
         @Query("limit") limit: Int
@@ -38,12 +44,11 @@ interface MockApi {
         @Query("categoryId") categoryId: Int
     ): Response<List<DataModel.News>>
 
-    @GET("breakingNews")
+    @GET("breaking_news.phpRe")
     suspend fun getBreakingNews(): Response<List<BreakingNews>>
 
-    @GET("news")
+    @GET("news.php")
     suspend fun getNewsById(
-        @Query("id") id: Int
+        @Query("id") id: String?
     ):Response<List<News>>
-
 }

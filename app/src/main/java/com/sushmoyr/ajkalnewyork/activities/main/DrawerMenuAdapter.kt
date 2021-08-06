@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.CategoryViewBinding
-import com.sushmoyr.ajkalnewyork.models.Category
+import com.sushmoyr.ajkalnewyork.models.core.Category
 
 class DrawerMenuAdapter: RecyclerView.Adapter<DrawerMenuAdapter.MyViewHolder>() {
 

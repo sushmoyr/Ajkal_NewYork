@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
+import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
@@ -41,10 +40,9 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
     fun getHomeItems(categoryId: String? = null) {
 
-        if(categoryId==null){
+        if (categoryId == null) {
             Log.d("home", "null cat id")
-        }
-        else{
+        } else {
             Log.d("home", "Cat id = $categoryId")
         }
         viewModelScope.launch {
@@ -76,10 +74,10 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                 news.body()!!.forEach {
                     Log.d("Final", it.defaultImage)
                     if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {
-                        for (j in 0 until adCount){
-                            if(adsIndex < advertisements.size){
+                        for (j in 0 until adCount) {
+                            if (adsIndex < advertisements.size) {
                                 homeItemList.add(advertisements[adsIndex++])
-                                if(adsIndex == advertisements.size){
+                                if (adsIndex == advertisements.size) {
                                     adsIndex = 0
                                 }
                             }
@@ -99,10 +97,9 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                         Log.d("gallery", "image: ${it.imagePath}")
                     }
                     val photoData = DataModel.GalleryItem(photos.body()!!)
-                    val index = if(homeItemList.size < MINIMUM_GALLERY_HEIGHT){
+                    val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
                         homeItemList.size
-                    }
-                    else{
+                    } else {
                         MINIMUM_GALLERY_HEIGHT
                     }
                     homeItemList.add(index, photoData)
@@ -118,17 +115,17 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
 
     val breakingNewsObserve = MutableLiveData<BreakingNews?>()
     var runFlow: Boolean = true
-    fun getBreakingNews(){
+    fun getBreakingNews() {
         viewModelScope.launch {
             val response = repository.getBreakingNews()
             var newsFlow = flowOf<BreakingNews>()
 
             //val breakingNewsList = mutableListOf<News>()
-            if (response.isSuccessful && !response.body().isNullOrEmpty()){
+            if (response.isSuccessful && !response.body().isNullOrEmpty()) {
                 val breakingNewsData = response.body()!!
                 Log.d("breaking", response.body()!!.size.toString())
                 newsFlow = flow {
-                    while (runFlow){
+                    while (runFlow) {
                         breakingNewsData.forEach {
                             emit(it)
                             Log.d("breaking", "Emit data of id: ${it.newsId}")
@@ -137,28 +134,27 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
                     }
                 }
 
-                newsFlow.collect{
-                    if(breakingNewsObserve.value!=it)
+                newsFlow.collect {
+                    if (breakingNewsObserve.value != it)
                         breakingNewsObserve.postValue(it)
                 }
 
-            }
-            else{
+            } else {
                 Log.d("breaking", "${response.code()} : ${response.message()}")
                 breakingNewsObserve.postValue(null)
             }
         }
     }
 
-    var onFinished : ((news: News)-> Unit)?= null
+    var onFinished: ((news: News) -> Unit)? = null
 
     fun getNewsById(newsId: String?) {
         viewModelScope.launch {
-            if(newsId!=null){
+            if (newsId != null) {
                 val data = repository.getNewsById(newsId)
-                if(data.isSuccessful){
+                if (data.isSuccessful) {
                     data.body()!!.forEach {
-                        if(it.id == newsId){
+                        if (it.id == newsId) {
                             onFinished?.invoke(it)
                             return@forEach
                         }

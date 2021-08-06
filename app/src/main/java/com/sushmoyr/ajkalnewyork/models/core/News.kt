@@ -2,7 +2,6 @@ package com.sushmoyr.ajkalnewyork.models.core
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_BASE_URL
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

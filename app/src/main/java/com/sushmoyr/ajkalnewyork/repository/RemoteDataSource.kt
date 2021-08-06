@@ -2,7 +2,7 @@ package com.sushmoyr.ajkalnewyork.repository
 
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
-import com.sushmoyr.ajkalnewyork.models.*
+import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
@@ -11,7 +11,7 @@ import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import retrofit2.Response
 
 class RemoteDataSource {
-    suspend fun getAllCategory(): Response<List<Category>>{
+    suspend fun getAllCategory(): Response<List<Category>> {
         Log.d("CallApi", "get all category")
         return RetrofitInstance.api.getAllCategory()
     }
@@ -36,7 +36,7 @@ class RemoteDataSource {
         return RetrofitInstance.api.getPhotoGallery(1, 5)
     }
 
-    suspend fun getFullGallery(): Response<List<Photo>>{
+    suspend fun getFullGallery(): Response<List<Photo>> {
         Log.d("CallApi", "get full gallery")
         return RetrofitInstance.api.getPhotoGallery()
     }

@@ -2,7 +2,6 @@ package com.sushmoyr.ajkalnewyork.models
 
 import com.google.gson.annotations.SerializedName
 import com.sushmoyr.ajkalnewyork.models.core.Photo
-import com.sushmoyr.ajkalnewyork.utils.Constants
 import com.sushmoyr.ajkalnewyork.models.core.News as CoreNews
 
 sealed class DataModel {

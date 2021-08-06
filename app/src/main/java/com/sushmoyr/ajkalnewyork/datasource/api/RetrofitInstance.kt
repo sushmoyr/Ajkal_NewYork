@@ -1,16 +1,11 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
-import android.content.Context
-import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_BASE_URL
-import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL
-import com.sushmoyr.ajkalnewyork.utils.Constants.MOCK_API_BASE_URL2
 import com.sushmoyr.ajkalnewyork.utils.Constants.STRIPE_BACKEND_URL
 import com.sushmoyr.ajkalnewyork.utils.MainApplication
 import com.sushmoyr.ajkalnewyork.utils.hasNetwork
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -30,7 +25,10 @@ object RetrofitInstance {
             request = if (hasNetwork(context)!!)
                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
             else
-                request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+                request.newBuilder().header(
+                    "Cache-Control",
+                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+                ).build()
             chain.proceed(request)
         }
         .build()
@@ -78,7 +76,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val api : AjkalApi by lazy {
+    val api: AjkalApi by lazy {
         apiBuilder.create(AjkalApi::class.java)
     }
 
@@ -89,7 +87,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val stripeApi : StripeApi by lazy {
+    val stripeApi: StripeApi by lazy {
         stripeBuilder.create(StripeApi::class.java)
     }
 }

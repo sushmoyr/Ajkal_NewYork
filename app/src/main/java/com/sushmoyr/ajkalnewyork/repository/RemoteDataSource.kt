@@ -3,6 +3,7 @@ package com.sushmoyr.ajkalnewyork.repository
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import retrofit2.Response
@@ -68,6 +69,14 @@ class RemoteDataSource {
 
     suspend fun getUser(createdBy: String): Response<List<SuperUser>> {
         return RetrofitInstance.api.getUserById(createdBy)
+    }
+
+    suspend fun getAllSubCategory(): Response<List<SubCategory>> {
+        return RetrofitInstance.api.getAllSubCategory()
+    }
+
+    suspend fun getAllVideos(): Response<List<Video>> {
+        return RetrofitInstance.api.getAllVideos()
     }
 
 }

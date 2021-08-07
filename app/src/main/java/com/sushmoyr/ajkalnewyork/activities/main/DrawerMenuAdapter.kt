@@ -10,36 +10,47 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.CategoryViewBinding
-import com.sushmoyr.ajkalnewyork.models.core.Category
+import com.sushmoyr.ajkalnewyork.models.DrawerItemModel
 
 class DrawerMenuAdapter: RecyclerView.Adapter<DrawerMenuAdapter.MyViewHolder>() {
 
     var itemClickListener: ((data: String, type: Int) -> Unit)? = null
 
-    private var catData:List<Category> = emptyList()
+    private var catData:List<DrawerItemModel> = emptyList()
     class MyViewHolder(private val binding: CategoryViewBinding) : RecyclerView.ViewHolder
         (binding.root){
 
         var itemClickListener: ((data: String, type: Int) -> Unit)? = null
 
-            fun bind(category: Category) {
-                binding.categoryName.text = category.categoryName
-                for(i in 0..4){
-                    val view = TextView(binding.root.context)
-                    view.text = "Item $i"
-                    view.setOnClickListener {
-                        Log.d("subCat", view.text.toString())
-                    }
-                    binding.subCategoryRoot.addView(view)
+        fun bind(drawerItem: DrawerItemModel) {
+            val category = drawerItem.category
+
+            binding.categoryName.text = category.categoryName
+
+            drawerItem.subCategoryList?.forEach { subcategory ->
+                val view = TextView(binding.root.context)
+                view.text = subcategory.subcategoryName
+                view.setOnClickListener {
+                    Log.d("subCat", view.text.toString())
                 }
+                binding.subCategoryRoot.addView(view)
+            }
+
+            if(binding.subCategoryRoot.childCount>0){
                 binding.dropDownIcon.setOnClickListener {
                     cycleView()
                 }
-
-                binding.categoryName.setOnClickListener {
-                    itemClickListener?.invoke(binding.categoryName.text.toString(), 1)
-                }
             }
+            else {
+                binding.dropDownIcon.visibility = View.INVISIBLE
+            }
+
+
+
+            binding.categoryName.setOnClickListener {
+                itemClickListener?.invoke(binding.categoryName.text.toString(), 1)
+            }
+        }
 
         private fun cycleView() {
             val expandable = binding.subCategoryRoot
@@ -73,7 +84,7 @@ class DrawerMenuAdapter: RecyclerView.Adapter<DrawerMenuAdapter.MyViewHolder>() 
         return catData.size
     }
 
-    fun setData(data: List<Category>){
+    fun setData(data: List<DrawerItemModel>){
         catData = data
         notifyDataSetChanged()
     }

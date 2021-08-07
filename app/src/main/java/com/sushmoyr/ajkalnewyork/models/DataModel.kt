@@ -18,7 +18,7 @@ sealed class DataModel {
         @SerializedName("ad_link")
         val adLink: String = "",
         @SerializedName("ad_image")
-        val adImage: String = "",
+        val _adImage: String = "",
         @SerializedName("exp_date")
         val expDate: String = "",
         @SerializedName("status")
@@ -27,7 +27,9 @@ sealed class DataModel {
         val createdAt: String = "",
         @SerializedName("updated_at")
         val updatedAt: String = ""
-    ) : DataModel()
+    ) : DataModel() {
+        val adImage get() = "https://ajkal.fastrider.co$_adImage"
+    }
 
     data class News(
         @SerializedName("id")

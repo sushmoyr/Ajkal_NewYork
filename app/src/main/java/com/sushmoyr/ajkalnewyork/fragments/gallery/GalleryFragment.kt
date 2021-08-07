@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sushmoyr.ajkalnewyork.R
@@ -32,6 +33,11 @@ class GalleryFragment : Fragment() {
         rv.apply {
             layoutManager = lm
             adapter = imageAdapter
+        }
+
+        imageAdapter.itemClickListener = {
+            val action = GalleryFragmentDirections.actionGalleryFragmentToDetailImageActivity(it)
+            findNavController().navigate(action)
         }
 
         binding.loading.visibility = View.VISIBLE

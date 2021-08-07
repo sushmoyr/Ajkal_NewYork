@@ -11,9 +11,12 @@ import com.sushmoyr.ajkalnewyork.models.core.Photo
 class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
 
     private var imageData = emptyList<Photo>()
+    var itemClickListener: ((photo: Photo) -> Unit)? = null
 
     class MyViewHolder(val binding: GalleryItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        var itemClickListener: ((photo: Photo) -> Unit)? = null
 
         fun bind(photo: Photo) {
             Glide.with(binding.root)
@@ -21,6 +24,9 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.galleryPhoto)
             binding.galleryPhotoCaption.text = photo.photoTitle
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(photo)
+            }
         }
     }
 
@@ -35,6 +41,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.itemClickListener = itemClickListener
         holder.bind(imageData[position])
     }
 

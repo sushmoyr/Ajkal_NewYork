@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            viewModel.getHomeItems(categoryId)
+            viewModel.getHomeItems(categoryId, true)
         })
 
 
@@ -224,7 +224,9 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(R.id.action_global_galleryFragment)
                     Toast.makeText(requireContext(), "Gallery", Toast.LENGTH_SHORT).show()
                 }
-                else -> Log.d("HomeFragment", "No click listeners added")
+                is DataModel.Advertisement -> {
+                    Log.d("datamodel", item.toString())
+                }
             }
         }
 

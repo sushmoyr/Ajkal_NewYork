@@ -15,7 +15,7 @@ data class Advertisement(
     @SerializedName("ad_link")
     val adLink: String = "",
     @SerializedName("ad_image")
-    val adImage: String = "",
+    val _adImage: String = "",
     @SerializedName("exp_date")
     val expDate: String = "",
     @SerializedName("status")
@@ -24,4 +24,6 @@ data class Advertisement(
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+){
+    val adImage get() = "https://ajkal.fastrider.co$_adImage"
+}

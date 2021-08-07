@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.fragments.trending
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,11 +25,11 @@ class TrendingViewModel(private val _repository: Repository) : ViewModel() {
             }
 
             val ads = adsDeferred.await()
-            val news = newsDeferred.await()
+            val newsResponse = newsDeferred.await()
 
             val homeItemList = mutableListOf<DataModel>()
 
-            if (ads.isSuccessful && news.isSuccessful) {
+            if (ads.isSuccessful && newsResponse.isSuccessful) {
                 var advertisements = mutableListOf<DataModel.Advertisement>()
                 if (ads.body() != null) {
                     advertisements.addAll(ads.body()!!)
@@ -38,11 +39,21 @@ class TrendingViewModel(private val _repository: Repository) : ViewModel() {
                 val offset = 5
                 var count = 0
                 var adsIndex = 0
-
-                news.body()!!.forEach {
+                val adCount = 2
+                val newsList = newsResponse.body()!!.toMutableList()
+                newsList.sortByDescending { it.createdAt }
+                val news = newsList.filter { it.popularNews == "1" }
+                news.forEach {
+                    Log.d("Final", it.defaultImage)
                     if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {
-                        homeItemList.add(advertisements[adsIndex++])
-                        homeItemList.add(advertisements[adsIndex++])
+                        for (j in 0 until adCount) {
+                            if (adsIndex < advertisements.size) {
+                                homeItemList.add(advertisements[adsIndex++])
+                                if (adsIndex == advertisements.size) {
+                                    adsIndex = 0
+                                }
+                            }
+                        }
                     } else {
                         homeItemList.add(it)
                     }

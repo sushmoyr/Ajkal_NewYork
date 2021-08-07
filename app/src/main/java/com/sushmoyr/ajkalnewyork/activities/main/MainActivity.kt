@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.activities.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNavigation()
         setUpDrawerRv()
         fetchCategories()
+        setUpDrawerRvItems()
 
         drawerRvAdapter.itemClickListener = {data, type ->
             drawerViewModel.selectedCategoryFilter(data)
@@ -105,10 +107,17 @@ class MainActivity : AppCompatActivity() {
                 val firstItem = Category("default", resources.getString(R.string.defaultCategoryName))
                 categories.add(0, firstItem)
 
-                drawerRvAdapter.setData(categories)
+
                 drawerViewModel.setCategoryList(categories)
                 drawerViewModel.selectedCategoryFilter(categories.first().categoryName)
             }
+        })
+    }
+
+    private fun setUpDrawerRvItems(){
+        viewModel.prepareDrawerItems()
+        viewModel.drawerItemList.observe(this, { items->
+            drawerRvAdapter.setData(items)
         })
     }
 

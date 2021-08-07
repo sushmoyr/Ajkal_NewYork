@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.ajkalnewyork.databinding.VideoCardLayoutBinding
-import com.sushmoyr.ajkalnewyork.models.Video
+import com.sushmoyr.ajkalnewyork.models.core.Video
 
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.google.android.youtube.player.*
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.utils.Constants.YT_API_KEY
@@ -22,17 +25,22 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
         (binding.root) {
         var itemClickListener : ((video: Video)->Unit)? = null
         fun bind(video: Video) {
-            binding.videoTitle.text = video.title
-            binding.videoCategoryLayout.categoryNameText.text = binding.root.context.resources
-                .getString(R.string.dummy_cat)
+            binding.videoTitle.text = video.videoTitle
+            binding.videoThumbnail
 
-            /*Glide.with(binding.root.context)
-                .load(video.thumbnail)
+            Glide.with(binding.root.context)
+                .asBitmap()
+                .load(video.image)
+                .transition(BitmapTransitionOptions.withCrossFade())
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_error)
-                .into(binding.videoThumbnail)*/
+                .into(binding.videoThumbnail)
 
-            binding.videoThumbnail.initialize(
+            binding.root.setOnClickListener{
+                itemClickListener?.invoke(video)
+            }
+
+            /*binding.videoThumbnail.initialize(
                 YT_API_KEY,
                 object : YouTubeThumbnailView.OnInitializedListener{
                     override fun onInitializationSuccess(
@@ -77,7 +85,7 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
                     }
 
                 }
-            )
+            )*/
 
 
         }

@@ -57,7 +57,11 @@
         android:id="@+id/galleryFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.gallery.GalleryFragment"
         android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_detailImageActivity"
+            app:destination="@id/detailImageActivity" />
+    </fragment>
     <action
         android:id="@+id/action_global_galleryFragment"
         app:destination="@id/galleryFragment" />
@@ -71,5 +75,14 @@
         android:name="com.sushmoyr.ajkalnewyork.activities.user.UserActivity"
         android:label="activity_user"
         tools:layout="@layout/activity_user" />
+    <activity
+        android:id="@+id/detailImageActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.DetailImageActivity"
+        android:label="activity_detail_image"
+        tools:layout="@layout/activity_detail_image" >
+        <argument
+            android:name="displayImage"
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.Photo" />
+    </activity>
 
 </navigation>

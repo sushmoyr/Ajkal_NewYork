@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.selects.select
 import retrofit2.Response
 
-class HomeViewModel(private val _repository: Repository) : ViewModel() {
-    private val repository = _repository.remoteDataSource
+class HomeViewModel : ViewModel() {
+    private val repository = Repository().remoteDataSource
     val allCategory = MutableLiveData<Response<List<Category>>>()
 
     private var breakingNewsLoaded = false
@@ -24,7 +24,8 @@ class HomeViewModel(private val _repository: Repository) : ViewModel() {
     var onDataLoadComplete: ((breakingNewsLoaded: Boolean, homeItemsLoaded: Boolean) -> Unit)? = null
 
     fun getAllCats() {
-        viewModelScope.launch(Dispatchers.IO) {
+        Log.d("debugNext","called from home viewModel")
+        viewModelScope.launch {
             allCategory.postValue(repository.getAllCategory())
         }
     }

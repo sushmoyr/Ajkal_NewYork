@@ -18,7 +18,8 @@ class MainActivityViewModel(private val repository: RemoteDataSource): ViewModel
     val drawerItemList = MutableLiveData<List<DrawerItemModel>>()
 
     fun getAllCats(){
-        viewModelScope.launch(Dispatchers.IO) {
+        Log.d("debugNext", "called from Activity")
+        viewModelScope.launch {
             allCategories.postValue(repository.getAllCategory())
         }
     }

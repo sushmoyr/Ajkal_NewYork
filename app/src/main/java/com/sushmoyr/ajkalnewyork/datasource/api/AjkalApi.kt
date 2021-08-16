@@ -13,8 +13,10 @@ interface AjkalApi {
     suspend fun getAllNews(): Response<List<DataModel.News>>
 
     @GET("news.php")
+    suspend fun getAllNewsCore(): Response<List<News>>
+
+    @GET("news.php")
     suspend fun getAllNews(
-        // FIXME: 8/6/2021
         @Query("category_id") categoryId: String?
     ): Response<List<DataModel.News>>
 
@@ -58,5 +60,6 @@ interface AjkalApi {
 
     @GET("videos.php")
     suspend fun getAllVideos(): Response<List<Video>>
+
 
 }

@@ -13,16 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
-import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModelFactory
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.repository.Repository
@@ -34,9 +33,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: HomeViewModel
-    private lateinit var _repository: Repository
-    private val repository get() = _repository.remoteDataSource
+    private val viewModel: HomeViewModel by activityViewModels()
     private val model: DrawerViewModel by activityViewModels()
     private val homeAdapter: HomeItemsAdapter by lazy {
         HomeItemsAdapter()
@@ -44,9 +41,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _repository = Repository()
-        val factory = HomeViewModelFactory(_repository)
-        viewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
         viewModel.getHomeItems()
     }
 
@@ -71,7 +65,7 @@ class HomeFragment : Fragment() {
 
         viewModel.onDataLoadComplete = { breakingNewsLoaded, homeItemsLoaded ->
             Log.d("refresh", "$breakingNewsLoaded and $homeItemsLoaded")
-            if (breakingNewsLoaded && homeItemsLoaded && binding.homeSwipeToRefreshLayout.isRefreshing){
+            if (breakingNewsLoaded && homeItemsLoaded && binding.homeSwipeToRefreshLayout.isRefreshing) {
                 binding.homeSwipeToRefreshLayout.isRefreshing = false
             }
         }
@@ -82,7 +76,7 @@ class HomeFragment : Fragment() {
 
         setUpBreakingNews()
 
-        model.selectedCategory.observe(viewLifecycleOwner, { it ->
+        model.selectedCategory.observe(viewLifecycleOwner, {
             setCategoryFilter(it)
 
             Log.d("SelectedCat", it)
@@ -106,9 +100,6 @@ class HomeFragment : Fragment() {
             homeAdapter.setData(it)
 
         })
-
-        //binding.imageView5.clipToOutline = true
-
 
         return binding.root
     }
@@ -305,11 +296,8 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.search_menu -> Toast.makeText(
-                requireContext(),
-                "Search Selected",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.search_menu -> findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+
             R.id.info -> findNavController().navigate(R.id.action_global_infoActivity)
             R.id.user_profile -> {
                 val userState = getUserState(activity)
@@ -325,6 +313,7 @@ class HomeFragment : Fragment() {
 
 
     //Menu Inflating
+
 
     override fun onDestroy() {
         super.onDestroy()

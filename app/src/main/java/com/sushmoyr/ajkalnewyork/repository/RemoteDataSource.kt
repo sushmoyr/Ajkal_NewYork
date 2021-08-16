@@ -19,6 +19,11 @@ class RemoteDataSource {
         return RetrofitInstance.api.getAllNews()
     }
 
+    suspend fun getAllNewsCore(): Response<List<News>>{
+        Log.d("searchState", "Api Called")
+        return RetrofitInstance.api.getAllNewsCore()
+    }
+
     suspend fun getAllNews(categoryId: String?): Response<List<DataModel.News>> {
         Log.d("CallApi", "get all news by id")
         return RetrofitInstance.api.getAllNews(categoryId)

@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.activities.viewmodels
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,8 @@ import com.google.gson.GsonBuilder
 import com.stripe.android.Stripe
 import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.StripeIntent
+import com.sushmoyr.ajkalnewyork.models.core.Advertisement
+import com.sushmoyr.ajkalnewyork.models.core.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
 import com.sushmoyr.ajkalnewyork.repository.Repository
@@ -19,12 +22,27 @@ import retrofit2.Response
 class CreateAdViewModel: ViewModel() {
 
     val repository = Repository()
+    val totalCost = MutableLiveData<Double>().also {
+        it.value = 0.0
+    }
+
+    fun seTotalCost(cost: Double = 0.0, limit: Int = 1){
+        totalCost.value = cost * limit
+    }
+
+    init {
+        getAdSizes()
+    }
 
     var didSomething: ((title: String,
                         message: String,
                         code: StripeIntent.Status) -> Unit) ? = null
 
-    fun doSomething(stripe: Stripe, requestCode: Int, data: Intent?) {
+    /*
+    Stripe payment handle section starts here
+     */
+
+    fun handleStripe(stripe: Stripe, requestCode: Int, data: Intent?) {
         viewModelScope.launch {
             runCatching {
                 stripe.getPaymentIntentResult(requestCode, data!!)
@@ -67,6 +85,40 @@ class CreateAdViewModel: ViewModel() {
             val response = repository.remoteDataSource.createPaymentIntent(paymentMethodType, item)
             _paymentIntentKey.postValue(response)
         }
+    }
+
+    /*
+    Stripe payment handle section ends here
+     */
+
+    private val _adSizes = MutableLiveData<AdvertisementSize>()
+    val adSizes get() = _adSizes
+    var lastFetchedAdSizeData: AdvertisementSize = AdvertisementSize()
+    var selectedItemPosition: Int = 0
+
+    private fun getAdSizes(){
+        viewModelScope.launch {
+            val response = repository.remoteDataSource.getAdSizes()
+            if(response.isSuccessful){
+                val data = response.body()!!
+                Log.d("response", response.body()!!.size.toString())
+                _adSizes.postValue(data)
+            }
+        }
+    }
+
+    fun postAdvertisement(advertisement: Advertisement) {
+        viewModelScope.launch {
+            val response = repository.remoteDataSource.postAdvertisement(advertisement)
+            if(response.isSuccessful){
+                val data = response.body()!!
+                Log.d("response", data.toString())
+            }
+        }
+    }
+
+    fun uploadImage(uri: Uri){
+
     }
 
 }

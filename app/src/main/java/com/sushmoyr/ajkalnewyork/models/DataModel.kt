@@ -26,8 +26,17 @@ sealed class DataModel {
         @SerializedName("created_at")
         val createdAt: String = "",
         @SerializedName("updated_at")
-        val updatedAt: String = ""
-    ) : DataModel() {
+        val updatedAt: String = "",
+        @SerializedName("size_id")
+        val sizeId: String = "",
+        @SerializedName("created_date")
+        val createdDate: String = "",
+        @SerializedName("for_day")
+        val forDay: String = "",
+        @SerializedName("amount")
+        val amount: String = "",
+
+        ) : DataModel() {
         val adImage get() = "https://ajkal.fastrider.co$_adImage"
     }
 

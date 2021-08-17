@@ -9,7 +9,11 @@
         android:id="@+id/dashboardFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_createAdvertisementActivity"
+            app:destination="@id/createAdvertisementActivity" />
+    </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.EditProfileFragment"
@@ -20,4 +24,9 @@
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
+    <activity
+        android:id="@+id/createAdvertisementActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.CreateAdvertisementActivity"
+        android:label="activity_create_advertisement"
+        tools:layout="@layout/activity_create_advertisement" />
 </navigation>

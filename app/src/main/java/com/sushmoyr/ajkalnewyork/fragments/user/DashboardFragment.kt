@@ -15,8 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentDashboardBinding
 import com.sushmoyr.ajkalnewyork.models.User
 import com.sushmoyr.ajkalnewyork.utils.getUserState
@@ -53,6 +55,10 @@ class DashboardFragment : Fragment() {
 
         binding.updateProfilePic.setOnClickListener {
             uploadImage()
+        }
+
+        binding.postAdButton.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_createAdvertisementActivity)
         }
 
 

@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork.repository
 
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
+import com.sushmoyr.ajkalnewyork.models.ApiPostResponse
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
@@ -33,6 +34,12 @@ class RemoteDataSource {
         Log.d("CallApi", "get all ads")
         return RetrofitInstance.api.getAllAds()
     }
+    suspend fun getAdSizes(): Response<AdvertisementSize> {
+        Log.d("CallApi", "get all ads")
+        return RetrofitInstance.api.getAdSizes()
+    }
+
+
 
     suspend fun getPhotos(): Response<List<Photo>> {
         Log.d("CallApi", "get all photos")
@@ -83,5 +90,30 @@ class RemoteDataSource {
     suspend fun getAllVideos(): Response<List<Video>> {
         return RetrofitInstance.api.getAllVideos()
     }
+
+    suspend fun postAdvertisement(advertisement: Advertisement): Response<ApiPostResponse> {
+        return RetrofitInstance.api.postAdvertisement(advertisement)
+    }
+
+    suspend fun getAllDivision(): Response<List<Division>> {
+        return RetrofitInstance.api.getAllDivision()
+    }
+
+    suspend fun getDistrictByDivision(divisionId: String): Response<List<District>> {
+        return RetrofitInstance.api.getDistrictByDivision(divisionId)
+    }
+
+    suspend fun getBdNews(divisionId: String, districtId: String): Response<List<News>> {
+        return RetrofitInstance.api.getBdNews(divisionId, districtId)
+    }
+
+    suspend fun getBdNews(divisionId: String): Response<List<News>> {
+        return RetrofitInstance.api.getBdNews(divisionId)
+    }
+
+    suspend fun getBdNews(): Response<List<News>> {
+        return RetrofitInstance.api.getBdNews()
+    }
+
 
 }

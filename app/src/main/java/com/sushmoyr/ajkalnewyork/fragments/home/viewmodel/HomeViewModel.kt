@@ -99,12 +99,6 @@ class HomeViewModel : ViewModel() {
 
                     val photos = photosDeferred.await()
                     if (photos.isSuccessful) {
-                        photos.body()!!.forEach {
-                            Log.d("gallery", "====================")
-                            Log.d("gallery", "id: ${it.id}")
-                            Log.d("gallery", "caption: ${it.photoTitle}")
-                            Log.d("gallery", "image: ${it.imagePath}")
-                        }
                         val photoData = DataModel.GalleryItem(photos.body()!!)
                         val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
                             homeItemList.size

@@ -35,18 +35,22 @@
             android:label="@string/title_activity_user"
             android:theme="@style/Theme.AjkalNewYork.NoActionBar" />
         <activity
-            android:name=".activities.auth.AuthActivity"
-            android:exported="true" />
-        <activity android:name=".activities.NewsDetailsActivity" />
-        <activity android:name=".activities.InfoActivity" />
-        <activity
             android:name=".activities.main.MainActivity"
-            android:exported="true">
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".activities.NewsDetailsActivity" />
+        <activity android:name=".activities.InfoActivity" />
+        <activity
+            android:name=".activities.auth.AuthActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

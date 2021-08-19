@@ -60,7 +60,16 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeSwipeToRefreshLayout.setOnRefreshListener {
-            viewModel.getHomeItems(refreshing = true)
+            val selectedCategory = model.selectedCategory.value
+            var categoryId: String? = null
+            if (selectedCategory != resources.getString(R.string.defaultCategoryName)) {
+                model.categoryListData.forEach { cat ->
+                    if (cat.categoryName == selectedCategory)
+                        categoryId = cat.id
+                }
+            }
+
+            viewModel.getHomeItems(categoryId, true)
             viewModel.getBreakingNews(refreshing = true)
         }
 
@@ -92,8 +101,6 @@ class HomeFragment : Fragment() {
 
             viewModel.getHomeItems(categoryId, true)
         })
-
-
 
         viewModel.getAllAds()
 
@@ -200,7 +207,6 @@ class HomeFragment : Fragment() {
 
         rv.apply {
             adapter = homeAdapter
-            setHasFixedSize(true)
             this.layoutManager = layoutManager
         }
 

@@ -1,13 +1,13 @@
 package com.sushmoyr.ajkalnewyork.utils
 
-sealed class ViewModelStatus{
+sealed class ResourceState{
 
     class Loading(
         val isLoading : Boolean = false
-    ):ViewModelStatus()
+    ):ResourceState()
 
     class Result(
         val isSuccess:Boolean,
         val msg: String ? = null
-    ):ViewModelStatus()
+    ):ResourceState()
 }

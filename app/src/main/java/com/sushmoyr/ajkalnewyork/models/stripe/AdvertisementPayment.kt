@@ -19,5 +19,7 @@ data class AdvertisementPayment(
     @SerializedName("created_at")
     val createdAt: String = "",
     @SerializedName("updated_at")
-    val updatedAt: String = ""
+    val updatedAt: String = "",
+    @SerializedName("payment_type")
+    val paymentType: String = "Stripe",
 )

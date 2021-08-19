@@ -3,6 +3,7 @@ package com.sushmoyr.ajkalnewyork.repository
 import androidx.lifecycle.LiveData
 import com.sushmoyr.ajkalnewyork.datasource.local.UserDao
 import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
 
 class LocalDataSource(private val userDao: UserDao) {
 
@@ -27,4 +28,5 @@ class LocalDataSource(private val userDao: UserDao) {
     suspend fun updateUser(user: User) {
         userDao.updateUser(user)
     }
+
 }

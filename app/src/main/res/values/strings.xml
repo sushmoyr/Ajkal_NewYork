@@ -94,4 +94,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="default_division">সকল বিভাগ</string>
     <string name="default_district">সকল জেলা</string>
+    <string name="please_wait">Please wait a moment</string>
+    <string name="succeeded">Success!!</string>
 </resources>

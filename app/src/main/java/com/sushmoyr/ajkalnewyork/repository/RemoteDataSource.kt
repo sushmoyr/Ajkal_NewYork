@@ -2,11 +2,14 @@ package com.sushmoyr.ajkalnewyork.repository
 
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
-import com.sushmoyr.ajkalnewyork.models.ApiPostResponse
+import com.sushmoyr.ajkalnewyork.models.AdPostResponse
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
+import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
+import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
 import retrofit2.Response
 
 class RemoteDataSource {
@@ -91,7 +94,8 @@ class RemoteDataSource {
         return RetrofitInstance.api.getAllVideos()
     }
 
-    suspend fun postAdvertisement(advertisement: Advertisement): Response<ApiPostResponse> {
+    suspend fun postAdvertisement(advertisement: Advertisement): Response<AdPostResponse> {
+        Log.d("upload", "api upload called")
         return RetrofitInstance.api.postAdvertisement(advertisement)
     }
 
@@ -103,16 +107,26 @@ class RemoteDataSource {
         return RetrofitInstance.api.getDistrictByDivision(divisionId)
     }
 
-    suspend fun getBdNews(divisionId: String, districtId: String): Response<List<News>> {
+    suspend fun getBdNews(divisionId: String, districtId: String): Response<List<DataModel.News>> {
         return RetrofitInstance.api.getBdNews(divisionId, districtId)
     }
 
-    suspend fun getBdNews(divisionId: String): Response<List<News>> {
+    suspend fun getBdNews(divisionId: String): Response<List<DataModel.News>> {
         return RetrofitInstance.api.getBdNews(divisionId)
     }
 
-    suspend fun getBdNews(): Response<List<News>> {
+    suspend fun getBdNews(): Response<List<DataModel.News>> {
         return RetrofitInstance.api.getBdNews()
+    }
+
+    suspend fun postAdPayment(adPayment: AdvertisementPayment) {
+        RetrofitInstance.api.postAdPayment(adPayment)
+    }
+
+
+    //handle user login registration
+    suspend fun loginUser(user: LoginRequest): Response<LoginResponse> {
+        return RetrofitInstance.authApi.loginUser(user)
     }
 
 

@@ -1,6 +1,8 @@
 package com.sushmoyr.ajkalnewyork.activities
 
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -101,7 +103,11 @@ class NewsDetailsActivity : AppCompatActivity() {
         newsBodyList.forEach {
             if (it.isNotEmpty() && it.isNotBlank()) {
                 val textView = NewsBodyLayoutBinding.inflate(LayoutInflater.from(this), null, false)
-                textView.root.text = it
+                textView.root.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    Html.fromHtml(it)
+                }
                 binding.detailNewsBodyLayout.addView(textView.root)
             }
         }

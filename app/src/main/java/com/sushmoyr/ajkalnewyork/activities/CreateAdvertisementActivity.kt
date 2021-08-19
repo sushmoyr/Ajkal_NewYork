@@ -96,10 +96,7 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
     private lateinit var stripe: Stripe
 
     private fun setUpPaymentFlow() {
-        stripe = Stripe(
-            applicationContext,
-            PaymentConfiguration.getInstance(applicationContext).publishableKey
-        )
+
 
         binding.payButton.setOnClickListener {
             if(verify()){
@@ -153,6 +150,10 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
 
 
     private fun startCheckout() {
+        stripe = Stripe(
+            applicationContext,
+            PaymentConfiguration.getInstance(applicationContext).publishableKey
+        )
         val notice = "Creating payment session"
         binding.progressText.text = notice
         val amountText = binding.cost.text.toString().drop(1)
@@ -372,10 +373,11 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
                     file.name,
                     body
                 ),
-                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), "json")
+                RequestBody.create("multipart/form-data".toMediaTypeOrNull(), getLastSize())
             ).enqueue(object : Callback<UploadResponse> {
                 override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
                     Log.d("upload", "failure")
+                    postAdvertisement(paymentResponse, "null")
                 }
 
                 override fun onResponse(
@@ -393,11 +395,17 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
 
     }
 
+    private fun getLastSize(): String {
+        return viewModel.lastFetchedAdSizeData[viewModel.selectedItemPosition].id
+    }
+
     private fun handleAdvertisement(response: PaymentResponse) {
+
         postImage(response)
     }
 
     private fun clearFields() {
+        onBackPressed()
         binding.adTitle.text?.clear()
         binding.adLink.text?.clear()
         binding.adImageView.setImageURI(null)

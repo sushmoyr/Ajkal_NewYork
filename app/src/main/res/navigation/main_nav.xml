@@ -32,7 +32,11 @@
         android:id="@+id/mapFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_newsDetailsActivity"
+            app:destination="@id/newsDetailsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/trendingFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.trending.TrendingFragment"

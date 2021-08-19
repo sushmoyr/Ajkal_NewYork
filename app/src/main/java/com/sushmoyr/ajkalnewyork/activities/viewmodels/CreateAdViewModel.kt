@@ -13,6 +13,7 @@ import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.StripeIntent
 import com.sushmoyr.ajkalnewyork.models.core.Advertisement
 import com.sushmoyr.ajkalnewyork.models.core.AdvertisementSize
+import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
 import com.sushmoyr.ajkalnewyork.repository.Repository
@@ -109,16 +110,28 @@ class CreateAdViewModel: ViewModel() {
 
     fun postAdvertisement(advertisement: Advertisement) {
         viewModelScope.launch {
+            Log.d("upload", "ad upload called")
             val response = repository.remoteDataSource.postAdvertisement(advertisement)
             if(response.isSuccessful){
                 val data = response.body()!!
+                Log.d("response", "Ad upload")
                 Log.d("response", data.toString())
+                /*val ad = data.body!!
+                val adPayment = AdvertisementPayment(
+                    userId = ad.userId!!,
+                    advertisementId = ad.id,
+                    amount = ad.amount,
+                    createdAt = ad.createdAt,
+                    updatedAt = ad.updatedAt
+                )*/
+
+                //repository.remoteDataSource.postAdPayment(adPayment)
+            }
+            else{
+                Log.d("response", "broke ${response.message()}")
             }
         }
     }
 
-    fun uploadImage(uri: Uri){
-
-    }
 
 }

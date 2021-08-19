@@ -1,10 +1,13 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
-import com.sushmoyr.ajkalnewyork.models.ApiPostResponse
+import com.sushmoyr.ajkalnewyork.models.AdPostResponse
 import com.sushmoyr.ajkalnewyork.models.DataModel
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
+import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
+import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -69,7 +72,7 @@ interface AjkalApi {
     suspend fun getAllVideos(): Response<List<Video>>
 
     @POST("advertisement.php")
-    suspend fun postAdvertisement(@Body advertisement: Advertisement): Response<ApiPostResponse>
+    suspend fun postAdvertisement(@Body advertisement: Advertisement): Response<AdPostResponse>
 
     @Multipart
     @POST("UploadApi.php?apicall=upload")
@@ -90,15 +93,19 @@ interface AjkalApi {
     suspend fun getBdNews(
         @Query("division_id") divisionId: String,
         @Query("district_id") districtId: String
-    ):Response<List<News>>
+    ):Response<List<DataModel.News>>
 
     @GET("bd_news.php")
     suspend fun getBdNews(
         @Query("division_id") divisionId: String
-    ):Response<List<News>>
+    ):Response<List<DataModel.News>>
 
     @GET("bd_news.php")
-    suspend fun getBdNews():Response<List<News>>
+    suspend fun getBdNews():Response<List<DataModel.News>>
 
+    @POST("adPayments.php")
+    suspend fun postAdPayment(@Body adPayment: AdvertisementPayment)
 
+    @POST("login")
+    suspend fun loginUser(@Body user: LoginRequest): LoginResponse
 }

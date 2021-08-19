@@ -15,4 +15,6 @@ class DrawerViewModel: ViewModel() {
     fun setCategoryList(categoryList: List<Category>){
         categoryListData = categoryList
     }
+
+    fun getCategoryList() = MutableLiveData<List<Category>>(categoryListData)
 }

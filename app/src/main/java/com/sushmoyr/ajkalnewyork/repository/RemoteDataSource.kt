@@ -10,6 +10,8 @@ import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
 import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
+import com.sushmoyr.ajkalnewyork.models.utility.RegisterRequest
+import com.sushmoyr.ajkalnewyork.models.utility.RegistrationResponse
 import retrofit2.Response
 
 class RemoteDataSource {
@@ -127,6 +129,18 @@ class RemoteDataSource {
     //handle user login registration
     suspend fun loginUser(user: LoginRequest): Response<LoginResponse> {
         return RetrofitInstance.authApi.loginUser(user)
+    }
+
+    suspend fun authUser() {
+        RetrofitInstance.authApi.authenticate()
+    }
+
+    suspend fun logout() {
+       RetrofitInstance.authApi.logout()
+    }
+
+    suspend fun register(request: RegisterRequest): Response<RegistrationResponse> {
+        return RetrofitInstance.authApi.register(request)
     }
 
 

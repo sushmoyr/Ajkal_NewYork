@@ -22,6 +22,7 @@ import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentRegistrationBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.RegisterViewModel
 import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.utility.RegisterRequest
 import com.sushmoyr.ajkalnewyork.utils.encrypt
 import kotlinx.coroutines.launch
 import java.util.*
@@ -85,7 +86,38 @@ class RegistrationFragment : Fragment() {
             }
             val user = User(uuid,name, email, password.encrypt(password), profilePhoto = bitmap!!)
             Log.d("reg", user.toString())
-            confirmRegistration(user)
+            //confirmRegistration(user)
+            registerWithApi(name, email, password, confirmPass)
+        }
+    }
+
+    private fun registerWithApi(
+        name: String,
+        email: String,
+        password: String,
+        passwordConfirmation: String,
+    ) {
+        val request = RegisterRequest(name, email, password, passwordConfirmation)
+        lifecycleScope.launch {
+            setViewAndChildrenEnabled(binding.root, false)
+            val response = viewModel.register(request)
+            if(response.isSuccessful){
+                setViewAndChildrenEnabled(binding.root, true)
+                when(response.code()){
+                    200 -> {
+                        Toast.makeText(requireContext(), "Success!! Login now", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+                    }
+                    202 -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Email already exists!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
     }
 
@@ -203,6 +235,17 @@ class RegistrationFragment : Fragment() {
 
 
         })
+    }
+
+    private fun setViewAndChildrenEnabled(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        if (view is ViewGroup) {
+            val viewGroup = view as ViewGroup
+            for (i in 0 until viewGroup.childCount) {
+                val child: View = viewGroup.getChildAt(i)
+                setViewAndChildrenEnabled(child, enabled)
+            }
+        }
     }
 
 }

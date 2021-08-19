@@ -6,9 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.sushmoyr.ajkalnewyork.datasource.local.UserDatabase
 import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.utility.RegisterRequest
+import com.sushmoyr.ajkalnewyork.models.utility.RegistrationResponse
 import com.sushmoyr.ajkalnewyork.repository.LocalDataSource
+import com.sushmoyr.ajkalnewyork.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -21,6 +25,8 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         readAllData = repository.readAllData
     }
 
+    private val api =  Repository().remoteDataSource
+
     fun addUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addUser(user)
@@ -29,5 +35,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     suspend fun getEmail(email: String): LiveData<List<User>> {
         return repository.getEmail("%$email")
+    }
+
+    suspend fun register(request: RegisterRequest): Response<RegistrationResponse> {
+        return api.register(request)
     }
 }

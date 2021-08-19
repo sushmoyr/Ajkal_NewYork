@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentDashboardBinding
-import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
 class DashboardFragment : Fragment() {
@@ -35,12 +35,16 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
         val userState = getUserState(activity)
-        if(userState.uuid == null){
+        if(userState.user == null){
             Log.d("userData", "Invalid request")
             activity?.finish()
         }
         else{
-            viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
+            //TODO temp solution
+            // FIXME: 8/19/2021
+            updateUi(userState.user)
+
+           /* viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
                 userList.forEach { user ->
                     if(user.id == userState.uuid){
                         updateUi(user)
@@ -49,7 +53,7 @@ class DashboardFragment : Fragment() {
                     }
                 }
 
-            })
+            })*/
 
         }
 
@@ -78,14 +82,13 @@ class DashboardFragment : Fragment() {
 
 
     private fun updateUi(it: User) {
-        binding.dashboardUserName.text = it.fullName
+        binding.dashboardUserName.text = it.name
         binding.dashboardUserEmail.text = it.email
-        binding.userPhoneNumber.text = it.phoneNo
+        binding.userPhoneNumber.text = it.mobile
         binding.userAddress.text = it.address
         binding.userEmail.text = it.email
-        binding.profilePicture.setImageBitmap(it.profilePhoto)
         Glide.with(this)
-            .load(it.profilePhoto)
+            .load(it.image)
             .override(148, 148)
             .centerCrop()
             .into(binding.profilePicture)
@@ -107,10 +110,10 @@ class DashboardFragment : Fragment() {
                 } else {
                     MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
                 }
-                currentUser = User(currentUser.id, currentUser.fullName, currentUser.email, currentUser
+                /*currentUser = User(currentUser.id, currentUser.fullName, currentUser.email, currentUser
                     .password, currentUser.address, currentUser.phoneNo, bitmap)
 
-                viewModel.updateUser(currentUser)
+                viewModel.updateUser(currentUser)*/
             }
         }
     }

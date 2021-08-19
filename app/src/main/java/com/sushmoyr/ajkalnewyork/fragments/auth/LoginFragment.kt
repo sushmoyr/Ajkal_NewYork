@@ -21,6 +21,7 @@ import com.sushmoyr.ajkalnewyork.databinding.FragmentLoginBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.LoginViewModel
 import com.sushmoyr.ajkalnewyork.models.UserState
 import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
+import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
 import com.sushmoyr.ajkalnewyork.utils.encrypt
@@ -47,6 +48,12 @@ class LoginFragment : Fragment() {
 
         addPasswordValidator()
 
+        binding.googleLoginButton.setOnClickListener{
+            lifecycleScope.launch {
+                viewModel.logout()
+            }
+        }
+
         binding.loginToRegisterButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
@@ -56,8 +63,8 @@ class LoginFragment : Fragment() {
             val password = binding.loginPasswordInput.text.toString()
             if (validInput(email, password)) {
                 Log.d("login", "Email: $email and Password: $password")
-                login(email, password.encrypt(password))
-                //loginWithApi(email, password)
+                //login(email, password.encrypt(password))
+                loginWithApi(email, password)
             }
         }
 
@@ -69,17 +76,24 @@ class LoginFragment : Fragment() {
             //show login progress dialog
             Log.d("auth", "login started")
             try {
-
                 val responseMain = viewModel.loginWithApi(email, password)
                 if(responseMain.isSuccessful){
                     Log.d("auth", "response success")
                     val response = responseMain.body()!!
-                    when(response){
+                    /*when(response){
                         is LoginResponse.Error -> Log.d("auth", "login error ${response.error}")
-                        is LoginResponse.Success -> Log.d("auth", "login success. token = ${response.token}")
-                    }
+                        is LoginResponse.Success -> {
+                            Log.d("auth", "login success. token = ${response.user}")
+                            viewModel.authUser()
+                        }
+                    }*/
+                    Log.d("auth_success", response.user.toString())
+                    saveToSharedPreference(response.user)
+                    findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                    activity?.finish()
                 }
                 else {
+                    showAlert("Failed", responseMain.message())
                     Log.d("auth", "response failed")
                     Log.d("auth", "code: ${responseMain.code()}")
                     Log.d("auth", "code: ${responseMain.message()}")
@@ -110,7 +124,7 @@ class LoginFragment : Fragment() {
                     Log.d("login", it.toString())
                     if (it.email == email && it.password == password){
                         hasAccount = true
-                        saveToSharedPreference(it.id)
+                        //saveToSharedPreference(it.id)
                         findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                         activity?.finish()
                         return@forEach
@@ -122,12 +136,11 @@ class LoginFragment : Fragment() {
             } else
                 showAlert("Incorrect Info", "Incorrect email or password. Try Again!!")
         })
-
     }
 
-    private fun saveToSharedPreference(uuid: String) {
+    private fun saveToSharedPreference(user: User) {
 
-        val userState = UserState(true, uuid)
+        val userState = UserState(true, user)
         val gson = Gson()
         val value = gson.toJson(userState)
         Log.d("userState", value)
@@ -202,6 +215,17 @@ class LoginFragment : Fragment() {
                 else android.util.Patterns.EMAIL_ADDRESS.matcher(text.trim()).matches()
             }
         })
+    }
+
+    private fun setViewAndChildrenEnabled(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        if (view is ViewGroup) {
+            val viewGroup = view as ViewGroup
+            for (i in 0 until viewGroup.childCount) {
+                val child: View = viewGroup.getChildAt(i)
+                setViewAndChildrenEnabled(child, enabled)
+            }
+        }
     }
 
     override fun onDestroy() {

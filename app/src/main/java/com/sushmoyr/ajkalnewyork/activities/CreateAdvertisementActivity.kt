@@ -36,6 +36,7 @@ import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
 import com.sushmoyr.ajkalnewyork.utils.UploadRequestBody
 import com.sushmoyr.ajkalnewyork.utils.getFileName
+import com.sushmoyr.ajkalnewyork.utils.getUserState
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -324,7 +325,7 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
 
     private fun getAdvertisement(paymentId: String, amount: String, adImage: String):
             Advertisement {
-        val userId = "3"
+        val userId = getUserState(this).user?.id.toString()
         val adTitle = binding.adTitle.text.toString()
         val adLink = binding.adLink.text.toString()
         val dateTime = LocalDateTime.now()

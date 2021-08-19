@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentEditProfileBinding
-import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
 class EditProfileFragment : Fragment() {
@@ -31,12 +30,15 @@ class EditProfileFragment : Fragment() {
 
         val userState = getUserState(activity)
 
-        if(userState.uuid == null){
+        if(userState.user == null){
             Log.d("userData", "Invalid request")
             activity?.finish()
         }
         else{
-            viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
+            //TODO temp solution
+            // FIXME: 8/19/2021
+            updateUi(userState.user)
+            /*viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
                 userList.forEach { user ->
                     if(user.id == userState.uuid){
                         updateUi(user)
@@ -45,32 +47,35 @@ class EditProfileFragment : Fragment() {
                     }
                 }
 
-            })
+            })*/
 
         }
 
         binding.updateProfileButton.setOnClickListener {
-            updateProfile()
+            //updateProfile()
+            // FIXME: 8/19/2021
+            //TODO FIXME
         }
 
         return binding.root
     }
 
     private fun updateUi(user: User) {
-        binding.updateFullName.setText(user.fullName)
+        binding.updateFullName.setText(user.name)
         binding.updateEmail.setText(user.email)
         binding.updateAddress.setText(user.address)
-        binding.updatePhone.setText(user.phoneNo)
-        binding.dashboardUserName.text = user.fullName
+        binding.updatePhone.setText(user.mobile)
+        binding.dashboardUserName.text = user.name
         Glide.with(this)
-            .load(user.profilePhoto)
+            .load(user.image)
             .override(148, 148)
             .centerCrop()
             .into(binding.profilePicture)
 
     }
 
-    private fun updateProfile() {
+    //TODO FIXME
+    /*private fun updateProfile() {
         val user = User(
             currentUser.id,
             binding.updateFullName.text.toString(),
@@ -83,7 +88,7 @@ class EditProfileFragment : Fragment() {
 
         viewModel.updateUser(user)
         Toast.makeText(requireContext(), "User Updated", Toast.LENGTH_SHORT).show()
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()

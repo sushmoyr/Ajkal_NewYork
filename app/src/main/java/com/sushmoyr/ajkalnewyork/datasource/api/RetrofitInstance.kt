@@ -153,8 +153,8 @@ object RetrofitInstance {
     private val authApiBuilder by lazy {
         Retrofit.Builder()
             .baseUrl(AJKAL_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(customDeserializer))
-            .client(client.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
             .build()
     }
 

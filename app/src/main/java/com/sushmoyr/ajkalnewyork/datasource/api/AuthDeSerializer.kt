@@ -19,11 +19,11 @@ class AuthDeSerializer: JsonDeserializer<LoginResponse> {
         checkNotNull(context)
         val jsonObject = json.asJsonObject
         Log.d("customSerial", jsonObject.toString())
-        val type:String? = jsonObject.get("token").asString
+        val type:String? = jsonObject.get("error").asString
         Log.d("customSerial", type?:"null")
         return when(type){
-            null -> Gson().fromJson(jsonObject, LoginResponse.Error::class.java)
-            else -> Gson().fromJson(jsonObject, LoginResponse.Success::class.java)
+            null -> Gson().fromJson(jsonObject, LoginResponse::class.java)
+            else -> Gson().fromJson(jsonObject, LoginResponse::class.java)
         }
     }
 }

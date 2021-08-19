@@ -31,14 +31,16 @@ class ChangePasswordFragment : Fragment() {
 
         val userState = getUserState(activity)
 
-        if(userState.uuid == null){
+        if(userState.user == null){
             Log.d("userData", "Invalid request")
             activity?.finish()
         }
-        else{
-            viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
+        //TODO implement change password method
+        // FIXME: 8/19/2021  
+        /*else{
+            viewModel.getUser(userState.user).observe(viewLifecycleOwner, {userList->
                 userList.forEach { user ->
-                    if(user.id == userState.uuid){
+                    if(user.id == userState.user){
                         updateUi(user)
                         currentUser = user
                         return@forEach
@@ -47,7 +49,7 @@ class ChangePasswordFragment : Fragment() {
 
             })
 
-        }
+        }*/
 
         binding.updatePasswordButton.setOnClickListener {
             updatePassword()

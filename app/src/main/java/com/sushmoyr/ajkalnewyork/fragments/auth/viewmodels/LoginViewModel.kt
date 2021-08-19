@@ -29,4 +29,12 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     suspend fun loginWithApi(email: String, password: String): Response<LoginResponse> {
         return api.loginUser(LoginRequest(email, password))
     }
+
+    suspend fun authUser() {
+        api.authUser()
+    }
+
+    suspend fun logout() {
+        api.logout()
+    }
 }

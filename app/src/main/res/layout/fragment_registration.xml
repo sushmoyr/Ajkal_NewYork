@@ -169,6 +169,7 @@
                 android:id="@+id/reg_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="Enter password" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,6 +188,7 @@
                 android:id="@+id/reg_confirm_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="Confirm password" />
         </com.google.android.material.textfield.TextInputLayout>
 

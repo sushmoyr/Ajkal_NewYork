@@ -323,9 +323,9 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
         }
     }
 
-    private fun getAdvertisement(paymentId: String, amount: String, adImage: String):
+    private fun getAdvertisement(paymentId: String, amount: String, adImage: String?):
             Advertisement {
-        val userId = getUserState(this).user?.id.toString()
+        val userId = getUserState(this).user!!.id.toString()
         val adTitle = binding.adTitle.text.toString()
         val adLink = binding.adLink.text.toString()
         val dateTime = LocalDateTime.now()
@@ -334,11 +334,22 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
         val forDay = binding.adLimit.text.toString()
         val expDate = dateTime.plusDays(forDay.toLong()).toString()
 
+        Log.d("bug fix userid", userId)
+        Log.d("bug fix title", adTitle)
+        Log.d("bug fix link", adLink)
+        Log.d("bug fix created", createdAt)
+        Log.d("bug fix size", sizeId)
+        Log.d("bug fix for", forDay)
+        Log.d("bug fix exp", expDate)
+        Log.d("bug fix pid", paymentId)
+        Log.d("bug fix amount", amount)
+
+
         return Advertisement(
             userId = userId,
             adTitle = adTitle,
             adLink = adLink,
-            _adImage = adImage,
+            _adImage = adImage?:"none",
             expDate = expDate,
             createdAt = createdAt,
             sizeId = sizeId,
@@ -350,7 +361,8 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
 
     private fun postAdvertisement(response: PaymentResponse, image: String) {
         Log.d("upload", "post ad called with image: $image")
-        val advertisement = getAdvertisement(response.id, (response.amount /100).toString(), image)
+        val advertisement = getAdvertisement(response.id, (response.amount /100).toString(), "image")
+        Log.d("bugFix", advertisement.toString())
         viewModel.postAdvertisement(advertisement)
     }
 

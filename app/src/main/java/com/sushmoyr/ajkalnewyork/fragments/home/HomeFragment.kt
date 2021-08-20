@@ -17,15 +17,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentHomeBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
 import com.sushmoyr.ajkalnewyork.fragments.home.viewmodel.HomeViewModel
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Category
-import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.blink
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 

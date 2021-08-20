@@ -1,10 +1,11 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
 import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
@@ -72,7 +73,7 @@ interface AjkalApi {
     suspend fun getAllVideos(): Response<List<Video>>
 
     @POST("advertisement.php")
-    suspend fun postAdvertisement(@Body advertisement: Advertisement): Response<AdPostResponse>
+    suspend fun postAdvertisement(@Body advertisement: SponsoredAds): Response<AdPostResponse>
 
     @Multipart
     @POST("UploadApi.php?apicall=upload")
@@ -106,6 +107,32 @@ interface AjkalApi {
     @POST("adPayments.php")
     suspend fun postAdPayment(@Body adPayment: AdvertisementPayment)
 
-    @POST("login")
-    suspend fun loginUser(@Body user: LoginRequest): LoginResponse
+    @Multipart
+    @POST("ad/upload")
+    suspend fun uploadSponsoredAd(
+        @Part("user_id")
+        userId: RequestBody,
+        @Part("ad_title")
+         adTitle: RequestBody,
+        @Part("ad_link")
+         adLink: RequestBody,
+        @Part("size_id")
+         sizeId: RequestBody,
+        @Part
+        adImage: MultipartBody.Part,
+        @Part("created_date")
+         createdDate: RequestBody,
+        @Part("exp_date")
+         expDate: RequestBody,
+        @Part("for_day")
+         forDay: RequestBody,
+/*        @Part("amount")
+         amount: RequestBody,
+        @Part("status")
+         status: RequestBody,*/
+/*        @Part("created_at")
+         createdAt: RequestBody,
+        @Part("updated_at")
+         updatedAt: RequestBody*/
+    ):Call<UploadResponse>
 }

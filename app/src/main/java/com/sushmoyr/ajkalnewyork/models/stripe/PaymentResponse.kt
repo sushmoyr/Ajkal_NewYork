@@ -17,5 +17,5 @@ data class PaymentResponse(
     @SerializedName("id")
     val id: String = "",
     @SerializedName("status")
-    val status: String = ""
+    val status: String = "",
 )

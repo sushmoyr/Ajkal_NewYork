@@ -1,7 +1,7 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.models.core.Photo
 import retrofit2.Response

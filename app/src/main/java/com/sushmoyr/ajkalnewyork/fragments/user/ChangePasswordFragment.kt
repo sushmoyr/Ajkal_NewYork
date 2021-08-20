@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentChangePasswordBinding
-import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.InvalidUser
 import com.sushmoyr.ajkalnewyork.utils.encrypt
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
@@ -20,7 +19,7 @@ class ChangePasswordFragment : Fragment() {
     private var _binding: FragmentChangePasswordBinding ?= null
     private val binding get() = _binding!!
 
-    private lateinit var currentUser : User
+    private lateinit var currentUser : InvalidUser
     val viewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -68,7 +67,7 @@ class ChangePasswordFragment : Fragment() {
             return
         }
         else{
-            val user = User(
+            val user = InvalidUser(
                 currentUser.id,
                 currentUser.fullName,
                 currentUser.email,
@@ -85,7 +84,7 @@ class ChangePasswordFragment : Fragment() {
         }
     }
 
-    private fun updateUi(user: User) {
+    private fun updateUi(user: InvalidUser) {
         binding.dashboardUserName.text = user.fullName
         Glide.with(this)
             .load(user.profilePhoto)

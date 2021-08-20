@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "user_table")
-data class User(
+data class InvalidUser(
     @PrimaryKey(autoGenerate = false)
     val id: String = "",
     val fullName: String = "",

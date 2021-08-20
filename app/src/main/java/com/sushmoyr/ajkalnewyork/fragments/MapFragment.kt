@@ -17,9 +17,8 @@ import com.google.android.material.chip.Chip
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentMapBinding
-import com.sushmoyr.ajkalnewyork.fragments.home.HomeFragmentDirections
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.District
 import com.sushmoyr.ajkalnewyork.models.core.Division
 import com.sushmoyr.ajkalnewyork.utils.ResourceState

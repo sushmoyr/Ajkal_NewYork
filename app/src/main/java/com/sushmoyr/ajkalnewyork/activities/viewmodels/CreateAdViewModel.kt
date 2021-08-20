@@ -1,7 +1,6 @@
 package com.sushmoyr.ajkalnewyork.activities.viewmodels
 
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +10,8 @@ import com.google.gson.GsonBuilder
 import com.stripe.android.Stripe
 import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.StripeIntent
-import com.sushmoyr.ajkalnewyork.models.core.Advertisement
 import com.sushmoyr.ajkalnewyork.models.core.AdvertisementSize
-import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
+import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
 import com.sushmoyr.ajkalnewyork.repository.Repository
@@ -108,7 +106,7 @@ class CreateAdViewModel: ViewModel() {
         }
     }
 
-    fun postAdvertisement(advertisement: Advertisement) {
+    fun postAdvertisement(advertisement: SponsoredAds) {
         viewModelScope.launch {
             Log.d("upload", "ad upload called")
             val response = repository.remoteDataSource.postAdvertisement(advertisement)

@@ -22,13 +22,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+        app:layout_constraintTop_toBottomOf="@+id/updateProfilePic" />
 
     <TextView
         android:id="@+id/update_profile"
@@ -124,6 +124,21 @@
 
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/updateProfilePic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_write"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
+        app:layout_constraintEnd_toEndOf="@+id/profilePicture"
+        app:layout_constraintStart_toEndOf="@+id/profilePicture"
+        app:layout_constraintTop_toBottomOf="@+id/profilePicture"
+        android:focusable="true"
+        app:backgroundTint="@color/primaryColor"
+        app:fabSize="mini"
+        android:contentDescription="@string/edit_profile_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

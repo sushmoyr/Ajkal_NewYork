@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentTrendingBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
-import com.sushmoyr.ajkalnewyork.models.DataModel
-import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.repository.Repository
 
 class TrendingFragment : Fragment() {

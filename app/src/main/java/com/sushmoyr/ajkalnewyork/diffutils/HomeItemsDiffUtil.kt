@@ -1,7 +1,7 @@
 package com.sushmoyr.ajkalnewyork.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 
 class HomeItemsDiffUtil(
     private val oldItems: List<DataModel>,

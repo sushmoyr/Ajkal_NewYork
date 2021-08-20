@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
@@ -12,7 +12,6 @@ import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.selects.select
 import retrofit2.Response
 
 class HomeViewModel : ViewModel() {

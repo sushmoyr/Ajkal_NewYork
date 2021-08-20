@@ -88,8 +88,27 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/user_navigation_view"
+        app:itemIconTint="@color/grey"
+        app:itemTextColor="@color/grey"
         app:menu="@menu/user_drawer_menu"
         android:fitsSystemWindows="true"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            app:iconPadding="16dp"
+            android:text="Logout"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_login"
+            android:textAllCaps="false"
+            android:layout_margin="24dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/primaryColor"
+            android:layout_gravity="bottom"/>
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

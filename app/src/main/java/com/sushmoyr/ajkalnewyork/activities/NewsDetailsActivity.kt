@@ -18,9 +18,7 @@ import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sushmoyr.ajkalnewyork.fragments.NewsAdapter
-import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailViewModel
 import com.sushmoyr.ajkalnewyork.databinding.ActivityNewsDetailsBinding
@@ -142,7 +140,7 @@ class NewsDetailsActivity : AppCompatActivity() {
                                 )
 
                                 Glide.with(this)
-                                    .load(ads[adcount++].adImage)
+                                    .load(ads[adcount++].image)
                                     .into(view.addImage)
                                 adsLayoutRoot.addView(view.root)
                                 val space = Space(this)

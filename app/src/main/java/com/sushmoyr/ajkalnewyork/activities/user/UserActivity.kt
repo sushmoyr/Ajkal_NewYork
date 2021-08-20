@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.main.MainActivity
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
 import com.sushmoyr.ajkalnewyork.databinding.ActivityUserBinding
 import com.sushmoyr.ajkalnewyork.utils.Constants
 import com.sushmoyr.ajkalnewyork.utils.getUserState
@@ -24,29 +26,34 @@ class UserActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private val userViewModel: MainUserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val userState = getUserState(this)
+        if(!userState.isLoggedIn || userState.user==null)
+            logout()
+
+        userViewModel.setCurrentUser(userState.user!!)
+
         setUpNavigation()
 
-        val navigationView = binding.userNavigationView
-        navigationView.setNavigationItemSelectedListener { item ->
-            if(item.itemId == R.id.logout_drawer){
-                val sharedPref = this.getSharedPreferences(
-                    Constants.USER_AUTHENTICATION_KEY, Context
-                    .MODE_PRIVATE)
-                sharedPref.edit().clear().apply()
-                val state = getUserState(this)
-                Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }
-            true
+        binding.logoutButton.setOnClickListener {
+            logout()
         }
+    }
 
+    private fun logout() {
+        val sharedPref = this.getSharedPreferences(
+            Constants.USER_AUTHENTICATION_KEY, Context
+                .MODE_PRIVATE)
+        sharedPref.edit().clear().apply()
+        Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun setUpNavigation(){

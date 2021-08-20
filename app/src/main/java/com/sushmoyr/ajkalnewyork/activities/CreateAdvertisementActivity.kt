@@ -1,8 +1,6 @@
 package com.sushmoyr.ajkalnewyork.activities
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -21,7 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.github.drjacky.imagepicker.ImagePicker
 import com.google.gson.Gson
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
@@ -31,7 +29,7 @@ import com.sushmoyr.ajkalnewyork.activities.viewmodels.CreateAdViewModel
 import com.sushmoyr.ajkalnewyork.databinding.ActivityCreateAdvertisementBinding
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
-import com.sushmoyr.ajkalnewyork.models.core.Advertisement
+import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
 import com.sushmoyr.ajkalnewyork.utils.UploadRequestBody
@@ -67,6 +65,7 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
         setUpSubscriptionPlan()
 
         setUploadImageFunction()
+
 
         setUpPaymentFlow()
 
@@ -324,7 +323,7 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
     }
 
     private fun getAdvertisement(paymentId: String, amount: String, adImage: String?):
-            Advertisement {
+            SponsoredAds {
         val userId = getUserState(this).user!!.id.toString()
         val adTitle = binding.adTitle.text.toString()
         val adLink = binding.adLink.text.toString()
@@ -345,11 +344,11 @@ class CreateAdvertisementActivity : AppCompatActivity(), UploadRequestBody.Uploa
         Log.d("bug fix amount", amount)
 
 
-        return Advertisement(
+        return SponsoredAds(
             userId = userId,
             adTitle = adTitle,
             adLink = adLink,
-            _adImage = adImage?:"none",
+            adImage = adImage?:"none",
             expDate = expDate,
             createdAt = createdAt,
             sizeId = sizeId,

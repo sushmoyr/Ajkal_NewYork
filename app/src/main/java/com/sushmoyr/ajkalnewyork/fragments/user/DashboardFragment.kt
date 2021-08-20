@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentDashboardBinding
 import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.getUserState
@@ -27,7 +29,8 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding?=null
     private val binding get() = _binding!!
     private lateinit var currentUser : User
-    val viewModel: UserViewModel by activityViewModels()
+    //val viewModel: UserViewModel by activityViewModels()
+    private val userViewModel : MainUserViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,12 +42,13 @@ class DashboardFragment : Fragment() {
             Log.d("userData", "Invalid request")
             activity?.finish()
         }
-        else{
+        /*else{
             //TODO temp solution
             // FIXME: 8/19/2021
             updateUi(userState.user)
 
-           /* viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
+
+           *//* viewModel.getUser(userState.uuid).observe(viewLifecycleOwner, {userList->
                 userList.forEach { user ->
                     if(user.id == userState.uuid){
                         updateUi(user)
@@ -53,70 +57,46 @@ class DashboardFragment : Fragment() {
                     }
                 }
 
-            })*/
+            })*//*
 
-        }
+        }*/
 
-        binding.updateProfilePic.setOnClickListener {
-            uploadImage()
-        }
+        userViewModel.currentUser.observe(viewLifecycleOwner, { user ->
+            updateUi(user)
+        })
 
-        binding.postAdButton.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_createAdvertisementActivity)
-        }
+
+
+
 
 
         return binding.root
     }
 
-    private fun uploadImage() {
-        val intent = Intent()
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(intent, 100)
-    }
-
 
 
     private fun updateUi(it: User) {
-        binding.dashboardUserName.text = it.name
-        binding.dashboardUserEmail.text = it.email
-        binding.userPhoneNumber.text = it.mobile
-        binding.userAddress.text = it.address
-        binding.userEmail.text = it.email
+        setTextValue(binding.dashboardUserName, it.name)
+        setTextValue(binding.dashboardUserEmail, it.email)
+        setTextValue(binding.userPhoneNumber, it.mobile)
+        setTextValue(binding.userAddress, it.address)
+        setTextValue(binding.userEmail, it.email)
         Glide.with(this)
             .load(it.image)
             .override(148, 148)
             .centerCrop()
             .into(binding.profilePicture)
 
-
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 100 && resultCode == RESULT_OK) {
-            if (data?.data != null) {
-                // if single image is selected
-
-                val imageUri: Uri = data.data!!
-
-                val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireContext().contentResolver, imageUri))
-                } else {
-                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
-                }
-                /*currentUser = User(currentUser.id, currentUser.fullName, currentUser.email, currentUser
-                    .password, currentUser.address, currentUser.phoneNo, bitmap)
-
-                viewModel.updateUser(currentUser)*/
-            }
+    private fun setTextValue(textView: TextView, value: String?){
+        if(!value.isNullOrEmpty()) {
+            textView.text = value
         }
     }
+
+
+
 
 
     override fun onDestroy() {

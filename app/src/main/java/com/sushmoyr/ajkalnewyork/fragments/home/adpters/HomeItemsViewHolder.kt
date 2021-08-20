@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.*
 import com.sushmoyr.ajkalnewyork.models.core.Category
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 
 sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -75,7 +75,7 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
         fun bind(advertisement: DataModel.Advertisement) {
             Glide.with(binding.root.context)
                 .asBitmap()
-                .load(advertisement.adImage)
+                .load(advertisement.image)
                 .transition(BitmapTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)

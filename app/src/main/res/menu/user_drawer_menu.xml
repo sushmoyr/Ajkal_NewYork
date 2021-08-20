@@ -12,13 +12,22 @@
             android:icon="@drawable/ic_write"
             android:title="Edit Profile" />
         <item
+            android:id="@id/uploadAdFragment"
+            android:icon="@drawable/ic_baseline_cloud_upload_24"
+            android:title="Upload Advertisement" />
+        <item
+            android:id="@id/userAdFragment"
+            android:icon="@drawable/ic_baseline_library_books_24"
+            android:title="Your Advertisement" />
+        <item
+            android:id="@id/paymentHistoryFragment"
+            android:icon="@drawable/ic_baseline_history_24"
+            android:title="Payment History" />
+        <item
             android:id="@id/changePasswordFragment"
             android:icon="@drawable/ic_key"
             android:title="Change Password" />
-        <item
-            android:id="@+id/logout_drawer"
-            android:icon="@drawable/ic_login"
-            android:title="Logout" />
+
 
     </group>
 </menu>

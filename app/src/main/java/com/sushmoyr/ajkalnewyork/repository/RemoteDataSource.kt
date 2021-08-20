@@ -3,9 +3,10 @@ package com.sushmoyr.ajkalnewyork.repository
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
@@ -96,7 +97,7 @@ class RemoteDataSource {
         return RetrofitInstance.api.getAllVideos()
     }
 
-    suspend fun postAdvertisement(advertisement: Advertisement): Response<AdPostResponse> {
+    suspend fun postAdvertisement(advertisement: SponsoredAds): Response<AdPostResponse> {
         Log.d("upload", "api upload called")
         return RetrofitInstance.api.postAdvertisement(advertisement)
     }

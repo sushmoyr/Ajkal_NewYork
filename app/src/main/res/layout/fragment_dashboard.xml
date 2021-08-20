@@ -43,29 +43,16 @@
         app:layout_constraintStart_toStartOf="@+id/dashboard_user_name"
         app:layout_constraintTop_toBottomOf="@+id/dashboard_user_name" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/update_profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change Profile Picture"
-        android:textAllCaps="false"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:strokeColor="@color/secondaryColor"
-        android:textColor="@color/secondaryColor"
-        app:layout_constraintEnd_toEndOf="@+id/dashboard_user_email"
-        app:layout_constraintStart_toStartOf="@+id/dashboard_user_email"
-        app:layout_constraintTop_toBottomOf="@+id/dashboard_user_email" />
-
     <TextView
         android:id="@+id/textView9"
+        style="@style/TextAppearance.MaterialComponents.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Address"
         android:textColor="@android:color/darker_gray"
-        style="@style/TextAppearance.MaterialComponents.Body2"
         app:layout_constraintStart_toStartOf="@+id/dashboard_user_email"
-        app:layout_constraintTop_toBottomOf="@+id/update_profile_pic" />
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_user_email" />
 
     <TextView
         android:id="@+id/user_address"
@@ -122,18 +109,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:id="@+id/post_ad_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Post an advertisement"
-        android:textAllCaps="false"
-        app:strokeColor="@color/secondaryColor"
-        android:textColor="@color/secondaryColor"
-        app:layout_constraintEnd_toEndOf="@+id/user_email"
-        app:layout_constraintStart_toStartOf="@+id/user_email"
-        app:layout_constraintTop_toBottomOf="@+id/user_email" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

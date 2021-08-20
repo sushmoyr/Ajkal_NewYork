@@ -9,11 +9,7 @@
         android:id="@+id/dashboardFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
-        <action
-            android:id="@+id/action_dashboardFragment_to_createAdvertisementActivity"
-            app:destination="@id/createAdvertisementActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.EditProfileFragment"
@@ -24,9 +20,19 @@
         android:name="com.sushmoyr.ajkalnewyork.fragments.user.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
-    <activity
-        android:id="@+id/createAdvertisementActivity"
-        android:name="com.sushmoyr.ajkalnewyork.activities.CreateAdvertisementActivity"
-        android:label="activity_create_advertisement"
-        tools:layout="@layout/activity_create_advertisement" />
+    <fragment
+        android:id="@+id/uploadAdFragment"
+        android:name="com.sushmoyr.ajkalnewyork.UploadAdFragment"
+        android:label="fragment_upload_ad"
+        tools:layout="@layout/fragment_upload_ad" />
+    <fragment
+        android:id="@+id/userAdFragment"
+        android:name="com.sushmoyr.ajkalnewyork.UserAdFragment"
+        android:label="fragment_user_ad"
+        tools:layout="@layout/fragment_user_ad" />
+    <fragment
+        android:id="@+id/paymentHistoryFragment"
+        android:name="com.sushmoyr.ajkalnewyork.PaymentHistoryFragment"
+        android:label="fragment_payment_history"
+        tools:layout="@layout/fragment_payment_history" />
 </navigation>

@@ -96,4 +96,5 @@
     <string name="default_district">সকল জেলা</string>
     <string name="please_wait">Please wait a moment</string>
     <string name="succeeded">Success!!</string>
+    <string name="edit_profile_button">Edit Profile Button</string>
 </resources>

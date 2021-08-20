@@ -10,18 +10,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.FragmentRegistrationBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.RegisterViewModel
-import com.sushmoyr.ajkalnewyork.models.User
+import com.sushmoyr.ajkalnewyork.models.InvalidUser
 import com.sushmoyr.ajkalnewyork.models.utility.RegisterRequest
 import com.sushmoyr.ajkalnewyork.utils.encrypt
 import kotlinx.coroutines.launch
@@ -84,7 +80,7 @@ class RegistrationFragment : Fragment() {
             if(bitmap == null){
                 Toast.makeText(requireContext(), "Bitmap null", Toast.LENGTH_SHORT).show()
             }
-            val user = User(uuid,name, email, password.encrypt(password), profilePhoto = bitmap!!)
+            val user = InvalidUser(uuid,name, email, password.encrypt(password), profilePhoto = bitmap!!)
             Log.d("reg", user.toString())
             //confirmRegistration(user)
             registerWithApi(name, email, password, confirmPass)
@@ -121,7 +117,7 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun confirmRegistration(user: User) {
+    private fun confirmRegistration(user: InvalidUser) {
         lifecycleScope.launch {
             val email = viewModel.getEmail(user.email)
             email.observe(viewLifecycleOwner, { data ->
@@ -144,7 +140,7 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun register(user: User) {
+    private fun register(user: InvalidUser) {
         viewModel.addUser(user)
         Toast.makeText(requireContext(), "Success!! Login now", Toast.LENGTH_SHORT)
             .show()

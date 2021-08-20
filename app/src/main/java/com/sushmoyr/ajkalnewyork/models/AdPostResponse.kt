@@ -1,6 +1,6 @@
 package com.sushmoyr.ajkalnewyork.models
 
-import com.sushmoyr.ajkalnewyork.models.core.Advertisement
+import com.sushmoyr.ajkalnewyork.models.core.ads.Advertisement
 
 data class AdPostResponse(
     val status: String,

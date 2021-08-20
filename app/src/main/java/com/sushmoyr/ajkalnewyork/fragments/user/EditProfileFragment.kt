@@ -1,6 +1,12 @@
 package com.sushmoyr.ajkalnewyork.fragments.user
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,6 +56,9 @@ class EditProfileFragment : Fragment() {
             })*/
 
         }
+        binding.updateProfilePic.setOnClickListener {
+            uploadImage()
+        }
 
         binding.updateProfileButton.setOnClickListener {
             //updateProfile()
@@ -76,7 +85,7 @@ class EditProfileFragment : Fragment() {
 
     //TODO FIXME
     /*private fun updateProfile() {
-        val user = User(
+        val user = InvalidUser(
             currentUser.id,
             binding.updateFullName.text.toString(),
             binding.updateEmail.text.toString(),
@@ -87,8 +96,40 @@ class EditProfileFragment : Fragment() {
         )
 
         viewModel.updateUser(user)
-        Toast.makeText(requireContext(), "User Updated", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "InvalidUser Updated", Toast.LENGTH_SHORT).show()
     }*/
+
+    private fun uploadImage() {
+        val intent = Intent()
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(intent, 100)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            if (data?.data != null) {
+                // if single image is selected
+
+                val imageUri: Uri = data.data!!
+
+                val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    ImageDecoder.decodeBitmap(ImageDecoder.createSource(requireContext().contentResolver, imageUri))
+                } else {
+                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
+                }
+                /*currentUser = InvalidUser(currentUser.id, currentUser.fullName, currentUser.email, currentUser
+                    .password, currentUser.address, currentUser.phoneNo, bitmap)
+
+                viewModel.updateUser(currentUser)*/
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

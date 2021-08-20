@@ -97,4 +97,8 @@ dependencies {
 
     implementation group: 'at.favre.lib', name: 'bcrypt', version: '0.9.0'
 
+    def libVersion = "2.1.13"
+    implementation "com.github.Drjacky:ImagePicker:$libVersion"
+    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
+
 }

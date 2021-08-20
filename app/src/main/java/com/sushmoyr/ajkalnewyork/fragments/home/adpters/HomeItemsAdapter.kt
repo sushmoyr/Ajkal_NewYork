@@ -12,7 +12,7 @@ import com.sushmoyr.ajkalnewyork.databinding.GalleryPlaceholderLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.HighlightNewsLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsItemLayoutBinding
 import com.sushmoyr.ajkalnewyork.diffutils.HomeItemsDiffUtil
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Category
 
 class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {

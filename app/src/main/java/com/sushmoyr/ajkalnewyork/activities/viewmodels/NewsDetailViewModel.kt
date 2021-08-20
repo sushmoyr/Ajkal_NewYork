@@ -3,7 +3,7 @@ package com.sushmoyr.ajkalnewyork.activities.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sushmoyr.ajkalnewyork.models.DataModel
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.models.core.SuperUser

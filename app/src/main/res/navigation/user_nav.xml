@@ -29,10 +29,52 @@
         android:id="@+id/userAdFragment"
         android:name="com.sushmoyr.ajkalnewyork.UserAdFragment"
         android:label="fragment_user_ad"
-        tools:layout="@layout/fragment_user_ad" />
+        tools:layout="@layout/fragment_user_ad" >
+        <action
+            android:id="@+id/action_userAdFragment_to_sponsoredAdDetailFragment"
+            app:destination="@id/sponsoredAdDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentHistoryFragment"
         android:name="com.sushmoyr.ajkalnewyork.PaymentHistoryFragment"
         android:label="fragment_payment_history"
         tools:layout="@layout/fragment_payment_history" />
+    <fragment
+        android:id="@+id/sponsoredAdDetailFragment"
+        android:name="com.sushmoyr.ajkalnewyork.SponsoredAdDetailFragment"
+        android:label="fragment_sponsored_ad_detail"
+        tools:layout="@layout/fragment_sponsored_ad_detail" >
+        <argument
+            android:name="ad"
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds" />
+        <argument
+            android:name="size"
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSizeItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_sponsoredAdDetailFragment_to_createAdvertisementActivity"
+            app:destination="@id/createAdvertisementActivity" />
+        <action
+            android:id="@+id/action_sponsoredAdDetailFragment_to_editAdvertisementFragment"
+            app:destination="@id/editAdvertisementFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/createAdvertisementActivity"
+        android:name="com.sushmoyr.ajkalnewyork.activities.CreateAdvertisementActivity"
+        android:label="activity_create_advertisement"
+        tools:layout="@layout/activity_create_advertisement" >
+        <argument
+            android:name="ad"
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds" />
+    </activity>
+    <fragment
+        android:id="@+id/editAdvertisementFragment"
+        android:name="com.sushmoyr.ajkalnewyork.EditAdvertisementFragment"
+        android:label="fragment_edit_advertisement"
+        tools:layout="@layout/fragment_edit_advertisement" >
+        <argument
+            android:name="ad"
+            app:argType="com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds" />
+    </fragment>
 </navigation>

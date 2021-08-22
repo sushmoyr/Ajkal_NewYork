@@ -27,6 +27,7 @@
     <color name="green">#00D06B</color>
     <color name="grey">#5C5C5C</color>
     <color name="blue">#3F51B5</color>
+    <color name="red">#F44336</color>
 
     <color name="backgroundColor">#FCFCFC</color>
 </resources>

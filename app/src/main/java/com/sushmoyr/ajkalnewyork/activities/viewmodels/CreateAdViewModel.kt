@@ -10,11 +10,13 @@ import com.google.gson.GsonBuilder
 import com.stripe.android.Stripe
 import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.StripeIntent
-import com.sushmoyr.ajkalnewyork.models.core.AdvertisementSize
+import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
-import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
+import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponseStripe
+import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
 import com.sushmoyr.ajkalnewyork.repository.Repository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -30,7 +32,7 @@ class CreateAdViewModel: ViewModel() {
     }
 
     init {
-        getAdSizes()
+        //getAdSizes()
     }
 
     var didSomething: ((title: String,
@@ -41,7 +43,7 @@ class CreateAdViewModel: ViewModel() {
     Stripe payment handle section starts here
      */
 
-    fun handleStripe(stripe: Stripe, requestCode: Int, data: Intent?) {
+    fun handleStripe(stripe: Stripe, requestCode: Int, data: Intent?, ad: SponsoredAds) {
         viewModelScope.launch {
             runCatching {
                 stripe.getPaymentIntentResult(requestCode, data!!)
@@ -51,7 +53,9 @@ class CreateAdViewModel: ViewModel() {
                     if (paymentIntent.status == StripeIntent.Status.Succeeded) {
                         val gson = GsonBuilder().setPrettyPrinting().create()
                         val json = gson.toJson(paymentIntent)
-                        val response = Gson().fromJson(json, PaymentResponse::class.java)
+                        val response = Gson().fromJson(json, PaymentResponseStripe::class.java)
+
+                        uploadPaymentInfo(response, ad)
 
                         Log.d("final", response.toString())
                         didSomething?.invoke(
@@ -73,6 +77,38 @@ class CreateAdViewModel: ViewModel() {
                     )
                 }
             )
+        }
+    }
+
+    private fun uploadPaymentInfo(response: PaymentResponseStripe?, ad: SponsoredAds) {
+        if(response == null) { return }
+
+        viewModelScope.launch {
+            val locationDef = async { repository.remoteDataSource.getSessionGeoLocationInfo() }
+            val geoResponse = locationDef.await()
+            val locationInfo = geoResponse.body()!!
+
+            val transactionInfo = TransactionInfo(
+                ad.id,
+                ad.userId,
+                response.paymentMethod,
+                response.balanceTransaction,
+                response.currency,
+                ad.amount,
+                locationInfo.countryCode,
+                locationInfo.countryName,
+                locationInfo.city,
+                locationInfo.postal,
+                locationInfo.latitude,
+                locationInfo.longitude,
+                locationInfo.iPv4,
+                locationInfo.state
+            )
+
+            repository.remoteDataSource.postTransactionInfo(transactionInfo)
+
+            //payment info uploading
+
         }
     }
 

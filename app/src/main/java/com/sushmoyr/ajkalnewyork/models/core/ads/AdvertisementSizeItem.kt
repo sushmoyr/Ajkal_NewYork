@@ -1,8 +1,11 @@
-package com.sushmoyr.ajkalnewyork.models.core
+package com.sushmoyr.ajkalnewyork.models.core.ads
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class AdvertisementSizeItem(
     @SerializedName("id")
     val id: String = "",
@@ -24,4 +27,4 @@ data class AdvertisementSizeItem(
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+): Parcelable

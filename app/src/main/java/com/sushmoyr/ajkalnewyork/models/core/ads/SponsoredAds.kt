@@ -1,8 +1,11 @@
 package com.sushmoyr.ajkalnewyork.models.core.ads
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class SponsoredAds(
     @SerializedName("id")
     val id: String = "",
@@ -11,7 +14,7 @@ data class SponsoredAds(
     @SerializedName("is_payment")
     val isPayment: String = "",
     @SerializedName("payment_id")
-    val paymentId: String = "",
+    val paymentId: String? = "",
     @SerializedName("ad_title")
     val adTitle: String = "",
     @SerializedName("ad_link")
@@ -34,4 +37,4 @@ data class SponsoredAds(
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+):Parcelable

@@ -3,30 +3,47 @@ package com.sushmoyr.ajkalnewyork.repository
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
-import com.sushmoyr.ajkalnewyork.models.utility.DataModel
-import com.sushmoyr.ajkalnewyork.models.core.Video
+import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
-import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
-import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
-import com.sushmoyr.ajkalnewyork.models.utility.RegisterRequest
-import com.sushmoyr.ajkalnewyork.models.utility.RegistrationResponse
+import com.sushmoyr.ajkalnewyork.models.utility.*
+import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
 class RemoteDataSource {
     suspend fun getAllCategory(): Response<List<Category>> {
         Log.d("CallApi", "get all category")
-        return RetrofitInstance.api.getAllCategory()
+        return try{
+            RetrofitInstance.api.getAllCategory()
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("ErrorPoint", "At cat api")
+            val value = emptyList<Category>()
+            Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
+        }
     }
 
     suspend fun getAllNews(): Response<List<DataModel.News>> {
         Log.d("CallApi", "get all news by id")
-        return RetrofitInstance.api.getAllNews()
+        return try{
+            RetrofitInstance.api.getAllNews()
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("ErrorPoint", "At AllNews api")
+            val value = emptyList<DataModel.News>()
+            Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
+        }
     }
 
-    suspend fun getAllNewsCore(): Response<List<News>>{
+    suspend fun getAllNewsCore(): Response<List<News>> {
         Log.d("searchState", "Api Called")
         return RetrofitInstance.api.getAllNewsCore()
     }
@@ -38,13 +55,20 @@ class RemoteDataSource {
 
     suspend fun getAllAds(): Response<List<DataModel.Advertisement>> {
         Log.d("CallApi", "get all ads")
-        return RetrofitInstance.api.getAllAds()
+        return try {
+            RetrofitInstance.api.getAllAds()
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.d("ErrorPoint", "At cat api")
+            val value = emptyList<DataModel.Advertisement>()
+            Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
+        }
     }
+
     suspend fun getAdSizes(): Response<AdvertisementSize> {
         Log.d("CallApi", "get all ads")
         return RetrofitInstance.api.getAdSizes()
     }
-
 
 
     suspend fun getPhotos(): Response<List<Photo>> {
@@ -137,11 +161,89 @@ class RemoteDataSource {
     }
 
     suspend fun logout() {
-       RetrofitInstance.authApi.logout()
+        RetrofitInstance.authApi.logout()
     }
 
     suspend fun register(request: RegisterRequest): Response<RegistrationResponse> {
         return RetrofitInstance.authApi.register(request)
+    }
+
+    suspend fun uploadSponsoredAd(
+        userId: RequestBody,
+        adTitle: RequestBody,
+        adLink: RequestBody,
+        sizeId: RequestBody,
+        adImage: MultipartBody.Part,
+        createdDate: RequestBody,
+        expDate: RequestBody,
+        forDay: RequestBody,
+        amount: RequestBody,
+        status: RequestBody,
+        createdAt: RequestBody,
+        updatedAt: RequestBody
+    ): Response<UploadResponse> {
+        return RetrofitInstance.api.uploadSponsoredAd(
+            userId,
+            adTitle,
+            adLink,
+            sizeId,
+            adImage,
+            createdDate,
+            expDate,
+            forDay,
+            amount,
+            status,
+            createdAt,
+            updatedAt
+        )
+    }
+
+    suspend fun getUserSponsoredAds(userId: String): Response<List<SponsoredAds>> {
+        return RetrofitInstance.api.getUserSponsoredAds(userId)
+    }
+
+    suspend fun getSessionGeoLocationInfo():Response<GeoLocationInfo> {
+        return RetrofitInstance.geoApi.getSessionGeoLocationInfo()
+    }
+
+    suspend fun postTransactionInfo(transactionInfo: TransactionInfo) {
+        RetrofitInstance.api.postTransactionInfo(transactionInfo)
+    }
+
+    suspend fun updateSponsoredAd(
+        adId: String,
+        userId: RequestBody,
+        adTitle: RequestBody,
+        adLink: RequestBody,
+        sizeId: RequestBody,
+        adImage: MultipartBody.Part,
+        createdDate: RequestBody,
+        expDate: RequestBody,
+        forDay: RequestBody,
+        amount: RequestBody,
+        status: RequestBody,
+        createdAt: RequestBody,
+        updatedAt: RequestBody
+    ): Response<UploadResponse> {
+        return RetrofitInstance.api.updateSponsoredAd(
+            adId,
+            userId,
+            adTitle,
+            adLink,
+            sizeId,
+            adImage,
+            createdDate,
+            expDate,
+            forDay,
+            amount,
+            status,
+            createdAt,
+            updatedAt
+        )
+    }
+
+    suspend fun getTransactionHistory(userId: String): Response<List<TransactionHistory>> {
+        return RetrofitInstance.api.getTransactionHistory(userId)
     }
 
 

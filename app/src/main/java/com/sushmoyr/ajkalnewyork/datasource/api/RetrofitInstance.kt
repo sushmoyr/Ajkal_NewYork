@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
 import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_BASE_URL
+import com.sushmoyr.ajkalnewyork.utils.Constants.GEOLOCATION_URL
 import com.sushmoyr.ajkalnewyork.utils.Constants.STRIPE_BACKEND_URL
 import com.sushmoyr.ajkalnewyork.utils.MainApplication
 import com.sushmoyr.ajkalnewyork.utils.hasNetwork
@@ -112,6 +113,18 @@ object RetrofitInstance {
 
     val api: AjkalApi by lazy {
         apiBuilder.create(AjkalApi::class.java)
+    }
+
+    private val geoApiBuilder by lazy {
+        Retrofit.Builder()
+            .baseUrl(GEOLOCATION_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .build()
+    }
+
+    val geoApi: GeoLocationApi by lazy {
+        geoApiBuilder.create(GeoLocationApi::class.java)
     }
 
     private val customDeserializer: Gson = GsonBuilder().registerTypeAdapter(LoginResponse::class.java,

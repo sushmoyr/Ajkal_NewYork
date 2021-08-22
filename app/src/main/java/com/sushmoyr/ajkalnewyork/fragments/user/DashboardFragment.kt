@@ -28,8 +28,6 @@ import com.sushmoyr.ajkalnewyork.utils.getUserState
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding?=null
     private val binding get() = _binding!!
-    private lateinit var currentUser : User
-    //val viewModel: UserViewModel by activityViewModels()
     private val userViewModel : MainUserViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,9 +80,11 @@ class DashboardFragment : Fragment() {
         setTextValue(binding.userAddress, it.address)
         setTextValue(binding.userEmail, it.email)
         Glide.with(this)
-            .load(it.image)
+            .load("https://ajkal.fastrider.co" + it.image)
+            .placeholder(R.drawable.ic_placeholder)
             .override(148, 148)
             .centerCrop()
+
             .into(binding.profilePicture)
 
     }

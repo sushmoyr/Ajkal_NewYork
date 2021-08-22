@@ -5,10 +5,11 @@ import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
+import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
-import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
-import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
+import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
+import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -126,13 +127,53 @@ interface AjkalApi {
          expDate: RequestBody,
         @Part("for_day")
          forDay: RequestBody,
-/*        @Part("amount")
+        @Part("amount")
          amount: RequestBody,
         @Part("status")
-         status: RequestBody,*/
-/*        @Part("created_at")
+         status: RequestBody,
+        @Part("created_at")
          createdAt: RequestBody,
         @Part("updated_at")
-         updatedAt: RequestBody*/
-    ):Call<UploadResponse>
+         updatedAt: RequestBody
+    ):Response<UploadResponse>
+
+    @GET("sponsored_ads.php")
+    suspend fun getUserSponsoredAds(@Query("user_id") userId: String):Response<List<SponsoredAds>>
+
+    @Multipart
+    @PUT("ad/update/{id}")
+    suspend fun updateSponsoredAd(
+        @Path("id") adId: String,
+        @Part("user_id")
+        userId: RequestBody,
+        @Part("ad_title")
+        adTitle: RequestBody,
+        @Part("ad_link")
+        adLink: RequestBody,
+        @Part("size_id")
+        sizeId: RequestBody,
+        @Part
+        adImage: MultipartBody.Part,
+        @Part("created_date")
+        createdDate: RequestBody,
+        @Part("exp_date")
+        expDate: RequestBody,
+        @Part("for_day")
+        forDay: RequestBody,
+        @Part("amount")
+        amount: RequestBody,
+        @Part("status")
+        status: RequestBody,
+        @Part("created_at")
+        createdAt: RequestBody,
+        @Part("updated_at")
+        updatedAt: RequestBody
+    ):Response<UploadResponse>
+
+    @POST("/ad/payment/stripe")
+    suspend fun postTransactionInfo(@Body transactionInfo: TransactionInfo)
+
+    @GET("payment/history/{id}")
+    suspend fun getTransactionHistory(@Path("id") userId: String):
+            Response<List<TransactionHistory>>
 }

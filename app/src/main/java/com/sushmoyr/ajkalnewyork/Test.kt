@@ -1,14 +1,54 @@
 package com.sushmoyr.ajkalnewyork
 
 import android.annotation.SuppressLint
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 fun main(){
+
+    val scanner = Scanner(System.`in`)
+   while(true){
+       val url = scanner.nextLine()
+
+       try {
+           val id = getYtViewId(url)
+           println(id)
+       } catch (e: IllegalArgumentException){
+           e.printStackTrace()
+       }
+   }
+}
+
+fun getYtViewId(url: String):String {
+    val urlPatterns = listOf(
+        "https://www.youtube.com/embed/",
+        "https://www.youtube.com/watch?v=",
+        "https://youtu.be/"
+    )
+
+    var id: String = ""
+    urlPatterns.forEach{
+        val newUrl = url.removePrefix(it)
+        if(newUrl!=url){
+            id = newUrl
+            return@forEach
+        }
+    }
+
+    return when(id.isNotEmpty()){
+        true -> id
+        false -> throw IllegalArgumentException("Invalid url pattern. Url $url is not a valid " +
+                "youtube url")
+    }
+}
+
+fun dates(){
     val date1 = LocalDateTime.now()
     val date2 = LocalDateTime.now().plusDays(3L)
     println("date1 = $date1")

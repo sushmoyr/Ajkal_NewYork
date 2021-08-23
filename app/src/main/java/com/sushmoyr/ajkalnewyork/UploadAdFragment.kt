@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.github.drjacky.imagepicker.ImagePicker
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -223,6 +224,7 @@ class UploadAdFragment : Fragment() {
             if(response.isSuccessful){
                 viewModel.loader.value = false
                 Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             }
             else{
                 viewModel.loader.value = false

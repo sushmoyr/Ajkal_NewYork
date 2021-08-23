@@ -17,6 +17,7 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import retrofit2.http.GET
 
 class RemoteDataSource {
     suspend fun getAllCategory(): Response<List<Category>> {
@@ -242,8 +243,13 @@ class RemoteDataSource {
         )
     }
 
-    suspend fun getTransactionHistory(userId: String): Response<List<TransactionHistory>> {
+    suspend fun getTransactionHistory(userId: String): Response<TransactionHistory> {
         return RetrofitInstance.api.getTransactionHistory(userId)
+    }
+
+
+    suspend fun deleteAd(adId: String): Response<UploadResponse> {
+        return RetrofitInstance.api.deleteAd(adId)
     }
 
 

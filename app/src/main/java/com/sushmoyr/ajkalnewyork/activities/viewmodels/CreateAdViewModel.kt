@@ -122,50 +122,12 @@ class CreateAdViewModel: ViewModel() {
         }
     }
 
+
+
     /*
     Stripe payment handle section ends here
      */
 
-    private val _adSizes = MutableLiveData<AdvertisementSize>()
-    val adSizes get() = _adSizes
-    var lastFetchedAdSizeData: AdvertisementSize = AdvertisementSize()
-    var selectedItemPosition: Int = 0
-
-    private fun getAdSizes(){
-        viewModelScope.launch {
-            val response = repository.remoteDataSource.getAdSizes()
-            if(response.isSuccessful){
-                val data = response.body()!!
-                Log.d("response", response.body()!!.size.toString())
-                _adSizes.postValue(data)
-            }
-        }
-    }
-
-    fun postAdvertisement(advertisement: SponsoredAds) {
-        viewModelScope.launch {
-            Log.d("upload", "ad upload called")
-            val response = repository.remoteDataSource.postAdvertisement(advertisement)
-            if(response.isSuccessful){
-                val data = response.body()!!
-                Log.d("response", "Ad upload")
-                Log.d("response", data.toString())
-                /*val ad = data.body!!
-                val adPayment = AdvertisementPayment(
-                    userId = ad.userId!!,
-                    advertisementId = ad.id,
-                    amount = ad.amount,
-                    createdAt = ad.createdAt,
-                    updatedAt = ad.updatedAt
-                )*/
-
-                //repository.remoteDataSource.postAdPayment(adPayment)
-            }
-            else{
-                Log.d("response", "broke ${response.message()}")
-            }
-        }
-    }
 
 
 }

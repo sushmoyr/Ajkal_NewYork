@@ -97,4 +97,6 @@
     <string name="please_wait">Please wait a moment</string>
     <string name="succeeded">Success!!</string>
     <string name="edit_profile_button">Edit Profile Button</string>
+    <string name="payment_status_paid">paid</string>
+    <string name="payment_status_unpaid">not paid</string>
 </resources>

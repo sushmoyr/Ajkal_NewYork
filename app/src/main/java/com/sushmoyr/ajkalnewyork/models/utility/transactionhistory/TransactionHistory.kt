@@ -6,5 +6,5 @@ import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.Advertisement
 
 data class TransactionHistory(
     @SerializedName("advertisements")
-    val advertisements: Advertisements = Advertisements()
+    val advertisements:List< Advertisements> = listOf()
 )

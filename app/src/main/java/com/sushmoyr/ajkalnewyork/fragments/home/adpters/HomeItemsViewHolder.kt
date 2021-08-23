@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.fragments.home.adpters
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -80,6 +81,19 @@ sealed class HomeItemsViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.ic_placeholder)
                 .into(binding.addImage)
+
+            val requestManager = Glide.with(binding.root.context)
+            val mediaType = advertisement.image.substringAfterLast('.')
+            val requestType = if(mediaType=="gif"){
+                requestManager.asGif()
+            }else{
+                requestManager.asBitmap()
+            }
+            requestType.load(advertisement.image)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .placeholder(R.drawable.ic_placeholder)
+                .into(binding.addImage)
+
 
             binding.root.setOnClickListener {
                 itemClickListener?.invoke(it, advertisement)

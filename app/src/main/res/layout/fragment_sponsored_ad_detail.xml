@@ -171,11 +171,11 @@
 
         <TextView
             android:id="@+id/textView30"
+            style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{`$` + ads.amount}"
-            style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_marginStart="8dp"
+            android:text="@{`$` + ads.amount}"
             app:layout_constraintEnd_toEndOf="@+id/textView31"
             app:layout_constraintStart_toEndOf="@+id/textView29"
             app:layout_constraintTop_toTopOf="@+id/textView29" />
@@ -191,8 +191,9 @@
             app:icon="@drawable/ic_baseline_attach_money_24"
             app:iconTint="@color/green"
             app:layout_constraintEnd_toEndOf="@+id/textView30"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView29"
-            app:layout_constraintTop_toBottomOf="@+id/textView30"
+            app:layout_constraintTop_toBottomOf="@+id/paymentStatus"
             app:strokeColor="@color/green" />
 
         <com.google.android.material.button.MaterialButton
@@ -201,12 +202,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="1dp"
             android:text="Update Advertisement"
             android:textColor="@color/blue"
             app:icon="@drawable/ic_write"
             app:iconTint="@color/blue"
-            app:layout_constraintEnd_toEndOf="@+id/ad_payment_button"
-            app:layout_constraintStart_toStartOf="@+id/ad_payment_button"
+            app:layout_constraintEnd_toEndOf="@+id/textView30"
+            app:layout_constraintStart_toStartOf="@+id/textView29"
             app:layout_constraintTop_toBottomOf="@+id/ad_payment_button"
             app:strokeColor="@color/blue" />
 
@@ -224,6 +226,28 @@
             app:layout_constraintStart_toStartOf="@+id/ad_update_button"
             app:layout_constraintTop_toBottomOf="@+id/ad_update_button"
             app:strokeColor="@color/red" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Payment Status: "
+            android:textStyle="bold"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="@+id/textView29"
+            app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+        <TextView
+            android:id="@+id/paymentStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="@+id/textView21"
+            app:layout_constraintEnd_toEndOf="@+id/textView30"
+            app:layout_constraintStart_toEndOf="@+id/textView21"
+            app:layout_constraintTop_toTopOf="@+id/textView21" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

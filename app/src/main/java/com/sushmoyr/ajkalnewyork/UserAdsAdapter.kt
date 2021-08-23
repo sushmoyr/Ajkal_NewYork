@@ -2,7 +2,9 @@ package com.sushmoyr.ajkalnewyork
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sushmoyr.ajkalnewyork.databinding.AdLayoutBinding
@@ -20,13 +22,27 @@ class UserAdsAdapter: RecyclerView.Adapter<UserAdsAdapter.MyViewHolder>() {
         null
 
     inner class MyViewHolder(val binding: AdLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(sponsoredAd: SponsoredAds) {
             val sizeItem = getSizeText(sponsoredAd.sizeId)
-            binding.adAmount.text = sponsoredAd.amount
+            val context = binding.root.context
+            binding.adAmount.text = "$${sponsoredAd.amount}"
             binding.adSize.text = when(sizeItem) {
                 null -> ""
                 else -> "${sizeItem.name} W: ${sizeItem.width}, H: ${sizeItem.height}"
             }
+
+
+            if(sponsoredAd.paymentId!=null){
+                binding.adStatus.text = context.resources.getString(R.string.payment_status_paid)
+                binding.adStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
+            }else{
+                binding.adStatus.text = context.resources.getString(R.string
+                    .payment_status_unpaid)
+                binding.adStatus.setTextColor(ContextCompat.getColor(context,R.color.red))
+            }
+
+
             binding.adTitle.text = sponsoredAd.adTitle
             binding.adValidity.text = sponsoredAd.expDate
             Glide.with(binding.root)

@@ -34,6 +34,8 @@ class MainUserViewModel : ViewModel() {
         getAdSizes()
     }
 
+
+
     private val _loader = MutableLiveData<Boolean>()
     val loader get() = _loader
 
@@ -54,6 +56,7 @@ class MainUserViewModel : ViewModel() {
             }
         }
     }
+
 
     suspend fun uploadSponsoredAd(
         userId: RequestBody,
@@ -153,17 +156,22 @@ class MainUserViewModel : ViewModel() {
             )
     }
 
-    private val _transactionHistory = MutableLiveData<List<TransactionHistory>>()
+    private val _transactionHistory = MutableLiveData<TransactionHistory>()
     val transactionHistory = _transactionHistory
 
     fun getTransactionHistory(userId: String){
+        Log.d("history", userId)
         viewModelScope.launch {
-            val response:Response<List<TransactionHistory>> = repository.remoteDataSource.getTransactionHistory(userId)
+            val response: Response<TransactionHistory> = repository.remoteDataSource.getTransactionHistory(userId)
             if(response.isSuccessful){
                 _transactionHistory.postValue(response.body())
+                println(response.body())
             }
         }
     }
+
+    suspend fun deleteAd(ad: SponsoredAds): Response<UploadResponse> = repository.remoteDataSource
+    .deleteAd(ad.id.toString())
 
 
 }

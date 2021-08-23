@@ -141,7 +141,7 @@ interface AjkalApi {
     suspend fun getUserSponsoredAds(@Query("user_id") userId: String):Response<List<SponsoredAds>>
 
     @Multipart
-    @PUT("ad/update/{id}")
+    @POST("ad/update/{id}")
     suspend fun updateSponsoredAd(
         @Path("id") adId: String,
         @Part("user_id")
@@ -170,10 +170,13 @@ interface AjkalApi {
         updatedAt: RequestBody
     ):Response<UploadResponse>
 
-    @POST("/ad/payment/stripe")
+    @POST("ad/payment/stripe")
     suspend fun postTransactionInfo(@Body transactionInfo: TransactionInfo)
 
     @GET("payment/history/{id}")
     suspend fun getTransactionHistory(@Path("id") userId: String):
-            Response<List<TransactionHistory>>
+            Response<TransactionHistory>
+
+    @GET("ad/destroy/{id}")
+    suspend fun deleteAd(@Path("id") id: String): Response<UploadResponse>
 }

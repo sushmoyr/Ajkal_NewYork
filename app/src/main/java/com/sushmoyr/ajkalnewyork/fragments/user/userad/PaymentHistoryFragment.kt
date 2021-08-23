@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

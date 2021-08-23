@@ -3,6 +3,7 @@ package com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sushmoyr.ajkalnewyork.datasource.local.UserDatabase
 import com.sushmoyr.ajkalnewyork.models.InvalidUser
@@ -39,5 +40,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     suspend fun register(request: RegisterRequest): Response<RegistrationResponse> {
         return api.register(request)
+    }
+    val registrationState = MutableLiveData<Boolean>()
+    fun setRegistrationState(isRegisterRequest: Boolean) {
+        registrationState.value = isRegisterRequest
     }
 }

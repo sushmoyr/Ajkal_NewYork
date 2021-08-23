@@ -1,22 +1,21 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentUserAdBinding
-import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.getUserState
 
 
 class UserAdFragment : Fragment() {
 
-    private var _binding: FragmentUserAdBinding ?= null
+    private var _binding: FragmentUserAdBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainUserViewModel by activityViewModels()
     private val userAdsAdapter by lazy {
@@ -39,7 +38,7 @@ class UserAdFragment : Fragment() {
         }
 
         viewModel.userAdLoader.observe(viewLifecycleOwner, {
-            if(!it && binding.userAdRoot.isRefreshing)
+            if (!it && binding.userAdRoot.isRefreshing)
                 binding.userAdRoot.isRefreshing = false
         })
 
@@ -53,15 +52,20 @@ class UserAdFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-        userAdsAdapter.onClickListener = { sponsoredAd, sizeItem ->
-            val directions = UserAdFragmentDirections
-                .actionUserAdFragmentToSponsoredAdDetailFragment(sponsoredAd, sizeItem)
-            findNavController().navigate(directions)
+        userAdsAdapter.onClickListener = { sponsoredAd, sizeItem, makePayment ->
+            if (makePayment) {
+                val directions = UserAdFragmentDirections
+                    .actionUserAdFragmentToCreateAdvertisementActivity(sponsoredAd)
+                findNavController().navigate(directions)
+            } else {
+                val directions = UserAdFragmentDirections
+                    .actionUserAdFragmentToSponsoredAdDetailFragment(sponsoredAd, sizeItem)
+                findNavController().navigate(directions)
+            }
         }
 
         return binding.root
     }
-
 
 
 }

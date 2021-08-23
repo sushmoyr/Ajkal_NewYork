@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Ajkal NewYork</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_image">Header Image</string>
     <string name="application_logo">Application Logo</string>
@@ -99,4 +98,6 @@
     <string name="edit_profile_button">Edit Profile Button</string>
     <string name="payment_status_paid">paid</string>
     <string name="payment_status_unpaid">not paid</string>
+    <string name="server_error">A server error has occured</string>
+    <string name="your_advertisement">Your Advertisement</string>
 </resources>

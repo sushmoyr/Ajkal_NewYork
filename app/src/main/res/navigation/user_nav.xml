@@ -7,41 +7,44 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.sushmoyr.ajkalnewyork.fragments.user.DashboardFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userinfo.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.sushmoyr.ajkalnewyork.fragments.user.EditProfileFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userinfo.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/changePasswordFragment"
-        android:name="com.sushmoyr.ajkalnewyork.fragments.user.ChangePasswordFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userinfo.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
     <fragment
         android:id="@+id/uploadAdFragment"
-        android:name="com.sushmoyr.ajkalnewyork.UploadAdFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userad.UploadAdFragment"
         android:label="fragment_upload_ad"
         tools:layout="@layout/fragment_upload_ad" />
     <fragment
         android:id="@+id/userAdFragment"
-        android:name="com.sushmoyr.ajkalnewyork.UserAdFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userad.UserAdFragment"
         android:label="fragment_user_ad"
         tools:layout="@layout/fragment_user_ad" >
         <action
             android:id="@+id/action_userAdFragment_to_sponsoredAdDetailFragment"
             app:destination="@id/sponsoredAdDetailFragment" />
+        <action
+            android:id="@+id/action_userAdFragment_to_createAdvertisementActivity"
+            app:destination="@id/createAdvertisementActivity" />
     </fragment>
     <fragment
         android:id="@+id/paymentHistoryFragment"
-        android:name="com.sushmoyr.ajkalnewyork.PaymentHistoryFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userad.PaymentHistoryFragment"
         android:label="fragment_payment_history"
         tools:layout="@layout/fragment_payment_history" />
     <fragment
         android:id="@+id/sponsoredAdDetailFragment"
-        android:name="com.sushmoyr.ajkalnewyork.SponsoredAdDetailFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userad.SponsoredAdDetailFragment"
         android:label="fragment_sponsored_ad_detail"
         tools:layout="@layout/fragment_sponsored_ad_detail" >
         <argument
@@ -70,11 +73,16 @@
     </activity>
     <fragment
         android:id="@+id/editAdvertisementFragment"
-        android:name="com.sushmoyr.ajkalnewyork.EditAdvertisementFragment"
+        android:name="com.sushmoyr.ajkalnewyork.fragments.user.userad.EditAdvertisementFragment"
         android:label="fragment_edit_advertisement"
         tools:layout="@layout/fragment_edit_advertisement" >
         <argument
             android:name="ad"
             app:argType="com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds" />
     </fragment>
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.sushmoyr.ajkalnewyork.OptionsFragment"
+        android:label="fragment_options"
+        tools:layout="@layout/fragment_options" />
 </navigation>

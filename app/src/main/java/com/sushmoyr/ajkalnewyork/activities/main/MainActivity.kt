@@ -15,6 +15,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
@@ -22,6 +23,7 @@ import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFact
 import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
+import com.sushmoyr.ajkalnewyork.utils.hasNetwork
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         val repository = RemoteDataSource()
         val factory = MainActivityViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(MainActivityViewModel::class.java)
-        //drawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel::class.java)
 
         drawerViewModel.data = "set data from activity"
 
@@ -81,13 +82,36 @@ class MainActivity : AppCompatActivity() {
             else
                 binding.mainBottomNav.visibility = View.VISIBLE
         }
+
+        viewModel.errorListener = {e ->
+            if(e!=null){
+                Log.d("exception", "Listened error")
+                if(!hasNetwork(this)){
+                    viewSnackBar("No internet connection. Check your connection and restart the " +
+                            "app")
+                }
+                else{
+                    viewSnackBar(resources.getString(R.string.server_error))
+                }
+                Log.d("exception","Has network = ${hasNetwork(this)}")
+            }
+        }
+    }
+
+    private fun viewSnackBar(message: String) {
+        val snackBar = Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_INDEFINITE,
+        )
+        snackBar.show()
     }
 
     private fun setUpBottomNavigation(){
         val bottomNavigationView = binding.mainBottomNav
         bottomNavigationView.setupWithNavController(navController)
 
-        bottomNavigationView.setOnNavigationItemReselectedListener {
+        bottomNavigationView.setOnItemReselectedListener {
             //disabled reselect
         }
     }

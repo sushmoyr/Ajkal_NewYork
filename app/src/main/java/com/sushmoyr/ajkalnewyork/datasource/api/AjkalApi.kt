@@ -9,6 +9,7 @@ import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
+import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -179,4 +180,7 @@ interface AjkalApi {
 
     @GET("ad/destroy/{id}")
     suspend fun deleteAd(@Path("id") id: String): Response<UploadResponse>
+
+    @GET("user.php")
+    suspend fun updateUserProfileInfo(@Query("id") id: String):Response<User>
 }

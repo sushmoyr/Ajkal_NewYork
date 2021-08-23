@@ -2,6 +2,7 @@ package com.sushmoyr.ajkalnewyork.models.utility
 
 
 import com.google.gson.annotations.SerializedName
+import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_URL
 
 data class User(
     @SerializedName("id")
@@ -23,11 +24,13 @@ data class User(
     @SerializedName("address")
     val address: String? = null,
     @SerializedName("image")
-    val image: String? = null,
+    val _image: String? = null,
     @SerializedName("last_seen")
     val lastSeen: String? = null,
     @SerializedName("created_at")
     val createdAt: String = "",
     @SerializedName("updated_at")
     val updatedAt: String = ""
-)
+){
+    val image get() =  AJKAL_URL + _image
+}

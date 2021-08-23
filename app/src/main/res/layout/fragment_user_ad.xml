@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:id="@+id/user_ad_root"
-    tools:context=".UserAdFragment">
+    tools:context=".fragments.user.userad.UserAdFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

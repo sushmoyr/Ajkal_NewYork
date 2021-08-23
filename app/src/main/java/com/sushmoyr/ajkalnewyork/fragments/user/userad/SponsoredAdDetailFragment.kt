@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentSponsoredAdDetailBinding
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
@@ -37,12 +38,14 @@ class SponsoredAdDetailFragment : Fragment() {
 
         if(ad.paymentId!=null){
             binding.paymentStatus.text = resources.getString(R.string.payment_status_paid)
-            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.green))
+            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.green
+            ))
             binding.adPaymentButton.visibility = View.GONE
             binding.adDeleteButton.visibility = View.GONE
         }else{
             binding.paymentStatus.text = resources.getString(R.string.payment_status_unpaid)
-            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(),R.color.red))
+            binding.paymentStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             binding.adPaymentButton.visibility = View.VISIBLE
             binding.adDeleteButton.visibility = View.VISIBLE
         }

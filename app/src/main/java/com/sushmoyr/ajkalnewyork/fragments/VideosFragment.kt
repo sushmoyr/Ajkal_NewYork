@@ -43,11 +43,10 @@ class VideosFragment : Fragment() {
         })
 
         adapter.itemClickListener = {
-            /*val intent =
+            val intent =
                 YouTubeStandalonePlayer.createVideoIntent(requireActivity(),
-                    YT_API_KEY, it.thumbnail)
-            startActivity(intent)*/
-
+                    YT_API_KEY, it.videoLink)
+            startActivity(intent)
         }
 
 

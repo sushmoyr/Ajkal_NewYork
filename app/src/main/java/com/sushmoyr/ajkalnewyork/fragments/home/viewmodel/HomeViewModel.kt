@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.youtube.player.internal.e
+import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.core.Category
@@ -21,11 +23,22 @@ class HomeViewModel : ViewModel() {
     private var breakingNewsLoaded = false
     private var homeItemsLoaded = false
     var onDataLoadComplete: ((breakingNewsLoaded: Boolean, homeItemsLoaded: Boolean) -> Unit)? = null
+    var errorListener: (() -> Unit)? = null
 
     fun getAllCats() {
         Log.d("debugNext","called from home viewModel")
         viewModelScope.launch {
-            allCategory.postValue(repository.getAllCategory())
+            //
+            when(val networkResponse = repository.getAllCategory()){
+                is NetworkResponse.Error -> {
+                    Log.d("exception", "Error at home viewModel get all cats")
+                    errorListener?.invoke()
+                }
+                is NetworkResponse.Success -> {
+                    val response = networkResponse.response!!
+                    allCategory.postValue(response)
+                }
+            }
         }
     }
 
@@ -63,10 +76,20 @@ class HomeViewModel : ViewModel() {
                 val photosDeferred = async { repository.getPhotos() }
 
                 val ads = adsDeferred.await()
-                val newsResponse = newsDeferred.await()
+                val newsResponseState = newsDeferred.await()
                 val homeItemList = mutableListOf<DataModel>()
 
-                if (ads.isSuccessful && newsResponse.isSuccessful) {
+                val newsResponse = when(newsResponseState){
+                    is NetworkResponse.Error -> {
+                        errorListener?.invoke()
+                        null
+                    }
+                    is NetworkResponse.Success -> {
+                        newsResponseState.response
+                    }
+                }
+
+                if (ads.isSuccessful && newsResponse!=null && newsResponse.isSuccessful) {
                     var advertisements = mutableListOf<DataModel.Advertisement>()
                     if (ads.body() != null) {
                         advertisements.addAll(ads.body()!!)
@@ -96,15 +119,23 @@ class HomeViewModel : ViewModel() {
                         count++
                     }
 
-                    val photos = photosDeferred.await()
-                    if (photos.isSuccessful) {
-                        val photoData = DataModel.GalleryItem(photos.body()!!)
-                        val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
-                            homeItemList.size
-                        } else {
-                            MINIMUM_GALLERY_HEIGHT
+                    when(val photosDef = photosDeferred.await()) {
+                        is NetworkResponse.Error -> {
+
                         }
-                        homeItemList.add(index, photoData)
+                        is NetworkResponse.Success -> {
+                            val photos = photosDef.response!!
+                            if (photos.isSuccessful) {
+                                val photoData = DataModel.GalleryItem(photos.body()!!)
+                                val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
+                                    homeItemList.size
+                                } else {
+                                    MINIMUM_GALLERY_HEIGHT
+                                }
+                                homeItemList.add(index, photoData)
+                            }
+
+                        }
                     }
 
                     homeItemsLoaded = true
@@ -124,11 +155,20 @@ class HomeViewModel : ViewModel() {
         breakingNewsLoaded = false
         if(refreshing == true || breakingNewsObserve.value == null){
             viewModelScope.launch {
-                val response = repository.getBreakingNews()
+                val responseState = repository.getBreakingNews()
+                var response: Response<List<BreakingNews>>? = null
+                when(responseState) {
+                    is NetworkResponse.Error -> {
+
+                    }
+                    is NetworkResponse.Success -> {
+                        response = responseState.response
+                    }
+                }
                 var newsFlow = flowOf<BreakingNews>()
 
                 //val breakingNewsList = mutableListOf<News>()
-                if (response.isSuccessful && !response.body().isNullOrEmpty()) {
+                if (response!= null && response.isSuccessful && !response.body().isNullOrEmpty()) {
                     breakingNewsLoaded = true
                     onDataLoadComplete?.invoke(breakingNewsLoaded, homeItemsLoaded)
                     val breakingNewsData = response.body()!!
@@ -148,7 +188,6 @@ class HomeViewModel : ViewModel() {
                     }
 
                 } else {
-                    Log.d("breaking", "${response.code()} : ${response.message()}")
                     breakingNewsObserve.postValue(null)
                 }
             }

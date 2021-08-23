@@ -26,7 +26,6 @@ class VideosAdapter: RecyclerView.Adapter<VideosAdapter.MyViewHolder>() {
         var itemClickListener : ((video: Video)->Unit)? = null
         fun bind(video: Video) {
             binding.videoTitle.text = video.videoTitle
-            binding.videoThumbnail
 
             Glide.with(binding.root.context)
                 .asBitmap()

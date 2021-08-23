@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork.fragments.auth
+package com.sushmoyr.ajkalnewyork.fragments.auth.fragments
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,21 +10,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.sushmoyr.ajkalnewyork.R
-import com.sushmoyr.ajkalnewyork.databinding.CategoryLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.FragmentLoginBinding
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.LoginViewModel
 import com.sushmoyr.ajkalnewyork.models.UserState
-import com.sushmoyr.ajkalnewyork.models.utility.LoginResponse
 import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
-import com.sushmoyr.ajkalnewyork.utils.encrypt
 import com.sushmoyr.ajkalnewyork.utils.observeOnce
 import kotlinx.coroutines.launch
 
@@ -47,6 +46,8 @@ class LoginFragment : Fragment() {
         addEmailValidator()
 
         addPasswordValidator()
+
+        setLoader()
 
         binding.googleLoginButton.setOnClickListener{
             lifecycleScope.launch {
@@ -75,31 +76,33 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             //show login progress dialog
             Log.d("auth", "login started")
+            viewModel.setLoginState(true)
             try {
                 val responseMain = viewModel.loginWithApi(email, password)
                 if(responseMain.isSuccessful){
                     Log.d("auth", "response success")
                     val response = responseMain.body()!!
-                    /*when(response){
-                        is LoginResponse.Error -> Log.d("auth", "login error ${response.error}")
-                        is LoginResponse.Success -> {
-                            Log.d("auth", "login success. token = ${response.user}")
-                            viewModel.authUser()
-                        }
-                    }*/
                     Log.d("auth_success", response.user.toString())
                     saveToSharedPreference(response.user)
+                    viewModel.setLoginState(false)
                     findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                     activity?.finish()
                 }
                 else {
+                    viewModel.setLoginState(false)
                     showAlert("Failed", responseMain.message())
                     Log.d("auth", "response failed")
                     Log.d("auth", "code: ${responseMain.code()}")
                     Log.d("auth", "code: ${responseMain.message()}")
                 }
             }catch (e: Exception) {
+                viewModel.setLoginState(false)
                 Log.d("auth", "exception")
+                Toast.makeText(
+                    requireContext(),
+                    "Login Failed. ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 e.printStackTrace()
                 println(e.message)
             }
@@ -226,6 +229,25 @@ class LoginFragment : Fragment() {
                 setViewAndChildrenEnabled(child, enabled)
             }
         }
+    }
+
+    private fun setLoader(){
+        val alert = AlertDialog.Builder(requireActivity()).setView(R.layout
+            .progress_layout).create()
+        alert.setCanceledOnTouchOutside(false)
+
+        viewModel.loginState.observe(viewLifecycleOwner, {
+            if(it){
+                requireActivity().window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                alert.show()
+            }
+            else{
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                alert.dismiss()
+            }
+        })
     }
 
     override fun onDestroy() {

@@ -3,6 +3,7 @@ package com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.sushmoyr.ajkalnewyork.datasource.local.UserDatabase
 import com.sushmoyr.ajkalnewyork.models.InvalidUser
 import com.sushmoyr.ajkalnewyork.models.utility.LoginRequest
@@ -35,5 +36,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun logout() {
         api.logout()
+    }
+
+    val loginState = MutableLiveData<Boolean>()
+    fun setLoginState(isLoginRequest: Boolean) {
+        loginState.value = isLoginRequest
     }
 }

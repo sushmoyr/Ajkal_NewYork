@@ -1,14 +1,6 @@
-package com.sushmoyr.ajkalnewyork.fragments.user
+package com.sushmoyr.ajkalnewyork.fragments.user.userinfo
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentDashboardBinding
@@ -80,7 +70,7 @@ class DashboardFragment : Fragment() {
         setTextValue(binding.userAddress, it.address)
         setTextValue(binding.userEmail, it.email)
         Glide.with(this)
-            .load("https://ajkal.fastrider.co" + it.image)
+            .load(it.image)
             .placeholder(R.drawable.ic_placeholder)
             .override(148, 148)
             .centerCrop()

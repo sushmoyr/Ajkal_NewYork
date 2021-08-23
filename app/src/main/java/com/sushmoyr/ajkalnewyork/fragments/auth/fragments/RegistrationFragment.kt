@@ -1,5 +1,6 @@
-package com.sushmoyr.ajkalnewyork.fragments.auth
+package com.sushmoyr.ajkalnewyork.fragments.auth.fragments
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
@@ -10,7 +11,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -46,6 +49,7 @@ class RegistrationFragment : Fragment() {
         setPasswordValidator()
         setPasswordMatcher()
         setOnClickListeners()
+        setLoader()
 
         return binding.root
     }
@@ -58,6 +62,8 @@ class RegistrationFragment : Fragment() {
             validateInput()
         }
     }
+
+
 
     private fun validateInput() {
         val name = binding.fullNameInput.text.toString()
@@ -75,14 +81,6 @@ class RegistrationFragment : Fragment() {
         else if(!emailOk)
             Toast.makeText(requireContext(), "Check your email again", Toast.LENGTH_SHORT).show()
         else{
-            val uuid: String = UUID.randomUUID().toString()
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.profile_placeholder)
-            if(bitmap == null){
-                Toast.makeText(requireContext(), "Bitmap null", Toast.LENGTH_SHORT).show()
-            }
-            val user = InvalidUser(uuid,name, email, password.encrypt(password), profilePhoto = bitmap!!)
-            Log.d("reg", user.toString())
-            //confirmRegistration(user)
             registerWithApi(name, email, password, confirmPass)
         }
     }
@@ -242,6 +240,25 @@ class RegistrationFragment : Fragment() {
                 setViewAndChildrenEnabled(child, enabled)
             }
         }
+    }
+
+    private fun setLoader(){
+        val alert = AlertDialog.Builder(requireActivity()).setView(R.layout
+            .progress_layout).create()
+        alert.setCanceledOnTouchOutside(false)
+
+        viewModel.registrationState.observe(viewLifecycleOwner, {
+            if(it){
+                requireActivity().window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                alert.show()
+            }
+            else{
+                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                alert.dismiss()
+            }
+        })
     }
 
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UploadAdFragment">
+    tools:context=".fragments.user.userad.UploadAdFragment">
 
     <TextView
         android:id="@+id/textView"

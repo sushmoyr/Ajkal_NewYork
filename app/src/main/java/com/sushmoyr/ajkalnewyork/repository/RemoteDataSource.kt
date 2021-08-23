@@ -1,6 +1,7 @@
 package com.sushmoyr.ajkalnewyork.repository
 
 import android.util.Log
+import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
@@ -20,27 +21,24 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 class RemoteDataSource {
-    suspend fun getAllCategory(): Response<List<Category>> {
-        Log.d("CallApi", "get all category")
+    suspend fun getAllCategory(): NetworkResponse<Response<List<Category>>> {
         return try{
-            RetrofitInstance.api.getAllCategory()
+            NetworkResponse.Success(RetrofitInstance.api.getAllCategory())
         }catch (e: Exception) {
-            e.printStackTrace()
             Log.d("ErrorPoint", "At cat api")
-            val value = emptyList<Category>()
-            Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
+            e.printStackTrace()
+            NetworkResponse.Error(e)
         }
     }
 
-    suspend fun getAllNews(): Response<List<DataModel.News>> {
+    suspend fun getAllNews(): NetworkResponse<Response<List<DataModel.News>>> {
         Log.d("CallApi", "get all news by id")
         return try{
-            RetrofitInstance.api.getAllNews()
+            NetworkResponse.Success(RetrofitInstance.api.getAllNews())
         }catch (e: Exception) {
-            e.printStackTrace()
             Log.d("ErrorPoint", "At AllNews api")
-            val value = emptyList<DataModel.News>()
-            Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
+            e.printStackTrace()
+            NetworkResponse.Error(e)
         }
     }
 
@@ -49,9 +47,15 @@ class RemoteDataSource {
         return RetrofitInstance.api.getAllNewsCore()
     }
 
-    suspend fun getAllNews(categoryId: String?): Response<List<DataModel.News>> {
+    suspend fun getAllNews(categoryId: String?): NetworkResponse<Response<List<DataModel.News>>> {
         Log.d("CallApi", "get all news by id")
-        return RetrofitInstance.api.getAllNews(categoryId)
+        return try{
+            NetworkResponse.Success(RetrofitInstance.api.getAllNews())
+        }catch (e: Exception) {
+            Log.d("ErrorPoint", "At AllNews by id api")
+            e.printStackTrace()
+            NetworkResponse.Error(e)
+        }
     }
 
     suspend fun getAllAds(): Response<List<DataModel.Advertisement>> {
@@ -59,8 +63,8 @@ class RemoteDataSource {
         return try {
             RetrofitInstance.api.getAllAds()
         }catch (e: Exception) {
-            e.printStackTrace()
             Log.d("ErrorPoint", "At cat api")
+            e.printStackTrace()
             val value = emptyList<DataModel.Advertisement>()
             Response.error(400, value.toString().toResponseBody("application/json".toMediaTypeOrNull()))
         }
@@ -72,9 +76,13 @@ class RemoteDataSource {
     }
 
 
-    suspend fun getPhotos(): Response<List<Photo>> {
+    suspend fun getPhotos(): NetworkResponse<Response<List<Photo>>> {
         Log.d("CallApi", "get all photos")
-        return RetrofitInstance.api.getPhotoGallery(1, 5)
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.getPhotoGallery(1, 5))
+        }catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
     }
 
     suspend fun getFullGallery(): Response<List<Photo>> {
@@ -92,9 +100,13 @@ class RemoteDataSource {
         return RetrofitInstance.api.getTrendingNews()
     }
 
-    suspend fun getBreakingNews(): Response<List<BreakingNews>> {
+    suspend fun getBreakingNews(): NetworkResponse<Response<List<BreakingNews>>> {
         Log.d("CallApi", "get breaking news")
-        return RetrofitInstance.api.getBreakingNews()
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.getBreakingNews())
+        }catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
     }
 
     suspend fun getNewsById(newsId: String?): Response<List<News>> {
@@ -114,8 +126,12 @@ class RemoteDataSource {
         return RetrofitInstance.api.getUserById(createdBy)
     }
 
-    suspend fun getAllSubCategory(): Response<List<SubCategory>> {
-        return RetrofitInstance.api.getAllSubCategory()
+    suspend fun getAllSubCategory(): NetworkResponse<Response<List<SubCategory>>> {
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.getAllSubCategory())
+        }catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
     }
 
     suspend fun getAllVideos(): Response<List<Video>> {
@@ -250,6 +266,19 @@ class RemoteDataSource {
 
     suspend fun deleteAd(adId: String): Response<UploadResponse> {
         return RetrofitInstance.api.deleteAd(adId)
+    }
+
+    suspend fun updateUser(id: String, requestBody: ProfileUpdateRequest):Response<UploadResponse> {
+        return RetrofitInstance.authApi.updateUser(id, requestBody)
+    }
+
+    suspend fun uploadProfileImage(id: Int, profileImage: MultipartBody.Part):Response<UploadResponse> {
+        return RetrofitInstance.authApi.uploadProfileImage(id, profileImage)
+    }
+
+    suspend fun updatePassword(id: String, request: UpdatePasswordRequest):
+            Response<UploadResponse> {
+        return RetrofitInstance.authApi.updatePassword(id, request)
     }
 
 

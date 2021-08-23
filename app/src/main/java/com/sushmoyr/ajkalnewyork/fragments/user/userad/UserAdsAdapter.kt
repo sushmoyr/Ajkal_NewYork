@@ -1,4 +1,4 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.AdLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSizeItem
@@ -18,8 +19,8 @@ class UserAdsAdapter: RecyclerView.Adapter<UserAdsAdapter.MyViewHolder>() {
     private val data: MutableList<SponsoredAds> = mutableListOf()
     private val sizeList: MutableList<AdvertisementSizeItem> = mutableListOf()
 
-    var onClickListener:((sponsoredAd: SponsoredAds, sizeItem: AdvertisementSizeItem?)->Unit) ?=
-        null
+    var onClickListener:((sponsoredAd: SponsoredAds, sizeItem: AdvertisementSizeItem?,
+                          makePayment:Boolean)->Unit) ?= null
 
     inner class MyViewHolder(val binding: AdLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
@@ -36,10 +37,15 @@ class UserAdsAdapter: RecyclerView.Adapter<UserAdsAdapter.MyViewHolder>() {
             if(sponsoredAd.paymentId!=null){
                 binding.adStatus.text = context.resources.getString(R.string.payment_status_paid)
                 binding.adStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
+                binding.makePaymentBtn.visibility = View.GONE
             }else{
-                binding.adStatus.text = context.resources.getString(R.string
-                    .payment_status_unpaid)
-                binding.adStatus.setTextColor(ContextCompat.getColor(context,R.color.red))
+                binding.adStatus.text = context.resources.getString(R.string.payment_status_unpaid)
+                binding.adStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
+                binding.makePaymentBtn.visibility = View.VISIBLE
+            }
+
+            binding.makePaymentBtn.setOnClickListener {
+                onClickListener?.invoke(sponsoredAd, sizeItem, true)
             }
 
 
@@ -50,7 +56,7 @@ class UserAdsAdapter: RecyclerView.Adapter<UserAdsAdapter.MyViewHolder>() {
                 .into(binding.imageView5)
 
             binding.root.setOnClickListener {
-                onClickListener?.invoke(sponsoredAd, sizeItem)
+                onClickListener?.invoke(sponsoredAd, sizeItem, false)
             }
         }
 

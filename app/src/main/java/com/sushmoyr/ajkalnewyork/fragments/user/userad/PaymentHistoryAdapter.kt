@@ -1,10 +1,10 @@
-package com.sushmoyr.ajkalnewyork
+package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.databinding.PaymentHistoryLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
 
@@ -27,9 +27,8 @@ class PaymentHistoryAdapter: RecyclerView.Adapter<PaymentHistoryAdapter.MyViewHo
                 statusV.text = context.resources.getString(R.string.payment_status_paid)
                 statusV.setTextColor(ContextCompat.getColor(context, R.color.green))
             }else{
-                statusV.text = context.resources.getString(R.string
-                    .payment_status_unpaid)
-                statusV.setTextColor(ContextCompat.getColor(context,R.color.red))
+                statusV.text = context.resources.getString(R.string.payment_status_unpaid)
+                statusV.setTextColor(ContextCompat.getColor(context, R.color.red))
             }
         }
     }

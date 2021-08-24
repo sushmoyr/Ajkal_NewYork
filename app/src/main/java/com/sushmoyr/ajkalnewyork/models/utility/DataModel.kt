@@ -55,6 +55,8 @@ sealed class DataModel {
         val createdBy: String = "",
         @SerializedName("created_at")
         val createdAt: String = "",
+        @SerializedName("news_images")
+        val newsImages: List<String> = listOf()
     ) : DataModel() {
 
         val defaultImage get() = "https://ajkal.fastrider.co$_defaultImage"
@@ -62,7 +64,8 @@ sealed class DataModel {
         fun toNews(): CoreNews {
             return CoreNews(
                 id, categoryId, subcategoryId, countryId, divisionId, districtId, newsTitle,
-                slug, description, _defaultImage, videoId, popularNews, status, createdBy, createdAt
+                slug, description, _defaultImage, videoId, popularNews, status, createdBy,
+                createdAt, newsImages
             )
         }
     }

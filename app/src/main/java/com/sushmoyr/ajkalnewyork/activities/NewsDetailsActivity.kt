@@ -9,15 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.fragments.NewsAdapter
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailActivityViewModelFactory
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.NewsDetailViewModel
@@ -26,6 +30,7 @@ import com.sushmoyr.ajkalnewyork.databinding.AdvertisementLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.NewsBodyLayoutBinding
 import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
+import com.sushmoyr.ajkalnewyork.utils.Constants.AJKAL_URL
 import com.sushmoyr.ajkalnewyork.utils.toNewsList
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -72,7 +77,8 @@ class NewsDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateUi(news: News){
-        val newsBodyList = news.description.lines()
+        val newsBodyList = news.description.split("</p>", "<br>")
+        Log.d("newsBody", newsBodyList.size.toString())
         binding.detailNewsTitle.text = news.newsTitle
 
         val formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -91,13 +97,28 @@ class NewsDetailsActivity : AppCompatActivity() {
         updateCategory(news.categoryId)
         updateUser(news.createdBy)
 
-        val adSpacing = 2
+        val adSpacing = 3
         val adsOffset = 2
         var adcount = 0
+
+        val newsImageViews = mutableListOf<ImageView>()
+        news.newsImages.forEach {
+            val imageView = ImageView(this)
+            newsImageViews.add(imageView)
+
+            Glide.with(this)
+                .asBitmap()
+                .load(AJKAL_URL + it)
+                .transition(BitmapTransitionOptions.withCrossFade())
+                .placeholder(R.drawable.ic_placeholder)
+                .into(imageView)
+        }
+
 
         if(binding.detailNewsBodyLayout.childCount != 0)
             binding.detailNewsBodyLayout.removeAllViews()
 
+        var bodyIndex = 0
         newsBodyList.forEach {
             if (it.isNotEmpty() && it.isNotBlank()) {
                 val textView = NewsBodyLayoutBinding.inflate(LayoutInflater.from(this), null, false)
@@ -106,16 +127,36 @@ class NewsDetailsActivity : AppCompatActivity() {
                 } else {
                     Html.fromHtml(it)
                 }
+                if(++bodyIndex % 3 == 0){
+                    if(newsImageViews.isNotEmpty())
+                        binding.detailNewsBodyLayout.addView(newsImageViews.removeFirst())
+                }
                 binding.detailNewsBodyLayout.addView(textView.root)
+
+
             }
         }
+
+
+
+        /*binding.detailNewsBodyLayout.children.forEachIndexed { index, view ->
+            when(view){
+                is TextView -> {
+                    ++bodyIndex
+                    if(bodyIndex % adSpacing==0){
+                        if(newsImageViews.isNotEmpty())
+                            binding.detailNewsBodyLayout.addView(view, index+1)
+                    }
+                }
+            }
+        }*/
 
         viewModel.advertisements.observe(this, {
             val ads = it.shuffled()
             val totalBlocks = newsBodyList.size
             var offsetCounter = 0
             if(totalBlocks >= adSpacing){
-                for (i in 0..binding.detailNewsBodyLayout.childCount) {
+                for (i in 0 until binding.detailNewsBodyLayout.childCount) {
                     Log.d("newsBodyAds", "i = $i")
                     Log.d("newsBodyAds", "childCount = ${binding.detailNewsBodyLayout.childCount}")
 
@@ -157,6 +198,12 @@ class NewsDetailsActivity : AppCompatActivity() {
                 }
             }
         })
+
+
+
+        while (newsImageViews.isNotEmpty()){
+            binding.detailNewsBodyLayout.addView(newsImageViews.removeFirst())
+        }
     }
 
     private fun updateUser(createdBy: String) {

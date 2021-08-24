@@ -36,6 +36,8 @@ data class News(
     val createdBy: String = "",
     @SerializedName("created_at")
     val createdAt: String = "",
+    @SerializedName("news_images")
+    val newsImages: List<String> = listOf()
 ): Parcelable{
     val defaultImage get() = "https://ajkal.fastrider.co$_defaultImage"
 }

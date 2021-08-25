@@ -68,10 +68,11 @@ class HomeViewModel : ViewModel() {
             viewModelScope.launch {
                 val adsDeferred = async { repository.getAllAds() }
                 val newsDeferred = async {
-                    when (categoryId) {
+                    /*when (categoryId) {
                         null -> repository.getAllNews()
                         else -> repository.getAllNews(categoryId)
-                    }
+                    }*/
+                    repository.getAllNews(categoryId)
                 }
                 val photosDeferred = async { repository.getPhotos() }
 
@@ -100,8 +101,22 @@ class HomeViewModel : ViewModel() {
                     var count = 0
                     var adsIndex = 0
                     val adCount = 2
+
+                    /*val newsList = when(categoryId){
+                        null -> {
+                            newsResponse.body()!!.toMutableList()
+                        }
+                        else -> {
+                            newsResponse.body()!!.toMutableList().filter {
+                                it.categoryId == categoryId
+                            }.toMutableList()
+                        }
+                    }*/
+
                     val newsList = newsResponse.body()!!.toMutableList()
+
                     newsList.sortByDescending { it.createdAt }
+
                     newsList.forEach {
                         Log.d("Final", it.defaultImage)
                         if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {

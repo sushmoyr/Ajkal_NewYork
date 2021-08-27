@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.activities.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.activities.ArchiveActivity
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         setUpDrawerRvItems()
 
         drawerRvAdapter.itemClickListener = {data, type ->
+            Log.d("selected", data)
             drawerViewModel.selectedCategoryFilter(data)
             binding.rootDrawerLayout.closeDrawers()
         }
@@ -75,6 +78,14 @@ class MainActivity : AppCompatActivity() {
             binding.rootDrawerLayout.closeDrawers()
         }
 
+        binding.archiveButton.setOnClickListener {
+            navController.navigate(R.id.action_global_archiveFragment)
+            binding.rootDrawerLayout.closeDrawers()
+        }
+
+        binding.subscribeBtn.setOnClickListener {
+            //TODO: subscribe
+        }
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if(destination.id==R.id.galleryFragment)

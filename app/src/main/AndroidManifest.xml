@@ -24,6 +24,9 @@
         android:theme="@style/Theme.AjkalNewYork"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.ArchiveActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.DetailImageActivity"
             android:exported="true"
             android:label="@string/title_activity_detail_image"

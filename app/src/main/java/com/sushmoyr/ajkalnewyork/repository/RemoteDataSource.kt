@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.repository
 
+
 import android.util.Log
 import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
@@ -8,6 +9,7 @@ import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.*
 import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
+import com.sushmoyr.ajkalnewyork.models.core.locations.Location
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.utility.*
@@ -50,7 +52,10 @@ class RemoteDataSource {
     suspend fun getAllNews(categoryId: String?): NetworkResponse<Response<List<DataModel.News>>> {
         Log.d("CallApi", "get all news by id")
         return try{
-            NetworkResponse.Success(RetrofitInstance.api.getAllNews())
+            if(categoryId != null)
+                NetworkResponse.Success(RetrofitInstance.api.getAllNews())
+            else
+                NetworkResponse.Success(RetrofitInstance.api.getAllNews(categoryId))
         }catch (e: Exception) {
             Log.d("ErrorPoint", "At AllNews by id api")
             e.printStackTrace()
@@ -279,6 +284,33 @@ class RemoteDataSource {
     suspend fun updatePassword(id: String, request: UpdatePasswordRequest):
             Response<UploadResponse> {
         return RetrofitInstance.authApi.updatePassword(id, request)
+    }
+
+    suspend fun getArchivedNews(): NetworkResponse<List<News>> {
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.getArchivedNews())
+        }catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
+    }
+
+    suspend fun getAllLocations(): NetworkResponse<Location> {
+        return try{
+            NetworkResponse.Success(RetrofitInstance.api.getAllLocations())
+        }
+        catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
+    }
+
+    suspend fun getLocalNews(categoryId: String, divisionId: String, districtId: String):
+            NetworkResponse<List<News>>{
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.getLocalNews(categoryId, divisionId, districtId))
+        }
+        catch (e: Exception){
+            NetworkResponse.Error(e)
+        }
     }
 
 

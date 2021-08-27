@@ -15,6 +15,7 @@ import retrofit2.Response
 class MainActivityViewModel(private val repository: RemoteDataSource) : ViewModel() {
     val allCategories = MutableLiveData<Response<List<Category>>>()
     val drawerItemList = MutableLiveData<List<DrawerItemModel>>()
+    var categoryData :List<Category> = listOf()
 
     var errorListener: ((e: Exception?) -> Unit)? = null
 
@@ -23,7 +24,12 @@ class MainActivityViewModel(private val repository: RemoteDataSource) : ViewMode
         viewModelScope.launch {
             when (val response = repository.getAllCategory()) {
                 is NetworkResponse.Error -> errorListener?.invoke(response.exception)
-                is NetworkResponse.Success -> allCategories.postValue(response.response!!)
+                is NetworkResponse.Success -> {
+                    allCategories.postValue(response.response!!)
+                    if(response.response.isSuccessful && response.response.body() != null){
+                        categoryData = response.response.body()!!
+                    }
+                }
             }
         }
     }

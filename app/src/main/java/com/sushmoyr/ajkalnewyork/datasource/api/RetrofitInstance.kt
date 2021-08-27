@@ -33,9 +33,9 @@ object RetrofitInstance {
     }
     private val httpClient = OkHttpClient.Builder().apply {
         interceptors().add(interceptor)
-        connectTimeout(Duration.ofSeconds(10L))
-        readTimeout(Duration.ofSeconds(10L))
-        writeTimeout(Duration.ofSeconds(10L))
+        connectTimeout(Duration.ofSeconds(20L))
+        readTimeout(Duration.ofSeconds(20L))
+        writeTimeout(Duration.ofSeconds(20L))
     }.build()
 
     private val apiBuilder by lazy {

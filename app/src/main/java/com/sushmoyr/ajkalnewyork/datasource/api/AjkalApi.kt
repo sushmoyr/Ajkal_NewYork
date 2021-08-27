@@ -1,13 +1,13 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
-import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
-import com.sushmoyr.ajkalnewyork.models.core.Video
 import com.sushmoyr.ajkalnewyork.models.core.*
 import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
+import com.sushmoyr.ajkalnewyork.models.core.locations.Location
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
+import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
 import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
@@ -89,22 +89,23 @@ interface AjkalApi {
 
     @GET("districts.php")
     suspend fun getDistrictByDivision(
-        @Query("division_id") divisionId: String): Response<List<District>>
+        @Query("division_id") divisionId: String
+    ): Response<List<District>>
 
 
     @GET("bd_news.php")
     suspend fun getBdNews(
         @Query("division_id") divisionId: String,
         @Query("district_id") districtId: String
-    ):Response<List<DataModel.News>>
+    ): Response<List<DataModel.News>>
 
     @GET("bd_news.php")
     suspend fun getBdNews(
         @Query("division_id") divisionId: String
-    ):Response<List<DataModel.News>>
+    ): Response<List<DataModel.News>>
 
     @GET("bd_news.php")
-    suspend fun getBdNews():Response<List<DataModel.News>>
+    suspend fun getBdNews(): Response<List<DataModel.News>>
 
     @POST("adPayments.php")
     suspend fun postAdPayment(@Body adPayment: AdvertisementPayment)
@@ -115,31 +116,31 @@ interface AjkalApi {
         @Part("user_id")
         userId: RequestBody,
         @Part("ad_title")
-         adTitle: RequestBody,
+        adTitle: RequestBody,
         @Part("ad_link")
-         adLink: RequestBody,
+        adLink: RequestBody,
         @Part("size_id")
-         sizeId: RequestBody,
+        sizeId: RequestBody,
         @Part
         adImage: MultipartBody.Part,
         @Part("created_date")
-         createdDate: RequestBody,
+        createdDate: RequestBody,
         @Part("exp_date")
-         expDate: RequestBody,
+        expDate: RequestBody,
         @Part("for_day")
-         forDay: RequestBody,
+        forDay: RequestBody,
         @Part("amount")
-         amount: RequestBody,
+        amount: RequestBody,
         @Part("status")
-         status: RequestBody,
+        status: RequestBody,
         @Part("created_at")
-         createdAt: RequestBody,
+        createdAt: RequestBody,
         @Part("updated_at")
-         updatedAt: RequestBody
-    ):Response<UploadResponse>
+        updatedAt: RequestBody
+    ): Response<UploadResponse>
 
     @GET("sponsored_ads.php")
-    suspend fun getUserSponsoredAds(@Query("user_id") userId: String):Response<List<SponsoredAds>>
+    suspend fun getUserSponsoredAds(@Query("user_id") userId: String): Response<List<SponsoredAds>>
 
     @Multipart
     @POST("ad/update/{id}")
@@ -169,7 +170,7 @@ interface AjkalApi {
         createdAt: RequestBody,
         @Part("updated_at")
         updatedAt: RequestBody
-    ):Response<UploadResponse>
+    ): Response<UploadResponse>
 
     @POST("ad/payment/stripe")
     suspend fun postTransactionInfo(@Body transactionInfo: TransactionInfo)
@@ -182,5 +183,20 @@ interface AjkalApi {
     suspend fun deleteAd(@Path("id") id: String): Response<UploadResponse>
 
     @GET("user.php")
-    suspend fun updateUserProfileInfo(@Query("id") id: String):Response<User>
+    suspend fun updateUserProfileInfo(@Query("id") id: String): Response<User>
+
+    @GET("archive.php")
+    suspend fun getArchivedNews(): List<News>
+
+    @GET("location_data.php")
+    suspend fun getAllLocations(): Location
+
+    @GET("local_news.php")
+    suspend fun getLocalNews(
+        @Query("country_id") countryId: String,
+        @Query("division_id") divisionId: String,
+        @Query("district_id") districtId: String): List<News>
+
+    @POST("newsletter/store")
+    suspend fun subscribeToNewsLetter(@Body email: String)
 }

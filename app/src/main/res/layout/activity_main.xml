@@ -6,6 +6,7 @@
     android:id="@+id/root_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:openDrawer="start"
     android:fitsSystemWindows="false"
 
     tools:context=".activities.main.MainActivity">
@@ -138,10 +139,10 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.button.MaterialButton
-                        android:visibility="invisible"
                         android:id="@+id/showGalleryButton"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        app:layout_constraintWidth_percent="0.6"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="16dp"
@@ -154,7 +155,24 @@
                         app:strokeWidth="1dp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:visibility="invisible"
+                        android:id="@+id/archiveButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="আর্কাইভ"
+                        android:textAllCaps="false"
+                        android:textColor="@color/secondaryColor"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="@id/showGalleryButton"
+                        app:layout_constraintStart_toStartOf="@id/showGalleryButton"
+                        app:layout_constraintTop_toBottomOf="@+id/showGalleryButton"
+                        app:strokeColor="@color/secondaryColor"
+                        app:strokeWidth="1dp" />
+
+
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/subscribeBtn"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
@@ -167,7 +185,7 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="@id/showGalleryButton"
                         app:layout_constraintStart_toStartOf="@id/showGalleryButton"
-                        app:layout_constraintTop_toBottomOf="@+id/showGalleryButton"
+                        app:layout_constraintTop_toBottomOf="@+id/archiveButton"
                         app:strokeColor="@color/secondaryColor"
                         app:strokeWidth="1dp" />
 

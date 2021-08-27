@@ -5,54 +5,80 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.chip.Chip
+import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.databinding.FragmentMapBinding
 import com.sushmoyr.ajkalnewyork.fragments.home.adpters.HomeItemsAdapter
+import com.sushmoyr.ajkalnewyork.models.core.News
 import com.sushmoyr.ajkalnewyork.models.utility.DataModel
-import com.sushmoyr.ajkalnewyork.models.core.District
-import com.sushmoyr.ajkalnewyork.models.core.Division
+import com.sushmoyr.ajkalnewyork.models.core.locations.Country
+import com.sushmoyr.ajkalnewyork.models.core.locations.District
+import com.sushmoyr.ajkalnewyork.models.core.locations.Location
 import com.sushmoyr.ajkalnewyork.utils.ResourceState
 
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MapViewModel by viewModels()
+    private val viewModel: MapViewModel by activityViewModels()
     private val itemAdapter: HomeItemsAdapter by lazy{
         HomeItemsAdapter()
     }
+
     private val model: DrawerViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        setUpDivisionGroup()
-        viewModel.getBdNews()
-        if(!model.categoryListData.isNullOrEmpty()){
-            itemAdapter.categories = model.categoryListData
-        }
-
-        filterObservers()
-
-        loadingState()
+        //loadingState()
 
         setUpRecyclerView()
+        binding.filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mapFragment_to_locationSelectionFragment)
+        }
 
-        viewModel.bdNews.observe(viewLifecycleOwner, {
-            Log.d("size", "item size ${it.size}")
-            itemAdapter.setData(it)
+        viewModel.localNewsList.observe(viewLifecycleOwner, {
+            Log.d("mapmodel", "data changed")
+            when(it){
+                is NetworkResponse.Error -> {
+                    Log.d("maps", "Error ${it.message?:"null"}")
+                    binding.mapProgressBar.visibility = View.INVISIBLE
+                    binding.mapProgressText.visibility = View.VISIBLE
+                    binding.mapProgressText.text = resources.getString(R.string.error_loading)
+                }
+                is NetworkResponse.Loading -> {
+                    Log.d("maps", "Loading news")
+                    binding.mapProgressBar.visibility = View.VISIBLE
+                    binding.mapProgressText.visibility = View.VISIBLE
+                    binding.mapProgressText.text = resources.getString(R.string.loading_msg)
+                }
+                is NetworkResponse.Success -> {
+                    Log.d("maps", "Loading Success")
+                    binding.mapProgressBar.visibility = View.INVISIBLE
+                    itemAdapter.setData(toDataModelNewsList(it.response))
+
+                    if(it.response.isNullOrEmpty()){
+                        binding.mapProgressText.visibility = View.VISIBLE
+                        binding.mapProgressText.text = resources.getString(R.string.no_data)
+                    }
+                    else{
+                        binding.mapProgressText.visibility = View.INVISIBLE
+                        binding.mapProgressText.text = resources.getString(R.string.succeeded)
+                    }
+
+
+                }
+            }
         })
 
         model.getCategoryList().observe(viewLifecycleOwner, {
@@ -60,9 +86,17 @@ class MapFragment : Fragment() {
                 itemAdapter.categories = it
             }
         })
-
-
         return binding.root
+    }
+
+    private fun toDataModelNewsList(response: List<News>?): List<DataModel> {
+        if(response==null)
+            return emptyList()
+        val data = mutableListOf<DataModel>()
+        response.forEach {
+            data.add(it.toDataModel())
+        }
+        return data.toList()
     }
 
 
@@ -101,45 +135,6 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun filterObservers(){
-        viewModel.selectedDivision.observe(viewLifecycleOwner, {
-            if (it != null) {
-                val selectedDivision = viewModel.getDivisionFromName(it)
-                if (selectedDivision != null) {
-                    viewModel.getDistrictByDivision(selectedDivision.id)
-                }
-                else{
-                    Log.d("hider", "returned null query")
-                }
-            }
-            else{
-                viewModel.districts.value = null
-            }
-
-        })
-
-        viewModel.selectionPair.observe(viewLifecycleOwner, {
-            val division = it.first?:"null"
-            val district = it.second?:"null"
-            Log.d("pairs", "pair div = $division and pair dist = $district")
-            viewModel.getBdNews(it.first, it.second)
-        })
-
-
-
-        viewModel.districts.observe(viewLifecycleOwner, {
-            if (!it.isNullOrEmpty()) {
-                it.forEach { dist ->
-                    Log.d("hider", dist.districtName)
-                }
-                setUpDistrictGroup()
-                binding.districtScroll.visibility = View.VISIBLE
-
-            } else
-                binding.districtScroll.visibility = View.GONE
-        })
-    }
-
     private fun loadingState(){
         viewModel.loadingState.observe(viewLifecycleOwner, {
             when(it){
@@ -175,145 +170,11 @@ class MapFragment : Fragment() {
         })
     }
 
-    private fun setUpDistrictGroup() {
-        //Get filters from api
-        viewModel.districts.observe(viewLifecycleOwner, { districts ->
-            if(districts!=null){
-                val filters = districts.toMutableList()
-                val firstItem =
-                    District(
-                        "default_district", districtName = resources.getString(
-                            R.string
-                                .default_district
-                        )
-                    )
-                filters.add(0, firstItem)
-
-                setUpDistrictSelectionChips(filters)
-            }
-        })
-    }
-
-    private fun setUpDistrictSelectionChips(filters: List<District>) {
-        val chipGroup = binding.districtGroup
-        chipGroup.removeAllViews()
-        var isChecked = false
-        filters.forEach {
-            val chip = Chip(requireContext())
-            chip.id = View.generateViewId()
-            chip.text = it.districtName
-            chipGroup.addView(chip)
-
-            if (!isChecked) {
-                chipGroup.check(chip.id)
-                chip.chipStrokeWidth = 0f
-                chip.setChipBackgroundColorResource(R.color.secondaryColor)
-                chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                isChecked = true
-            }
-        }
-
-        chipGroup.isSingleSelection = true
-
-        val placeHolderChip = Chip(requireContext())
-
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            group.children.forEach { chip ->
-                if (chip is Chip) {
-                    if (chip.id == checkedId) {
-                        chip.chipStrokeWidth = 0f
-                        chip.setChipBackgroundColorResource(R.color.secondaryColor)
-                        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        if(chip.text.toString()!=resources.getString(R.string.default_district)){
-                            viewModel.setSelectedDistrict(chip.text.toString())
-                        }
-                        else{
-                            viewModel.setSelectedDistrict(null)
-                        }
-                    } else {
-                        chip.chipBackgroundColor = placeHolderChip.chipBackgroundColor
-                        chip.chipStrokeWidth = placeHolderChip.chipStrokeWidth
-                        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                    }
-                }
-            }
-            val chip = view?.findViewById<Chip>(checkedId)
-            if (chip != null) {
-                chip.chipStrokeWidth = 0f
-                chip.setChipBackgroundColorResource(R.color.secondaryColor)
-            }
-
-        }
-    }
-
-
-    private fun setUpDivisionGroup() {
-        //Get filters from api
-        viewModel.divisions.observe(viewLifecycleOwner, { divisions ->
-            val filters = divisions.toMutableList()
-            val firstItem =
-                Division(
-                    "default_division",
-                    divisionName = resources.getString(R.string.default_division)
-                )
-            filters.add(0, firstItem)
-
-            setUpSelectionChips(filters)
-        })
-    }
-
-    private fun setUpSelectionChips(filters: List<Division>) {
-        val chipGroup = binding.divisionGroup
-        chipGroup.removeAllViews()
-        var isChecked = false
-        filters.forEach {
-            val chip = Chip(requireContext())
-            chip.id = View.generateViewId()
-            chip.text = it.divisionName
-            chipGroup.addView(chip)
-
-            if (!isChecked) {
-                chipGroup.check(chip.id)
-                chip.chipStrokeWidth = 0f
-                chip.setChipBackgroundColorResource(R.color.secondaryColor)
-                chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                isChecked = true
-            }
-        }
-
-        chipGroup.isSingleSelection = true
-
-        val placeHolderChip = Chip(requireContext())
-
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            group.children.forEach { chip ->
-                if (chip is Chip) {
-                    if (chip.id == checkedId) {
-                        chip.chipStrokeWidth = 0f
-                        chip.setChipBackgroundColorResource(R.color.secondaryColor)
-                        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                        if(chip.text.toString()!=resources.getString(R.string.default_division))
-                            viewModel.setSelectedDivision(chip.text.toString())
-                        else
-                            viewModel.setSelectedDivision(null)
-                    } else {
-                        chip.chipBackgroundColor = placeHolderChip.chipBackgroundColor
-                        chip.chipStrokeWidth = placeHolderChip.chipStrokeWidth
-                        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                    }
-                }
-            }
-            val chip = view?.findViewById<Chip>(checkedId)
-            if (chip != null) {
-                chip.chipStrokeWidth = 0f
-                chip.setChipBackgroundColorResource(R.color.secondaryColor)
-            }
-
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 }
+
+

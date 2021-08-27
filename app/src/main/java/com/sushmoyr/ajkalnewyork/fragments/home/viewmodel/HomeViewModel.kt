@@ -10,6 +10,7 @@ import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.BreakingNews
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.models.core.News
+import com.sushmoyr.ajkalnewyork.models.core.Photo
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.Constants.MINIMUM_GALLERY_HEIGHT
 import kotlinx.coroutines.*
@@ -19,6 +20,10 @@ import retrofit2.Response
 class HomeViewModel : ViewModel() {
     private val repository = Repository().remoteDataSource
     val allCategory = MutableLiveData<Response<List<Category>>>()
+
+    init {
+        getPhotos()
+    }
 
     private var breakingNewsLoaded = false
     private var homeItemsLoaded = false
@@ -54,8 +59,9 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    val homeItems = MutableLiveData<List<DataModel>>()
+    val loader = MutableLiveData<Boolean>(false)
 
+    val homeItems = MutableLiveData<List<DataModel>>()
     fun getHomeItems(categoryId: String? = null, refreshing: Boolean ?=null) {
 
         homeItemsLoaded = false
@@ -65,6 +71,7 @@ class HomeViewModel : ViewModel() {
             Log.d("home", "Cat id = $categoryId")
         }
         if(homeItems.value.isNullOrEmpty() || refreshing==true){
+            loader.value = true
             viewModelScope.launch {
                 val adsDeferred = async { repository.getAllAds() }
                 val newsDeferred = async {
@@ -74,7 +81,7 @@ class HomeViewModel : ViewModel() {
                     }*/
                     repository.getAllNews(categoryId)
                 }
-                val photosDeferred = async { repository.getPhotos() }
+
 
                 val ads = adsDeferred.await()
                 val newsResponseState = newsDeferred.await()
@@ -87,6 +94,9 @@ class HomeViewModel : ViewModel() {
                     }
                     is NetworkResponse.Success -> {
                         newsResponseState.response
+                    }
+                    else -> {
+                        null
                     }
                 }
 
@@ -102,23 +112,19 @@ class HomeViewModel : ViewModel() {
                     var adsIndex = 0
                     val adCount = 2
 
-                    /*val newsList = when(categoryId){
-                        null -> {
-                            newsResponse.body()!!.toMutableList()
-                        }
-                        else -> {
-                            newsResponse.body()!!.toMutableList().filter {
-                                it.categoryId == categoryId
-                            }.toMutableList()
-                        }
-                    }*/
+                    val newsList = if(categoryId == null){
+                        newsResponse.body()!!.toMutableList()
+                    } else {
+                        val newsData = newsResponse.body()!!.toMutableList()
+                        val filteredData = newsData.filter { it.categoryId == categoryId }
+                        filteredData.toMutableList()
+                    }
+                    //val newsList = newsResponse.body()!!.toMutableList()
 
-                    val newsList = newsResponse.body()!!.toMutableList()
-
-                    newsList.sortByDescending { it.createdAt }
+                    //newsList.sortByDescending { it.createdAt }
 
                     newsList.forEach {
-                        Log.d("Final", it.defaultImage)
+                        //Log.d("Final", it.defaultImage)
                         if (count != 0 && count % offset == 0 && adsIndex < advertisements.size) {
                             for (j in 0 until adCount) {
                                 if (adsIndex < advertisements.size) {
@@ -134,29 +140,33 @@ class HomeViewModel : ViewModel() {
                         count++
                     }
 
-                    when(val photosDef = photosDeferred.await()) {
-                        is NetworkResponse.Error -> {
-
+                    if(photos.isNotEmpty()){
+                        val photoData = DataModel.GalleryItem(photos)
+                        val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
+                            homeItemList.size
+                        } else {
+                            MINIMUM_GALLERY_HEIGHT
                         }
-                        is NetworkResponse.Success -> {
-                            val photos = photosDef.response!!
-                            if (photos.isSuccessful) {
-                                val photoData = DataModel.GalleryItem(photos.body()!!)
-                                val index = if (homeItemList.size < MINIMUM_GALLERY_HEIGHT) {
-                                    homeItemList.size
-                                } else {
-                                    MINIMUM_GALLERY_HEIGHT
-                                }
-                                homeItemList.add(index, photoData)
-                            }
-
-                        }
+                        homeItemList.add(index, photoData)
                     }
 
                     homeItemsLoaded = true
+                    loader.value = false
                     onDataLoadComplete?.invoke(breakingNewsLoaded, homeItemsLoaded)
                     homeItems.postValue(homeItemList)
                 }
+            }
+        }
+    }
+
+    private var photos: List<Photo> = listOf()
+    private fun getPhotos(){
+        viewModelScope.launch {
+            val photosDeferred = async { repository.getPhotos() }
+            val photosDef = photosDeferred.await()
+            if(photosDef is NetworkResponse.Success) {
+                val photosList = photosDef.response?.body()!!
+                photos = photosList
             }
         }
     }
@@ -165,7 +175,7 @@ class HomeViewModel : ViewModel() {
     //breaking news section
 
     val breakingNewsObserve = MutableLiveData<BreakingNews?>()
-    var runFlow: Boolean = true
+    private var runFlow: Boolean = true
     fun getBreakingNews(refreshing: Boolean? = null) {
         breakingNewsLoaded = false
         if(refreshing == true || breakingNewsObserve.value == null){

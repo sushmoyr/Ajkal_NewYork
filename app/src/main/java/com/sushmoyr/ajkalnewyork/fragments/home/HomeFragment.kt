@@ -66,8 +66,7 @@ class HomeFragment : Fragment() {
                         categoryId = cat.id
                 }
             }
-
-            viewModel.getHomeItems(categoryId, true)
+            viewModel.getHomeItems(categoryId, refreshing = true)
             viewModel.getBreakingNews(refreshing = true)
         }
 
@@ -90,7 +89,8 @@ class HomeFragment : Fragment() {
             Log.d("SelectedCat", it)
 
             var categoryId: String? = null
-            if (it != resources.getString(R.string.defaultCategoryName)) {
+
+            if (it != resources.getString(R.string.defaultCategoryName) && it!=resources.getString(R.string.archive_category)) {
                 model.categoryListData.forEach { cat ->
                     if (cat.categoryName == it)
                         categoryId = cat.id
@@ -103,8 +103,21 @@ class HomeFragment : Fragment() {
         viewModel.getAllAds()
 
         viewModel.homeItems.observe(viewLifecycleOwner, {
+            //Toast.makeText(requireContext(), "Items changed", Toast.LENGTH_SHORT).show()
+            Log.d("loader", "Items changed")
             homeAdapter.setData(it)
 
+        })
+
+        viewModel.loader.observe(viewLifecycleOwner, {
+            if(it){
+                Log.d("loader", "Loading news")
+                binding.homeSwipeToRefreshLayout.isRefreshing = true
+            }
+            else {
+                Log.d("loader", "Loading finished")
+                binding.homeSwipeToRefreshLayout.isRefreshing = false
+            }
         })
 
         return binding.root
@@ -272,6 +285,11 @@ class HomeFragment : Fragment() {
             group.children.forEach { chip ->
                 if (chip is Chip) {
                     if (chip.id == checkedId) {
+
+                        if(chip.text==resources.getString(R.string.archive_category)){
+                            findNavController().navigate(R.id.action_global_archiveFragment)
+                        }
+
                         chip.chipStrokeWidth = 0f
                         chip.setChipBackgroundColorResource(R.color.secondaryColor)
                         chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))

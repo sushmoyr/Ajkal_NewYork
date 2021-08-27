@@ -69,7 +69,7 @@
     <string name="continue_to">Continue to</string>
     <string name="login">Login</string>
     <string name="create_an_account">Create an account</string>
-    <string name="footer_copyright">© ২০২১ | সাপ্তাহিক আজকাল কর্তৃক সর্বসত্ব ® সংরক্ষিত | উন্নয়নে ইমিথমেকারস.কম</string>
+    <string name="footer_copyright">© ২০২১ | সাপ্তাহিক আজকাল কর্তৃক সর্বসত্ব ® সংরক্ষিত | উন্নয়নে ইকেটেকনোলজি.কম</string>
     <string name="title_activity_user">UserActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -100,4 +100,8 @@
     <string name="payment_status_unpaid">not paid</string>
     <string name="server_error">A server error has occured</string>
     <string name="your_advertisement">Your Advertisement</string>
+    <string name="archive_category">আর্কাইভস</string>
+    <string name="select_a_date">Select a date</string>
+    <string name="loading_msg">Loading!! Please Wait!!</string>
+    <string name="error_loading">An error has occured</string>
 </resources>

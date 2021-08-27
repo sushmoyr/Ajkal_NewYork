@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.fragments
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,12 @@ import com.sushmoyr.ajkalnewyork.utils.Constants.MAXIMUM_MORE_NEWS_COUNT
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
     private var data = emptyList<News>()
+    private var filteredData = emptyList<News>()
     private var categoryList = emptyList<Category>()
+    var date: String?= null
+    var catId: String?= null
     var itemClickListener: ((item: News) -> Unit)? = null
+    private var isFilterSet = false
 
     class MyViewHolder(private val binding: NewsItemLayoutBinding) : RecyclerView.ViewHolder(
         binding.root
@@ -58,11 +63,17 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.itemClickListener = itemClickListener
-        holder.bind(data[position], categoryList)
+        if(isFilterSet){
+            holder.bind(filteredData[position], categoryList)
+        } else
+            holder.bind(data[position], categoryList)
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return when(isFilterSet){
+            true -> filteredData.size
+            else -> data.size
+        }
     }
 
     fun setData(data: List<News>) {
@@ -80,5 +91,43 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.MyViewHolder>() {
 
     fun setCategoryList(it: List<Category>) {
         this.categoryList = it
+    }
+
+    fun setFilter(filterDate: String? = null, filterCatId: String ?= null){
+        isFilterSet = true
+        if(filterCatId!=null)
+            catId = filterCatId
+        if(filterDate!= null)
+            date = filterDate
+
+        Log.d("filter", "Filter date: ${date ?: "null"} and Filter cat: ${catId?:"null"}")
+
+        filteredData = data.filter {
+            when{
+                date!=null && catId==null -> {
+                    it.createdAt.contains(date!!)
+                }
+                date==null && catId!=null -> {
+                    it.categoryId == catId
+                }
+                date != null && catId != null -> {
+                    it.categoryId == catId && it.createdAt.contains(date!!)
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun clearFilter(){
+        if(isFilterSet){
+            date = null
+            catId = null
+            isFilterSet = false
+            filteredData = emptyList()
+            notifyDataSetChanged()
+        }
     }
 }

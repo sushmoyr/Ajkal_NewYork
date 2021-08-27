@@ -4,9 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.models.utility.DataModel
 import com.sushmoyr.ajkalnewyork.models.core.District
 import com.sushmoyr.ajkalnewyork.models.core.Division
+import com.sushmoyr.ajkalnewyork.models.core.News
+import com.sushmoyr.ajkalnewyork.models.core.locations.Location
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.ResourceState
 import kotlinx.coroutines.async
@@ -18,9 +21,50 @@ class MapViewModel: ViewModel() {
     private var fetchedAds : List<DataModel.Advertisement> = emptyList()
 
     init {
-        getAllDivision()
-        getAds()
+        getLocationData()
     }
+
+    private val _locationData = MutableLiveData<Location>()
+    val locationData = _locationData
+
+    private fun getLocationData(){
+        viewModelScope.launch {
+            val response = repository.getAllLocations()
+            loadingState.value = ResourceState.Loading(false)
+            when(response){
+                is NetworkResponse.Success -> {
+                    _locationData.postValue(response.response!!)
+                }
+
+                else -> loadingState.value = ResourceState.Result(false, response.exception?.message)
+            }
+        }
+    }
+
+    private val _localNewsList = MutableLiveData<NetworkResponse<List<News>>>()
+    val localNewsList get() = _localNewsList
+
+
+
+    fun getNews(countryId: String, divisionId: String, districtId: String){
+        Log.d("mapModel", "Called With $countryId, $divisionId, $districtId")
+        _localNewsList.value = NetworkResponse.Loading()
+        viewModelScope.launch {
+            val response = repository.getLocalNews(countryId, divisionId, districtId)
+            Log.d("mapModel", "Received")
+
+            val data = response.response
+            if(data!=null){
+                Log.d("mapModel", data.size.toString())
+                data.forEach {
+                    println(it)
+                }
+            }
+            _localNewsList.postValue(response)
+        }
+    }
+
+
 
     private fun getAds() {
         viewModelScope.launch {
@@ -39,9 +83,9 @@ class MapViewModel: ViewModel() {
     private val _selectedDivision = MutableLiveData<String>().also {
         it.value = null
     }
-    val selectedDivision = _selectedDivision
+    private val selectedDivision = _selectedDivision
 
-    val selectionPair = MutableLiveData<Pair<String?, String?>>()
+    private val selectionPair = MutableLiveData<Pair<String?, String?>>()
 
     fun setSelectedDivision(division: String?){
         Log.d("bdNews", "division to set ${division?:"null"}")
@@ -176,6 +220,5 @@ class MapViewModel: ViewModel() {
             }
         }
     }
-
 
 }

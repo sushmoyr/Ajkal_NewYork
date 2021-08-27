@@ -115,4 +115,5 @@ class HomeItemsAdapter : RecyclerView.Adapter<HomeItemsViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
         itemCountListener?.invoke(newItems.size)
     }
+
 }

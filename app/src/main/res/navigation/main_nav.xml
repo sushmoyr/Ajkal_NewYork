@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_mapFragment_to_newsDetailsActivity"
             app:destination="@id/newsDetailsActivity" />
+        <action
+            android:id="@+id/action_mapFragment_to_locationSelectionFragment"
+            app:destination="@id/locationSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/trendingFragment"
@@ -96,5 +99,22 @@
         android:name="com.sushmoyr.ajkalnewyork.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.sushmoyr.ajkalnewyork.ArchiveFragment"
+        android:label="fragment_archive"
+        tools:layout="@layout/fragment_archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_newsDetailsActivity"
+            app:destination="@id/newsDetailsActivity" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_archiveFragment"
+        app:destination="@id/archiveFragment" />
+    <dialog
+        android:id="@+id/locationSelectionFragment"
+        android:name="com.sushmoyr.ajkalnewyork.LocationSelectionFragment"
+        android:label="fragment_location_selection"
+        tools:layout="@layout/fragment_location_selection" />
 
 </navigation>

@@ -9,9 +9,9 @@ data class GeoLocationInfo(
     @SerializedName("country_name")
     val countryName: String = "",
     @SerializedName("city")
-    val city: Any? = null,
+    val city: String? = null,
     @SerializedName("postal")
-    val postal: Any? = null,
+    val postal: String? = null,
     @SerializedName("latitude")
     val latitude: String = "",
     @SerializedName("longitude")
@@ -19,5 +19,5 @@ data class GeoLocationInfo(
     @SerializedName("IPv4")
     val iPv4: String = "",
     @SerializedName("state")
-    val state: Any? = null
+    val state: String? = null
 )

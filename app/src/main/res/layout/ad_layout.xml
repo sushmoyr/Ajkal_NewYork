@@ -98,7 +98,7 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Due Date: "
+            android:text="For Days: "
             android:textColor="@color/primaryTextColor"
             android:textSize="12sp"
             android:textStyle="bold"

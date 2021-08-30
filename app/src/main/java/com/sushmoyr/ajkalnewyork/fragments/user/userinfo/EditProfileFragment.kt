@@ -63,6 +63,7 @@ class EditProfileFragment : Fragment() {
                 val fileUri: Uri = data?.data!!
                 //viewModel.uploadedImageUri.value = fileUri
                 binding.profilePicture.setImageURI(fileUri)
+                Glide.with(this).load(fileUri).into(binding.profilePicture)
                 imageUri = fileUri
                 imageUpdated = true
             }

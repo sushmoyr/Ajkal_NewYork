@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.activities.main
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +18,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.sushmoyr.ajkalnewyork.R
-import com.sushmoyr.ajkalnewyork.activities.ArchiveActivity
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.DrawerViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModel
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainActivityViewModelFactory
@@ -26,6 +25,17 @@ import com.sushmoyr.ajkalnewyork.databinding.ActivityMainBinding
 import com.sushmoyr.ajkalnewyork.models.core.Category
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import com.sushmoyr.ajkalnewyork.utils.hasNetwork
+import android.content.DialogInterface
+import android.util.Patterns
+import android.widget.Toast
+import android.widget.EditText
+import android.view.LayoutInflater
+import androidx.lifecycle.lifecycleScope
+import com.sushmoyr.ajkalnewyork.NetworkResponse
+import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.databinding.AlertDialogBinding
+import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.showGalleryButton.setOnClickListener {
-            navController.navigate(R.id.action_global_galleryFragment)
+            navController.navigate(com.sushmoyr.ajkalnewyork.R.id.action_global_galleryFragment)
             binding.rootDrawerLayout.closeDrawers()
         }
 
@@ -94,6 +104,10 @@ class MainActivity : AppCompatActivity() {
                 binding.mainBottomNav.visibility = View.VISIBLE
         }
 
+        binding.subscribeBtn.setOnClickListener {
+            showNewsLetterDialog()
+        }
+
         viewModel.errorListener = {e ->
             if(e!=null){
                 Log.d("exception", "Listened error")
@@ -105,6 +119,66 @@ class MainActivity : AppCompatActivity() {
                     viewSnackBar(resources.getString(R.string.server_error))
                 }
                 Log.d("exception","Has network = ${hasNetwork(this)}")
+            }
+        }
+    }
+
+    private fun showNewsLetterDialog() {
+        // get alert_dialog.xml view
+        // get alert_dialog.xml view
+        val layout = AlertDialogBinding.inflate(LayoutInflater.from(applicationContext), null, false)
+        /*val li = LayoutInflater.from(applicationContext)
+        val promptsView: View = li.inflate(R.layout.alert_dialog, null)*/
+
+        val alertDialogBuilder = AlertDialog.Builder(
+            this
+        )
+        alertDialogBuilder.setView(layout.root)
+        alertDialogBuilder
+            .setCancelable(false)
+            .setPositiveButton(
+                "OK",
+                DialogInterface.OnClickListener { dialog, id -> // get user input and set it to result
+                    // edit text
+                    startSubscription(layout.emailInput.text.toString().trim())
+                })
+            .setNegativeButton("Cancel",
+                DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+
+        // create alert dialog
+
+        // create alert dialog
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+
+        // show it
+
+        // show it
+        alertDialog.show()
+    }
+
+    private fun startSubscription(email: String) {
+        lifecycleScope.launch {
+            if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                Toast.makeText(applicationContext, "Invalid Email Pattern", Toast.LENGTH_SHORT)
+                    .show()
+                return@launch
+            }
+            Toast.makeText(applicationContext, "Subscribing to $email", Toast.LENGTH_SHORT).show()
+            when(val response = viewModel.subscribeNewsLetter(email)){
+                is NetworkResponse.Error -> {
+                    Toast.makeText(applicationContext, "An error has occurred. Try Again", Toast.LENGTH_SHORT).show()
+                }
+                is NetworkResponse.Loading -> {
+
+                }
+                is NetworkResponse.Success -> {
+                    if (response.response?.email?.isNotEmpty() == true)
+                        Toast.makeText(applicationContext, response.response.email[0], Toast
+                            .LENGTH_SHORT).show()
+                    else{
+                        Toast.makeText(applicationContext, response.response?.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

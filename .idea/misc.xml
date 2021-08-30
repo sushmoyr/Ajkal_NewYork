@@ -22,6 +22,7 @@
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/activity_videos.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/ad_layout.xml" value="0.4" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/advertisement_layout.xml" value="0.16485507246376813" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/alert_dialog.xml" value="0.4" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/app_bar_user.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/category_layout.xml" value="0.12395833333333334" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/category_view.xml" value="0.6" />
@@ -32,7 +33,7 @@
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_change_password.xml" value="0.2" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_dashboard.xml" value="0.4" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_edit_advertisement.xml" value="0.2484375" />
-        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_edit_profile.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_edit_profile.xml" value="0.4" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_first.xml" value="0.24048913043478262" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_gallery.xml" value="0.24320652173913043" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_home.xml" value="0.2" />
@@ -47,7 +48,7 @@
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_slideshow.xml" value="0.2484375" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_sponsored_ad_detail.xml" value="0.4" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_trending.xml" value="0.2484375" />
-        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_upload_ad.xml" value="0.264" />
+        <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_upload_ad.xml" value="0.536" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_user_ad.xml" value="0.2" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/fragment_videos.xml" value="0.15896739130434784" />
         <entry key="..\:/Projects/AndroidStudioProjects/AjkalNewYork/app/src/main/res/layout/gallery_item_layout.xml" value="0.24320652173913043" />

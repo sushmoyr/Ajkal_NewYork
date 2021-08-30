@@ -1,5 +1,6 @@
 package com.sushmoyr.ajkalnewyork.datasource.api
 
+import com.google.gson.annotations.SerializedName
 import com.sushmoyr.ajkalnewyork.models.AdPostResponse
 import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.*
@@ -7,9 +8,7 @@ import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.core.locations.Location
 import com.sushmoyr.ajkalnewyork.models.stripe.AdvertisementPayment
-import com.sushmoyr.ajkalnewyork.models.utility.DataModel
-import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
-import com.sushmoyr.ajkalnewyork.models.utility.User
+import com.sushmoyr.ajkalnewyork.models.utility.*
 import com.sushmoyr.ajkalnewyork.models.utility.transactionhistory.TransactionHistory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -117,16 +116,12 @@ interface AjkalApi {
         userId: RequestBody,
         @Part("ad_title")
         adTitle: RequestBody,
-        @Part("ad_link")
-        adLink: RequestBody,
         @Part("size_id")
         sizeId: RequestBody,
         @Part
         adImage: MultipartBody.Part,
         @Part("created_date")
         createdDate: RequestBody,
-        @Part("exp_date")
-        expDate: RequestBody,
         @Part("for_day")
         forDay: RequestBody,
         @Part("amount")
@@ -150,16 +145,12 @@ interface AjkalApi {
         userId: RequestBody,
         @Part("ad_title")
         adTitle: RequestBody,
-        @Part("ad_link")
-        adLink: RequestBody,
         @Part("size_id")
         sizeId: RequestBody,
         @Part
         adImage: MultipartBody.Part,
         @Part("created_date")
         createdDate: RequestBody,
-        @Part("exp_date")
-        expDate: RequestBody,
         @Part("for_day")
         forDay: RequestBody,
         @Part("amount")
@@ -198,5 +189,9 @@ interface AjkalApi {
         @Query("district_id") districtId: String): List<News>
 
     @POST("newsletter/store")
-    suspend fun subscribeToNewsLetter(@Body email: String)
+    suspend fun subscribeToNewsLetter(@Body email: NewsLetterRequest):
+            NewsLetterResponse
+
+    @POST("ad/payment/heartland")
+    suspend fun submitHeartLandPaymentInfo(@Body model: HeartLandPaymentModel): Response<UploadResponse>
 }

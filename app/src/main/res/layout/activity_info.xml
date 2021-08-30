@@ -7,11 +7,11 @@
     tools:context=".activities.InfoActivity">
 
     <ImageView
-        android:contentDescription="@string/header_image"
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/header_image"
         android:scaleType="centerInside"
         android:src="@drawable/ic_resource_abstract"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,10 +20,10 @@
 
     <ImageView
         android:id="@+id/logo_info"
-        android:contentDescription="@string/application_logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:contentDescription="@string/application_logo"
         android:scaleType="fitXY"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="@+id/moto"
@@ -35,12 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ic_arrow_back_ios"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/back_button"
+        android:src="@drawable/ic_arrow_back_ios"
         app:layout_constraintBottom_toBottomOf="@+id/logo_info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/logo_info"
-        android:contentDescription="@string/back_button" />
+        app:layout_constraintTop_toTopOf="@+id/logo_info" />
 
     <TextView
         android:id="@+id/moto"
@@ -119,11 +119,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:contentDescription="@string/email_icon"
                 android:src="@drawable/email_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/email_icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -175,11 +175,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:contentDescription="@string/phone_icon"
                 android:src="@drawable/telephone_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/phone_icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/phone_header"
@@ -231,11 +231,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:contentDescription="@string/location_icon"
                 android:src="@drawable/location_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/location_icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/location_text"
@@ -287,11 +287,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
+                android:contentDescription="@string/website_icon"
                 android:src="@drawable/website_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/website_icon" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/website_text"
@@ -322,73 +322,56 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/facebook_icon"
         android:src="@drawable/facebook_icon"
         app:layout_constraintEnd_toStartOf="@id/pin_icon"
         app:layout_constraintStart_toStartOf="@+id/website_card_view"
-        app:layout_constraintTop_toBottomOf="@+id/website_card_view"
-        android:contentDescription="@string/facebook_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/website_card_view" />
 
     <ImageView
         android:id="@+id/pin_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/pinterest_icon"
         android:src="@drawable/pinterest_icon"
         app:layout_constraintBottom_toBottomOf="@+id/fb_icon"
-        app:layout_constraintStart_toEndOf="@+id/fb_icon"
         app:layout_constraintEnd_toStartOf="@id/insta_icon"
-        app:layout_constraintTop_toTopOf="@+id/fb_icon"
-        android:contentDescription="@string/pinterest_icon" />
+        app:layout_constraintStart_toEndOf="@+id/fb_icon"
+        app:layout_constraintTop_toTopOf="@+id/fb_icon" />
 
     <ImageView
         android:id="@+id/insta_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/instagram_icon"
         android:src="@drawable/instagram_icon"
         app:layout_constraintBottom_toBottomOf="@+id/pin_icon"
-        app:layout_constraintTop_toTopOf="@+id/pin_icon"
-        app:layout_constraintStart_toEndOf="@id/pin_icon"
         app:layout_constraintEnd_toStartOf="@id/wsap_icon"
-        tools:layout_editor_absoluteX="100dp"
-        android:contentDescription="@string/instagram_icon" />
+        app:layout_constraintStart_toEndOf="@id/pin_icon"
+        app:layout_constraintTop_toTopOf="@+id/pin_icon"
+        tools:layout_editor_absoluteX="100dp" />
 
     <ImageView
         android:id="@+id/wsap_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/whatsapp_icon"
         android:src="@drawable/whatsapp_icon"
-        app:layout_constraintStart_toEndOf="@id/insta_icon"
-        app:layout_constraintEnd_toStartOf="@id/yt_icon"
         app:layout_constraintBottom_toBottomOf="@+id/insta_icon"
+        app:layout_constraintEnd_toStartOf="@id/yt_icon"
+        app:layout_constraintStart_toEndOf="@id/insta_icon"
         app:layout_constraintTop_toTopOf="@+id/insta_icon"
-        tools:layout_editor_absoluteX="130dp"
-        android:contentDescription="@string/whatsapp_icon" />
+        tools:layout_editor_absoluteX="130dp" />
 
     <ImageView
         android:id="@+id/yt_icon"
         android:layout_width="30dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/youtube_icon"
         android:src="@drawable/youtube_icon"
-        app:layout_constraintStart_toEndOf="@id/wsap_icon"
-        app:layout_constraintEnd_toStartOf="@id/download_news_btn"
         app:layout_constraintBottom_toBottomOf="@+id/wsap_icon"
-        app:layout_constraintTop_toTopOf="@+id/wsap_icon"
-        tools:layout_editor_absoluteX="160dp"
-        android:contentDescription="@string/youtube_icon" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/download_news_btn"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:text="@string/download_news"
-        android:textAllCaps="false"
-        android:textColor="@color/green"
-        android:textSize="12sp"
-        app:icon="@drawable/ic_baseline_cloud_download_24"
-        app:iconTint="@color/green"
-        app:layout_constraintBottom_toBottomOf="@+id/yt_icon"
         app:layout_constraintEnd_toEndOf="@+id/website_card_view"
-        app:layout_constraintStart_toEndOf="@id/yt_icon"
-        app:layout_constraintTop_toTopOf="@+id/yt_icon"
-        app:strokeColor="@color/green" />
+        app:layout_constraintStart_toEndOf="@id/wsap_icon"
+        app:layout_constraintTop_toTopOf="@+id/wsap_icon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

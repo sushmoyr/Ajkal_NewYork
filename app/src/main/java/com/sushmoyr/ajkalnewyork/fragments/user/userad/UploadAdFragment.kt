@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,14 +81,10 @@ class UploadAdFragment : Fragment() {
     ): View {
         _binding = FragmentUploadAdBinding.inflate(inflater, container, false)
 
-        setDatePicker()
+        //setDatePicker()
         setSpinner()
         setImageUploader()
         setLoader()
-
-        /*viewModel.uploadedImageUri.observe(viewLifecycleOwner, {
-            binding.adImageView.setImageURI(it)
-        })*/
         
         binding.upload.setOnClickListener {
             uploadPost()
@@ -105,23 +103,10 @@ class UploadAdFragment : Fragment() {
             val contentType = "multipart/form-data".toMediaTypeOrNull()
             val userId = viewModel.currentUser.value?.id.toString().toRequestBody(contentType)
             val adTitle = binding.adTitle.text.toString().toRequestBody(contentType)
-            val adLink = binding.adLink.text.toString().toRequestBody(contentType)
             val sizeId = viewModel.lastFetchedAdSizeData[selectedSizePosition!!].id.toRequestBody(contentType)
             val currentDate = LocalDateTime.now()
             val createdDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toRequestBody(contentType)
-            val expDate = binding.expDate.text.toString().toRequestBody(contentType)
-            val currentDateInMillis = currentDate.toInstant(ZoneOffset.UTC).toEpochMilli()
-            var selectedDateInMillis = datePicker.selection
-            if(viewModel.selectedDateMillis == null)
-                return
-            else
-                selectedDateInMillis = viewModel.selectedDateMillis!!
-            val diff = (selectedDateInMillis  - currentDateInMillis)
-            val seconds = diff / 1000
-            val minutes = seconds / 60
-            val hours = minutes / 60
-            val days = hours / 24
-            Log.d("forday", days.toString())
+            val days = binding.expDate.text.toString().toInt()
             val forDay = days.toString().toRequestBody(contentType)
 
             val bill = viewModel
@@ -153,23 +138,18 @@ class UploadAdFragment : Fragment() {
                 .toRequestBody(contentType)
             val status = "0".toRequestBody(contentType)
 
-
             uploadPostAsync(
                 userId,
                 adTitle,
-                adLink,
                 sizeId,
                 adImage,
                 createdDate,
-                expDate,
                 forDay,
                 amount,
                 status,
                 createdAt,
                 updatedAt
             )
-
-
         }
         else{
             Toast.makeText(requireContext(), "All fields are required!!", Toast.LENGTH_SHORT).show()
@@ -178,10 +158,10 @@ class UploadAdFragment : Fragment() {
 
     private fun validInput(): Boolean {
         return verifyInput(binding.adTitle) &&
-                verifyInput(binding.adLink) &&
                 verifyInput(binding.expDate) &&
                 imageUri!=null &&
-                selectedSizePosition!=null
+                selectedSizePosition!=null &&
+                TextUtils.isDigitsOnly(binding.expDate.text)
     }
 
     private fun verifyInput(view: TextView): Boolean {
@@ -191,11 +171,9 @@ class UploadAdFragment : Fragment() {
     private fun uploadPostAsync(
         userId: RequestBody,
         adTitle: RequestBody,
-        adLink: RequestBody,
         sizeId: RequestBody,
         adImage: MultipartBody.Part,
         createdDate: RequestBody,
-        expDate: RequestBody,
         forDay: RequestBody,
         amount: RequestBody,
         status: RequestBody,
@@ -208,11 +186,9 @@ class UploadAdFragment : Fragment() {
                 .uploadSponsoredAd(
                     userId,
                     adTitle,
-                    adLink,
                     sizeId,
                     adImage,
                     createdDate,
-                    expDate,
                     forDay,
                     amount,
                     status,
@@ -281,7 +257,7 @@ class UploadAdFragment : Fragment() {
         })
     }
 
-    private val currentTimeInMillis = Calendar.getInstance().timeInMillis
+    /*private val currentTimeInMillis = Calendar.getInstance().timeInMillis
     private val constraintsBuilder =
         CalendarConstraints.Builder()
             .setStart(currentTimeInMillis)
@@ -310,7 +286,7 @@ class UploadAdFragment : Fragment() {
                 dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             binding.expDate.setText(dateAsFormattedText)
         }
-    }
+    }*/
 
     private fun setLoader(){
         val alert = AlertDialog.Builder(requireActivity()).setView(R.layout.progress_layout).create()

@@ -10,10 +10,12 @@ import com.google.gson.GsonBuilder
 import com.stripe.android.Stripe
 import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.StripeIntent
+import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.ads.AdvertisementSize
 import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponseStripe
+import com.sushmoyr.ajkalnewyork.models.utility.HeartLandPaymentModel
 import com.sushmoyr.ajkalnewyork.models.utility.TransactionInfo
 import com.sushmoyr.ajkalnewyork.repository.Repository
 import kotlinx.coroutines.async
@@ -122,6 +124,9 @@ class CreateAdViewModel: ViewModel() {
         }
     }
 
+    suspend fun handleHeartland(model: HeartLandPaymentModel): Response<UploadResponse> {
+        return repository.remoteDataSource.heartLandPayment(model)
+    }
 
 
     /*

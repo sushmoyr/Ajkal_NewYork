@@ -50,7 +50,7 @@ class UserAdsAdapter: RecyclerView.Adapter<UserAdsAdapter.MyViewHolder>() {
 
 
             binding.adTitle.text = sponsoredAd.adTitle
-            binding.adValidity.text = sponsoredAd.expDate
+            binding.adValidity.text = sponsoredAd.forDay
             Glide.with(binding.root)
                 .load(sponsoredAd.adImage)
                 .into(binding.imageView5)

@@ -12,7 +12,7 @@
     <string name="app_email">ajkalnews@gmail.com</string>
     <string name="phone_icon">phone_icon</string>
     <string name="phone_bn">ফোন</string>
-    <string name="app_phone_no">718-565-2100</string>
+    <string name="app_phone_no">718–565–2100</string>
     <string name="location_icon">location_icon</string>
     <string name="address_bn">ঠিকানা</string>
     <string name="app_address">New York, USA</string>
@@ -65,7 +65,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="or">Or</string>
     <string name="login_with_google">Login With Google</string>
-    <string name="ajker_new_york">Ajker New York</string>
+    <string name="ajker_new_york">Ajkal New York</string>
     <string name="continue_to">Continue to</string>
     <string name="login">Login</string>
     <string name="create_an_account">Create an account</string>
@@ -98,10 +98,10 @@
     <string name="edit_profile_button">Edit Profile Button</string>
     <string name="payment_status_paid">paid</string>
     <string name="payment_status_unpaid">not paid</string>
-    <string name="server_error">A server error has occured</string>
+    <string name="server_error">A server error has occurred</string>
     <string name="your_advertisement">Your Advertisement</string>
     <string name="archive_category">আর্কাইভস</string>
     <string name="select_a_date">Select a date</string>
     <string name="loading_msg">Loading!! Please Wait!!</string>
-    <string name="error_loading">An error has occured</string>
+    <string name="error_loading">An error has occurred</string>
 </resources>

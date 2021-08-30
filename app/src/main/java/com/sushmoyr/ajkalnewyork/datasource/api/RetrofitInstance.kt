@@ -18,7 +18,6 @@ import java.time.Duration
 
 object RetrofitInstance {
 
-
     private const val CACHE_SIZE = (5 * 1024 * 1024).toLong()
     private val context by lazy {
         MainApplication.applicationContext()

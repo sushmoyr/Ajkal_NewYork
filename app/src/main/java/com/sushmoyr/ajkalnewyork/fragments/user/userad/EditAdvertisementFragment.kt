@@ -22,6 +22,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.drjacky.imagepicker.ImagePicker
 import com.sushmoyr.ajkalnewyork.databinding.FragmentEditAdvertisementBinding
 import android.provider.MediaStore.Images
+import android.text.TextUtils
 import android.util.Log
 import android.view.WindowManager
 import android.widget.ArrayAdapter
@@ -50,9 +51,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
-
-
-
 
 
 class EditAdvertisementFragment : Fragment() {
@@ -101,7 +99,7 @@ class EditAdvertisementFragment : Fragment() {
         _binding = FragmentEditAdvertisementBinding.inflate(inflater, container, false)
 
         updateUi()
-        setDatePicker()
+        //setDatePicker()
         setSpinner()
         setImageUploader()
         setLoader()
@@ -128,7 +126,6 @@ class EditAdvertisementFragment : Fragment() {
                 }
             })
         binding.adTitle.setText(args.ad.adTitle)
-        binding.adLink.setText(args.ad.adLink)
 
     }
 
@@ -139,13 +136,11 @@ class EditAdvertisementFragment : Fragment() {
             val contentType = "multipart/form-data".toMediaTypeOrNull()
             val userId = viewModel.currentUser.value?.id.toString().toRequestBody(contentType)
             val adTitle = binding.adTitle.text.toString().toRequestBody(contentType)
-            val adLink = binding.adLink.text.toString().toRequestBody(contentType)
             val sizeId = viewModel.lastFetchedAdSizeData[selectedSizePosition!!].id.toRequestBody(contentType)
             val currentDate = LocalDateTime.now()
             val createdDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toRequestBody(contentType)
-            val expDate = binding.expDate.text.toString().toRequestBody(contentType)
             val currentDateInMillis = currentDate.toInstant(ZoneOffset.UTC).toEpochMilli()
-            var selectedDateInMillis = datePicker.selection
+            /*var selectedDateInMillis = datePicker.selection
             if(viewModel.selectedDateMillis == null)
                 return
             else
@@ -155,7 +150,9 @@ class EditAdvertisementFragment : Fragment() {
             val minutes = seconds / 60
             val hours = minutes / 60
             val days = hours / 24
-            Log.d("forday", days.toString())
+            Log.d("forday", days.toString())*/
+
+            val days = binding.expDate.text.toString().toInt()
             val forDay = days.toString().toRequestBody(contentType)
 
             val bill = viewModel
@@ -192,11 +189,9 @@ class EditAdvertisementFragment : Fragment() {
                 args.ad.id,
                 userId,
                 adTitle,
-                adLink,
                 sizeId,
                 adImage,
                 createdDate,
-                expDate,
                 forDay,
                 amount,
                 status,
@@ -215,10 +210,10 @@ class EditAdvertisementFragment : Fragment() {
 
     private fun validInput(): Boolean {
         return verifyInput(binding.adTitle) &&
-                verifyInput(binding.adLink) &&
                 verifyInput(binding.expDate) &&
                 imageUri!=null &&
-                selectedSizePosition!=null
+                selectedSizePosition!=null &&
+                TextUtils.isDigitsOnly(binding.expDate.text)
     }
 
     private fun verifyInput(view: TextView): Boolean {
@@ -230,11 +225,9 @@ class EditAdvertisementFragment : Fragment() {
         adId: String,
         userId: RequestBody,
         adTitle: RequestBody,
-        adLink: RequestBody,
         sizeId: RequestBody,
         adImage: MultipartBody.Part,
         createdDate: RequestBody,
-        expDate: RequestBody,
         forDay: RequestBody,
         amount: RequestBody,
         status: RequestBody,
@@ -246,8 +239,8 @@ class EditAdvertisementFragment : Fragment() {
             val response = viewModel
                 .updateSponsoredAd(
 
-                    adId ,userId, adTitle, adLink, sizeId, adImage, createdDate,
-                    expDate, forDay, amount, status, createdAt, updatedAt
+                    adId ,userId, adTitle,  sizeId, adImage, createdDate,
+                     forDay, amount, status, createdAt, updatedAt
                 )
             if(response.isSuccessful){
                 viewModel.loader.value = false
@@ -270,7 +263,7 @@ class EditAdvertisementFragment : Fragment() {
 
 
 
-    private val currentTimeInMillis = Calendar.getInstance().timeInMillis
+    /*private val currentTimeInMillis = Calendar.getInstance().timeInMillis
     private val constraintsBuilder =
         CalendarConstraints.Builder()
             .setStart(currentTimeInMillis)
@@ -299,7 +292,7 @@ class EditAdvertisementFragment : Fragment() {
                 dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             binding.expDate.setText(dateAsFormattedText)
         }
-    }
+    }*/
 
     private fun setSpinner() {
         viewModel.adSizes.observe(viewLifecycleOwner, { adSizes ->

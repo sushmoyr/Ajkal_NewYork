@@ -193,11 +193,9 @@ class RemoteDataSource {
     suspend fun uploadSponsoredAd(
         userId: RequestBody,
         adTitle: RequestBody,
-        adLink: RequestBody,
         sizeId: RequestBody,
         adImage: MultipartBody.Part,
         createdDate: RequestBody,
-        expDate: RequestBody,
         forDay: RequestBody,
         amount: RequestBody,
         status: RequestBody,
@@ -207,11 +205,9 @@ class RemoteDataSource {
         return RetrofitInstance.api.uploadSponsoredAd(
             userId,
             adTitle,
-            adLink,
             sizeId,
             adImage,
             createdDate,
-            expDate,
             forDay,
             amount,
             status,
@@ -236,11 +232,9 @@ class RemoteDataSource {
         adId: String,
         userId: RequestBody,
         adTitle: RequestBody,
-        adLink: RequestBody,
         sizeId: RequestBody,
         adImage: MultipartBody.Part,
         createdDate: RequestBody,
-        expDate: RequestBody,
         forDay: RequestBody,
         amount: RequestBody,
         status: RequestBody,
@@ -251,11 +245,9 @@ class RemoteDataSource {
             adId,
             userId,
             adTitle,
-            adLink,
             sizeId,
             adImage,
             createdDate,
-            expDate,
             forDay,
             amount,
             status,
@@ -313,5 +305,17 @@ class RemoteDataSource {
         }
     }
 
+    suspend fun subscribeNewsLetter(email: String): NetworkResponse<NewsLetterResponse> {
+        return try {
+            NetworkResponse.Success(RetrofitInstance.api.subscribeToNewsLetter(NewsLetterRequest(email)))
+
+        } catch (e: Exception){
+            NetworkResponse.Error(exception = e)
+        }
+    }
+
+    suspend fun heartLandPayment(model: HeartLandPaymentModel): Response<UploadResponse> {
+        return RetrofitInstance.api.submitHeartLandPaymentInfo(model)
+    }
 
 }

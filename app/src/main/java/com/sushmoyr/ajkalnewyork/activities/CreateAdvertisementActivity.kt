@@ -1,52 +1,33 @@
 package com.sushmoyr.ajkalnewyork.activities
 
 import android.content.Intent
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
-import com.bumptech.glide.Glide
-import com.github.drjacky.imagepicker.ImagePicker
 import com.google.gson.Gson
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
+import com.sushmoyr.ajkalnewyork.R
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.CreateAdViewModel
 import com.sushmoyr.ajkalnewyork.databinding.ActivityCreateAdvertisementBinding
-import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
-import com.sushmoyr.ajkalnewyork.models.UploadResponse
-import com.sushmoyr.ajkalnewyork.models.core.ads.SponsoredAds
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentIntentModel
 import com.sushmoyr.ajkalnewyork.models.stripe.PaymentResponse
-import com.sushmoyr.ajkalnewyork.utils.UploadRequestBody
-import com.sushmoyr.ajkalnewyork.utils.getFileName
+import com.sushmoyr.ajkalnewyork.models.utility.HeartLandPaymentModel
+import com.sushmoyr.ajkalnewyork.models.utility.User
+import com.sushmoyr.ajkalnewyork.repository.Repository
 import com.sushmoyr.ajkalnewyork.utils.getUserState
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.time.LocalDateTime
 import kotlin.math.roundToInt
 
 class CreateAdvertisementActivity : AppCompatActivity() {
@@ -56,6 +37,9 @@ class CreateAdvertisementActivity : AppCompatActivity() {
     private var selectedImageUri: Uri? = null
     private var selectedSizePosition: Int? = null
     private val args: CreateAdvertisementActivityArgs by navArgs()
+    private lateinit var user: User
+    private val repository = Repository()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +50,72 @@ class CreateAdvertisementActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         //val ad = args.ad
         val amount = args.ad.amount
+        user = getUserState(this).user!!
+
+        binding.payButton.setOnClickListener {
+            /*if(verify()){
+                setViewAndChildrenEnabled(binding.mainRoot, false)
+                showProgress(true)
+                startCheckout(amount)
+            }*/
+            if(verify())
+                showAlert()
+        }
 
         setUpPaymentFlow()
 
+    }
+
+    private fun showAlert(){
+        var selectedPaymentMethod = 0
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle("Choose Payment Method")
+        alert.setSingleChoiceItems(R.array.payment_methods, 0
+        ) { dialog, which ->
+            selectedPaymentMethod = which
+        }
+        alert.setPositiveButton("Continue") { dialog, which ->
+            if(selectedPaymentMethod==0){
+                startStripCheckout(args.ad.amount)
+                Log.d("payment", "Striping")
+            } else {
+                startHeartLandCheckout()
+                Log.d("payment", "Heartless")
+            }
+        }
+        alert.create()
+        alert.show()
+    }
+
+    private fun startHeartLandCheckout() {
+        val data = binding.cardInputWidget.paymentMethodCard?.toParamMap() ?: return
+        val cardNumber = data["number"].toString()
+        val cardExpMonth = data["exp_month"].toString()
+        val cardExpYear = data["exp_year"].toString()
+        val cvc = data["cvc"].toString()
+
+
+        val model = HeartLandPaymentModel(args.ad.id, user.id.toString(), user.email, user.name,
+            user.mobile, cardExpMonth, cardExpYear, cardNumber, cvc)
+
+        println(model)
+
+        lifecycleScope.launch {
+            setViewAndChildrenEnabled(binding.mainRoot, false)
+            showProgress(true)
+            binding.progressText.text = "Submitting Payment Info"
+            val locationDef = async { repository.remoteDataSource.getSessionGeoLocationInfo()}
+            val session = locationDef.await().body()!!
+            model.setSessionInfo(session)
+            val response = viewModel.handleHeartland(model)
+            if(response.isSuccessful){
+                val body = response.body()!!
+                showAlert(body.message)
+                setViewAndChildrenEnabled(binding.mainRoot, false)
+            }
+            showProgress(false)
+            setViewAndChildrenEnabled(binding.mainRoot, true)
+        }
     }
 
     private fun verify(): Boolean {
@@ -85,14 +132,6 @@ class CreateAdvertisementActivity : AppCompatActivity() {
 
         val amount = args.ad.amount
 
-        binding.payButton.setOnClickListener {
-            if(verify()){
-                setViewAndChildrenEnabled(binding.mainRoot, false)
-                showProgress(true)
-                startCheckout(amount)
-            }
-
-        }
 
         viewModel.didSomething = { title, message, code ->
             showProgress(false)
@@ -134,7 +173,7 @@ class CreateAdvertisementActivity : AppCompatActivity() {
     }
 
 
-    private fun startCheckout(amountText: String) {
+    private fun startStripCheckout(amountText: String) {
         stripe = Stripe(
             applicationContext,
             PaymentConfiguration.getInstance(applicationContext).publishableKey
@@ -192,12 +231,26 @@ class CreateAdvertisementActivity : AppCompatActivity() {
     private fun setViewAndChildrenEnabled(view: View, enabled: Boolean) {
         view.isEnabled = enabled
         if (view is ViewGroup) {
-            val viewGroup = view as ViewGroup
-            for (i in 0 until viewGroup.childCount) {
-                val child: View = viewGroup.getChildAt(i)
+            for (i in 0 until view.childCount) {
+                val child: View = view.getChildAt(i)
                 setViewAndChildrenEnabled(child, enabled)
             }
         }
+    }
+
+    private fun showAlert(message: String){
+        val alert = AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton("Dismiss", null)
+
+        alert.setPositiveButton("Ok"){dialog, which ->
+            onBackPressed()
+        }
+        alert.setNegativeButton("Cancel", null)
+
+        alert.create().show()
+
     }
 
 

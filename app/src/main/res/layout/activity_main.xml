@@ -179,27 +179,19 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
-                        android:text="Subscribe"
+                        android:layout_marginBottom="32dp"
+                        android:text="নিউজলেটার"
                         android:textAllCaps="false"
                         android:textColor="@color/secondaryColor"
                         android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/showGalleryButton"
                         app:layout_constraintStart_toStartOf="@id/showGalleryButton"
                         app:layout_constraintTop_toBottomOf="@+id/archiveButton"
                         app:strokeColor="@color/secondaryColor"
                         app:strokeWidth="1dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="১১ জুলাই ২০২১ ই-পেপার"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/subscribeBtn" />
+
 
 
 

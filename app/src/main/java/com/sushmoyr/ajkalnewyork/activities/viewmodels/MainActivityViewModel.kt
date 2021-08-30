@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sushmoyr.ajkalnewyork.NetworkResponse
 import com.sushmoyr.ajkalnewyork.models.DrawerItemModel
+import com.sushmoyr.ajkalnewyork.models.UploadResponse
 import com.sushmoyr.ajkalnewyork.models.core.Category
+import com.sushmoyr.ajkalnewyork.models.utility.NewsLetterResponse
 import com.sushmoyr.ajkalnewyork.repository.RemoteDataSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -16,6 +18,10 @@ class MainActivityViewModel(private val repository: RemoteDataSource) : ViewMode
     val allCategories = MutableLiveData<Response<List<Category>>>()
     val drawerItemList = MutableLiveData<List<DrawerItemModel>>()
     var categoryData :List<Category> = listOf()
+
+    suspend fun subscribeNewsLetter(email: String): NetworkResponse<NewsLetterResponse>{
+        return repository.subscribeNewsLetter(email)
+    }
 
     var errorListener: ((e: Exception?) -> Unit)? = null
 

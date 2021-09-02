@@ -1,38 +1,35 @@
 package com.sushmoyr.ajkalnewyork.fragments.user.userad
 
-import android.R
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore.Images
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.drjacky.imagepicker.ImagePicker
-import com.sushmoyr.ajkalnewyork.databinding.FragmentEditAdvertisementBinding
-import android.provider.MediaStore.Images
-import android.text.TextUtils
-import android.util.Log
-import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.sushmoyr.ajkalnewyork.activities.viewmodels.MainUserViewModel
+import com.sushmoyr.ajkalnewyork.databinding.FragmentEditAdvertisementBinding
 import com.sushmoyr.ajkalnewyork.utils.MainApplication
 import com.sushmoyr.ajkalnewyork.utils.getFileName
 import kotlinx.coroutines.launch
@@ -45,51 +42,50 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class EditAdvertisementFragment : Fragment() {
 
-    private var _binding: FragmentEditAdvertisementBinding?=null
+    private var _binding: FragmentEditAdvertisementBinding? = null
     private val binding get() = _binding!!
     private val args: EditAdvertisementFragmentArgs by navArgs()
     private var imageUpdated = false
-    private var imageUri: Uri?=null
+    private var imageUri: Uri? = null
 
     private val viewModel: MainUserViewModel by activityViewModels()
     private var selectedSizePosition: Int? = null
     private val sizeArray: MutableList<String> = mutableListOf()
 
-    private val startForProfileImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        val resultCode = result.resultCode
-        val data = result.data
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
 
-        when (resultCode) {
-            Activity.RESULT_OK -> {
-                //Image Uri will not be null for RESULT_OK
-                val fileUri: Uri = data?.data!!
-                //viewModel.uploadedImageUri.value = fileUri
-                binding.adImageView.setImageURI(fileUri)
-                val tempUri = imageUri
-                imageUri = fileUri
-                if(!imageUpdated){
-                    deleteFile(tempUri!!)
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri: Uri = data?.data!!
+                    //viewModel.uploadedImageUri.value = fileUri
+                    binding.adImageView.setImageURI(fileUri)
+                    val tempUri = imageUri
+                    imageUri = fileUri
+                    if (!imageUpdated) {
+                        deleteFile(tempUri!!)
+                    }
+                    imageUpdated = true
                 }
-                imageUpdated = true
-            }
-            ImagePicker.RESULT_ERROR -> {
-                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                ImagePicker.RESULT_ERROR -> {
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,11 +112,12 @@ class EditAdvertisementFragment : Fragment() {
         Glide.with(this)
             .asBitmap()
             .load(args.ad.adImage)
-            .into(object : CustomTarget<Bitmap>(){
+            .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     imageView.setImageBitmap(resource)
                     imageUri = getImageUri(resource)
                 }
+
                 override fun onLoadCleared(placeholder: Drawable?) {
                     //adImageBitmap.recycle()
                 }
@@ -130,27 +127,16 @@ class EditAdvertisementFragment : Fragment() {
     }
 
 
-
     private fun updatePost() {
-        if(validInput()){
+        if (validInput()) {
             val contentType = "multipart/form-data".toMediaTypeOrNull()
             val userId = viewModel.currentUser.value?.id.toString().toRequestBody(contentType)
             val adTitle = binding.adTitle.text.toString().toRequestBody(contentType)
-            val sizeId = viewModel.lastFetchedAdSizeData[selectedSizePosition!!].id.toRequestBody(contentType)
+            val sizeId =
+                viewModel.lastFetchedAdSizeData[selectedSizePosition!!].id.toRequestBody(contentType)
             val currentDate = LocalDateTime.now()
-            val createdDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toRequestBody(contentType)
-            val currentDateInMillis = currentDate.toInstant(ZoneOffset.UTC).toEpochMilli()
-            /*var selectedDateInMillis = datePicker.selection
-            if(viewModel.selectedDateMillis == null)
-                return
-            else
-                selectedDateInMillis = viewModel.selectedDateMillis!!
-            val diff = (selectedDateInMillis  - currentDateInMillis)
-            val seconds = diff / 1000
-            val minutes = seconds / 60
-            val hours = minutes / 60
-            val days = hours / 24
-            Log.d("forday", days.toString())*/
+            val createdDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                .toRequestBody(contentType)
 
             val days = binding.expDate.text.toString().toInt()
             val forDay = days.toString().toRequestBody(contentType)
@@ -163,8 +149,10 @@ class EditAdvertisementFragment : Fragment() {
 
             val context = MainApplication.applicationContext()
             val parcelFileDescriptor =
-                context.contentResolver.openFileDescriptor(imageUri!!,
-                    "r", null)!!
+                context.contentResolver.openFileDescriptor(
+                    imageUri!!,
+                    "r", null
+                )!!
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
             val file = File(context.cacheDir, context.contentResolver.getFileName(imageUri!!))
             val outputStream = FileOutputStream(file)
@@ -200,19 +188,17 @@ class EditAdvertisementFragment : Fragment() {
             )
 
 
-        }
-        else{
+        } else {
             Toast.makeText(requireContext(), "All fields are required!!", Toast.LENGTH_SHORT).show()
         }
     }
 
 
-
     private fun validInput(): Boolean {
         return verifyInput(binding.adTitle) &&
                 verifyInput(binding.expDate) &&
-                imageUri!=null &&
-                selectedSizePosition!=null &&
+                imageUri != null &&
+                selectedSizePosition != null &&
                 TextUtils.isDigitsOnly(binding.expDate.text)
     }
 
@@ -233,66 +219,25 @@ class EditAdvertisementFragment : Fragment() {
         status: RequestBody,
         createdAt: RequestBody,
         updatedAt: RequestBody
-    ){
-        lifecycleScope.launch{
+    ) {
+        lifecycleScope.launch {
             viewModel.loader.value = true
             val response = viewModel
                 .updateSponsoredAd(
 
-                    adId ,userId, adTitle,  sizeId, adImage, createdDate,
-                     forDay, amount, status, createdAt, updatedAt
+                    adId, userId, adTitle, sizeId, adImage, createdDate,
+                    forDay, amount, status, createdAt, updatedAt
                 )
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 viewModel.loader.value = false
-                Toast.makeText(requireContext(), "Upload Successful", Toast.LENGTH_SHORT).show()
-            }
-            else{
+                Toast.makeText(requireContext(), "Update Successful", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            } else {
                 viewModel.loader.value = false
-                Toast.makeText(requireContext(), "Upload Failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Update Failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-    /*private val currentTimeInMillis = Calendar.getInstance().timeInMillis
-    private val constraintsBuilder =
-        CalendarConstraints.Builder()
-            .setStart(currentTimeInMillis)
-            .build()
-
-    private val datePicker = MaterialDatePicker.Builder.datePicker()
-        .setTitleText("Select Expire date")
-        .setSelection(Calendar.getInstance().timeInMillis)
-        .setCalendarConstraints(constraintsBuilder)
-        .build()
-
-    private fun setDatePicker() {
-        val datePickerButton = binding.expDate
-
-        datePickerButton.setOnClickListener {
-            datePicker.show(activity?.supportFragmentManager!!, "DATE_PICKER")
-        }
-
-        datePicker.addOnPositiveButtonClickListener { currentSelectedDate ->
-            viewModel.selectedDateMillis = currentSelectedDate
-            val dateTime: LocalDateTime = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(currentSelectedDate),
-                ZoneId.systemDefault()
-            )
-            val dateAsFormattedText: String =
-                dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            binding.expDate.setText(dateAsFormattedText)
-        }
-    }*/
 
     private fun setSpinner() {
         viewModel.adSizes.observe(viewLifecycleOwner, { adSizes ->
@@ -309,7 +254,10 @@ class EditAdvertisementFragment : Fragment() {
 
             val autoCompleteTextView = binding.subscriptionType
             val adapter =
-                ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, sizeArray)
+                ArrayAdapter(
+                    requireContext(), android.R.layout.simple_dropdown_item_1line,
+                    sizeArray
+                )
             autoCompleteTextView.setAdapter(adapter)
             autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
                 viewModel.selectedItemPosition = position
@@ -320,15 +268,7 @@ class EditAdvertisementFragment : Fragment() {
     }
 
     private fun setImageUploader() {
-        binding.adImageButton.setOnClickListener{
-            /*val intent = ImagePicker.with(requireActivity())
-                .galleryOnly()
-                .createIntent()
-            intent.apply {
-                action = Intent.ACTION_OPEN_DOCUMENT
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "application/pdf"
-            }*/
+        binding.adImageButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "image/*"
@@ -336,18 +276,19 @@ class EditAdvertisementFragment : Fragment() {
         }
     }
 
-    private fun setLoader(){
-        val alert = AlertDialog.Builder(requireActivity()).setView(com.sushmoyr.ajkalnewyork.R.layout.progress_layout).create()
+    private fun setLoader() {
+        val alert = AlertDialog.Builder(requireActivity())
+            .setView(com.sushmoyr.ajkalnewyork.R.layout.progress_layout).create()
         alert.setCanceledOnTouchOutside(false)
 
         viewModel.loader.observe(viewLifecycleOwner, {
-            if(it){
+            if (it) {
                 requireActivity().window.setFlags(
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
                 alert.show()
-            }
-            else{
+            } else {
                 requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                 alert.dismiss()
             }
@@ -362,7 +303,7 @@ class EditAdvertisementFragment : Fragment() {
         return Uri.parse(path)
     }
 
-    private fun deleteFile(uri: Uri){
+    private fun deleteFile(uri: Uri) {
         val file = File(uri.path!!)
         file.delete()
         if (file.exists()) {

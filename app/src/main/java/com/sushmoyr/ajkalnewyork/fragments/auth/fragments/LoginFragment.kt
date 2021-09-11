@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +17,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.sushmoyr.ajkalnewyork.R
+import com.sushmoyr.ajkalnewyork.databinding.ForgetPasswordAlertLayoutBinding
 import com.sushmoyr.ajkalnewyork.databinding.FragmentLoginBinding
+import com.sushmoyr.ajkalnewyork.datasource.api.RetrofitInstance
 import com.sushmoyr.ajkalnewyork.fragments.auth.viewmodels.LoginViewModel
 import com.sushmoyr.ajkalnewyork.models.UserState
 import com.sushmoyr.ajkalnewyork.models.utility.User
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_KEY
 import com.sushmoyr.ajkalnewyork.utils.Constants.USER_AUTHENTICATION_STATE_KEY
+import com.sushmoyr.ajkalnewyork.utils.action
 import com.sushmoyr.ajkalnewyork.utils.observeOnce
+import com.sushmoyr.ajkalnewyork.utils.snack
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -69,7 +75,41 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.forgetPassButton.setOnClickListener {
+            implementForgotPassword()
+        }
+
         return binding.root
+    }
+
+    private fun implementForgotPassword() {
+        val alertDialog = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle(resources.getString(R.string.forgot_password))
+        val alertView = ForgetPasswordAlertLayoutBinding.inflate(LayoutInflater.from
+            (requireContext()), null, false)
+        alertDialog.setView(alertView.root)
+        alertDialog.setPositiveButton("Continue") { _, _ ->
+            val email = alertView.forgetEmail.text.toString()
+            if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                lifecycleScope.launch {
+                    RetrofitInstance.api.resetPassword(email)
+                    binding.root.snack("Reset password link sent on your email id.", Snackbar
+                        .LENGTH_SHORT
+                    ) {}
+                }
+            } else {
+                binding.root.snack("Invalid Email Address", Snackbar.LENGTH_SHORT){
+                    action("Dismiss"){
+                        this.dismiss()
+                    }
+                }
+            }
+
+            Log.d("forgetPass", email)
+        }
+        alertDialog.setNegativeButton("Cancel", null)
+
+        alertDialog.create().show()
     }
 
     private fun loginWithApi(email: String, password: String) {

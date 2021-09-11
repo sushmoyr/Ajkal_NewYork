@@ -104,4 +104,6 @@
     <string name="select_a_date">Select a date</string>
     <string name="loading_msg">Loading!! Please Wait!!</string>
     <string name="error_loading">An error has occurred</string>
+    <string name="enter_email">Enter your email to continue</string>
+    <string name="forgot_password">Reset Password</string>
 </resources>

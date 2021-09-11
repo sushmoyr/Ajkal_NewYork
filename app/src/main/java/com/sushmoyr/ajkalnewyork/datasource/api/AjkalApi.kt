@@ -194,4 +194,7 @@ interface AjkalApi {
 
     @POST("ad/payment/heartland")
     suspend fun submitHeartLandPaymentInfo(@Body model: HeartLandPaymentModel): Response<UploadResponse>
+
+    @POST("password/email")
+    suspend fun resetPassword(@Body email: String)
 }
